@@ -9,6 +9,7 @@ export type Route =
   | { name: "courses"; country?: CountryId }
   | { name: "course"; courseId: string }
   | { name: "engine"; raceId?: string }
+  | { name: "live"; raceId: string }
   | { name: "missing" };
 
 export function parseRoute(hash: string): Route {
@@ -26,6 +27,7 @@ export function parseRoute(hash: string): Route {
   }
   if (head === "course" && parts[1]) return { name: "course", courseId: parts[1] };
   if (head === "engine") return { name: "engine", raceId: parts[1] };
+  if (head === "live" && parts[1]) return { name: "live", raceId: decodeURIComponent(parts.slice(1).join("/")) };
   return { name: "missing" };
 }
 
@@ -34,6 +36,7 @@ export function documentTitle(route: Route): string {
   if (route.name === "meetings") return "Race cards — HorsePrediction";
   if (route.name === "courses") return "Racecourses — HorsePrediction";
   if (route.name === "engine") return "Handicapper — HorsePrediction";
+  if (route.name === "live") return "Race card — HorsePrediction";
   if (route.name === "race") {
     const race = getRace(route.raceId);
     return race ? `${race.name} — HorsePrediction` : "Race card — HorsePrediction";
@@ -46,7 +49,7 @@ export function documentTitle(route: Route): string {
 }
 
 export function navCurrent(route: Route): "cards" | "courses" | "engine" | null {
-  if (route.name === "meetings" || route.name === "race") return "cards";
+  if (route.name === "meetings" || route.name === "race" || route.name === "live") return "cards";
   if (route.name === "courses" || route.name === "course") return "courses";
   if (route.name === "engine") return "engine";
   return null;

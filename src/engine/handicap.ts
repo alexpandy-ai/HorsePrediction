@@ -141,29 +141,31 @@ function recordScore(runs: number, wins: number, places: number): { score: numbe
   return { score, detail: `${wins} ${winWord} and ${places} ${placeWord} from ${runs}` };
 }
 
-function formFactor(runner: Runner): FactorScore {
-  const positions = runner.form
+export function scorePublishedForm(form: string, daysSince: number | null): FactorScore | null {
+  const positions = form
     .split("-")
     .map((token) => Number(token))
     .filter((position) => Number.isFinite(position) && position > 0);
-  if (positions.length === 0) {
-    return { score: 50, note: "No finishing record on the card." };
-  }
+  if (positions.length === 0) return null;
   const weights = [0.34, 0.26, 0.18, 0.12, 0.1].slice(0, positions.length);
   const weightSum = weights.reduce((sum, weight) => sum + weight, 0);
   let score = positions.reduce((sum, position, index) => sum + positionScore(position) * weights[index], 0) / weightSum;
   const notes = [`Latest figures ${positions.slice(0, 3).join("-")}.`];
-  if (runner.daysSince != null && runner.daysSince > 49) {
+  if (daysSince != null && daysSince > 49) {
     score -= 6;
     notes.push("Long break since the last run.");
-  } else if (runner.daysSince != null && runner.daysSince > 35) {
+  } else if (daysSince != null && daysSince > 35) {
     score -= 3;
     notes.push("A little while between runs.");
-  } else if (runner.daysSince != null && runner.daysSince < 8) {
+  } else if (daysSince != null && daysSince < 8) {
     score -= 3;
     notes.push("Very quick return.");
   }
   return { score: Math.round(clamp(score)), note: notes.join(" ") };
+}
+
+function formFactor(runner: Runner): FactorScore {
+  return scorePublishedForm(runner.form, runner.daysSince) ?? { score: 50, note: "No finishing record on the card." };
 }
 
 function classFactor(runner: Runner, race: Race): FactorScore {

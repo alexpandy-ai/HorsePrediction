@@ -6,6 +6,7 @@ import { CourseView } from "./components/CourseView";
 import { CoursesView } from "./components/CoursesView";
 import { EngineView } from "./components/EngineView";
 import { HomeView } from "./components/HomeView";
+import { LiveRaceView } from "./components/LiveRaceView";
 import { MeetingsView } from "./components/MeetingsView";
 import { RaceView } from "./components/RaceView";
 import { NotFound } from "./components/bits";
@@ -65,6 +66,7 @@ function Shell() {
 
 function renderRoute(route: Route) {
   if (route.name === "home") return <HomeView />;
+  if (route.name === "live") return <LiveRaceView raceId={route.raceId} />;
   if (route.name === "meetings") return <MeetingsView country={route.country} />;
   if (route.name === "courses") return <CoursesView country={route.country} />;
   if (route.name === "course") return <CourseView courseId={route.courseId} />;
