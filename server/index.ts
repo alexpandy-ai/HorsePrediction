@@ -5,6 +5,8 @@ import { fetchRacingApiDay } from "./provider.ts";
 import { readCache, writeCache, type FeedCache } from "./store.ts";
 import { dedupeRaces, londonWindow } from "./logic.ts";
 import { findPuntersRace, loadFeature, puntersMeetings, refreshPunters } from "./pe-sync.ts";
+import { syncIndiarace, syncIndiaraceIfDue } from "./indiarace/sync.ts";
+import { readCard, readIndex } from "./indiarace/racecardStore.ts";
 import { USER_TIMEZONE, calendarDate } from "../src/meetings/time.ts";
 import { SYDNEY } from "./pe-model.ts";
 import type { MeetingsPayload, WireRace } from "../src/meetings/types.ts";
@@ -243,6 +245,40 @@ const server = http.createServer(async (req, res) => {
     send(res, 200, { available: !loaded.error, message: loaded.error, body: loaded.body, source: "PuntersEdge" });
     return;
   }
+  if (req.method === "GET" && url.pathname === "/api/indiarace") {
+    const date = url.searchParams.get("date") ?? calendarDate(USER_TIMEZONE, new Date());
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+      send(res, 400, { message: "Use a YYYY-MM-DD date." });
+      return;
+    }
+    const index = readIndex();
+    const meetings = index.fixtures
+      .filter((fixture) => fixture.date === date)
+      .map((fixture) => readCard(fixture.date, fixture.venueId))
+      .filter((meeting) => meeting != null);
+    send(res, 200, { index, meetings });
+    return;
+  }
+  if (req.method === "POST" && url.pathname === "/api/indiarace/refresh") {
+    const required = process.env.REFRESH_TOKEN?.trim();
+    if (required && req.headers.authorization !== `Bearer ${required}`) {
+      send(res, 401, { message: "Refresh token required." });
+      return;
+    }
+    const date = url.searchParams.get("date");
+    if (date && !/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+      send(res, 400, { message: "Use a YYYY-MM-DD date." });
+      return;
+    }
+    try {
+      const index = await syncIndiarace({ dates: date ? [date] : undefined, force: true });
+      send(res, 200, { ok: !index.fixturesError, message: index.fixturesError ?? index.staleReason, lastSuccessfulSync: index.lastSuccessfulSync });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "The Indiarace refresh failed.";
+      send(res, 200, { ok: false, message });
+    }
+    return;
+  }
   if (req.method === "POST" && url.pathname === "/api/refresh") {
     const required = process.env.REFRESH_TOKEN?.trim();
     if (required && req.headers.authorization !== `Bearer ${required}`) {
@@ -262,4 +298,8 @@ void refresh().finally(() => {
   setInterval(() => {
     void refresh();
   }, REFRESH_MS);
+  void syncIndiaraceIfDue();
+  setInterval(() => {
+    void syncIndiaraceIfDue();
+  }, 30 * 60 * 1000);
 });

@@ -1,7 +1,6 @@
 import { countries, courses, getCountry, meetings, races, runners } from "../data";
 import { analyse } from "../engine/handicap";
 import { useWeights } from "../weights";
-import { DailyMeetings } from "./DailyMeetings";
 import { DemoNote, MeetingCard } from "./bits";
 
 export function HomeView() {
@@ -18,18 +17,17 @@ export function HomeView() {
       <section className="hero">
         <div className="hero-grid">
           <div>
-            <p className="kicker">Published meetings · sample handicapper</p>
-            <h1>Today’s meetings, then the card you can handicap.</h1>
+            <p className="kicker">Demonstration cards</p>
+            <h1>Sample cards for the handicapping model.</h1>
             <p className="lede">
-              The board lists meetings returned by the configured feed, grouped by country and region. Sample cards stay
-              available for the full handicapping model and are not live entries.
+              These cards are illustrative and are not Indiarace meetings. Published Indian meetings are on the STRIDE board.
             </p>
             <div className="hero-actions">
-              <a className="button" href="#meetings">
-                Today’s meetings
+              <a className="button" href="#/">
+                Indian meetings
               </a>
               <a className="button secondary" href="#/meetings">
-                Sample cards
+                Sample race list
               </a>
             </div>
           </div>
@@ -55,7 +53,6 @@ export function HomeView() {
         </div>
       </section>
       <div className="wrap">
-        <DailyMeetings />
         <DemoNote />
         <section className="split-intro">
           <h2>Where the model splits from the rating</h2>

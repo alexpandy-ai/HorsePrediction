@@ -6,7 +6,10 @@ import { CourseView } from "./components/CourseView";
 import { CoursesView } from "./components/CoursesView";
 import { EngineView } from "./components/EngineView";
 import { HomeView } from "./components/HomeView";
-import { LiveRaceView } from "./components/LiveRaceView";
+import { HandicappingPage } from "./stride/HandicappingPage";
+import { HomePage } from "./stride/HomePage";
+import { MeetingPage } from "./stride/MeetingPage";
+import { RaceDetailsPage } from "./stride/RaceDetailsPage";
 import { MeetingsView } from "./components/MeetingsView";
 import { RaceView } from "./components/RaceView";
 import { NotFound } from "./components/bits";
@@ -37,27 +40,26 @@ function Shell() {
             </svg>
           </span>
           <span>
-            <strong>HorsePrediction</strong>
-            <small>Form and handicap</small>
+            <strong>STRIDE</strong>
+            <small>Horse racing</small>
           </span>
         </a>
         <nav aria-label="Primary">
-          <a href="#/meetings" aria-current={current === "cards" ? "page" : undefined}>
-            Cards
+          <a href="#/" aria-current={current === "meetings" ? "page" : undefined}>
+            Meetings
+          </a>
+          <a href="#/sample" aria-current={current === "sample" ? "page" : undefined}>
+            Sample cards
           </a>
           <a href="#/courses" aria-current={current === "courses" ? "page" : undefined}>
             Courses
-          </a>
-          <a href="#/engine" aria-current={current === "engine" ? "page" : undefined}>
-            Handicapper
           </a>
         </nav>
       </header>
       <main id="content">{renderRoute(route)}</main>
       <footer className="foot">
         <p>
-          Model scores compare runners on a card. They are an analytical aid, not a tip, a guaranteed result, or
-          betting advice.
+          Indiarace publishes the racecards. STRIDE rankings are a separate calculation, not a tip or betting advice.
         </p>
       </footer>
     </div>
@@ -65,8 +67,11 @@ function Shell() {
 }
 
 function renderRoute(route: Route) {
-  if (route.name === "home") return <HomeView />;
-  if (route.name === "live") return <LiveRaceView raceId={route.raceId} />;
+  if (route.name === "home") return <HomePage />;
+  if (route.name === "sample") return <HomeView />;
+  if (route.name === "meeting") return <MeetingPage date={route.date} venueId={route.venueId} />;
+  if (route.name === "race-card") return <RaceDetailsPage date={route.date} venueId={route.venueId} raceNumber={route.raceNumber} />;
+  if (route.name === "handicap") return <HandicappingPage date={route.date} venueId={route.venueId} raceNumber={route.raceNumber} />;
   if (route.name === "meetings") return <MeetingsView country={route.country} />;
   if (route.name === "courses") return <CoursesView country={route.country} />;
   if (route.name === "course") return <CourseView courseId={route.courseId} />;

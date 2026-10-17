@@ -4,6 +4,10 @@ import { getCourse, getRace } from "./data";
 
 export type Route =
   | { name: "home" }
+  | { name: "sample" }
+  | { name: "meeting"; date: string; venueId: string }
+  | { name: "race-card"; date: string; venueId: string; raceNumber: number }
+  | { name: "handicap"; date: string; venueId: string; raceNumber: number }
   | { name: "meetings"; country?: CountryId }
   | { name: "race"; raceId: string; runnerId?: string }
   | { name: "courses"; country?: CountryId }
@@ -16,6 +20,13 @@ export function parseRoute(hash: string): Route {
   const parts = (hash.replace(/^#/, "") || "/").split("/").filter(Boolean);
   const head = parts[0];
   if (!head) return { name: "home" };
+  if (head === "sample") return { name: "sample" };
+  if (head === "meeting" && parts[1] && parts[2]) return { name: "meeting", date: parts[1], venueId: parts[2] };
+  if ((head === "race-card" || head === "handicap") && parts[1] && parts[2] && parts[3]) {
+    const raceNumber = Number(parts[3]);
+    if (!Number.isInteger(raceNumber)) return { name: "missing" };
+    return { name: head, date: parts[1], venueId: parts[2], raceNumber };
+  }
   if (head === "meetings") {
     if (!parts[1]) return { name: "meetings" };
     return isCountry(parts[1]) ? { name: "meetings", country: parts[1] } : { name: "missing" };
@@ -32,7 +43,11 @@ export function parseRoute(hash: string): Route {
 }
 
 export function documentTitle(route: Route): string {
-  if (route.name === "home") return "HorsePrediction — International handicapping";
+  if (route.name === "home") return "STRIDE — Horse racing";
+  if (route.name === "sample") return "Sample cards — STRIDE";
+  if (route.name === "meeting") return "Meeting — STRIDE";
+  if (route.name === "race-card") return "Race card — STRIDE";
+  if (route.name === "handicap") return "Handicapping — STRIDE";
   if (route.name === "meetings") return "Race cards — HorsePrediction";
   if (route.name === "courses") return "Racecourses — HorsePrediction";
   if (route.name === "engine") return "Handicapper — HorsePrediction";
@@ -48,8 +63,9 @@ export function documentTitle(route: Route): string {
   return "HorsePrediction";
 }
 
-export function navCurrent(route: Route): "cards" | "courses" | "engine" | null {
-  if (route.name === "meetings" || route.name === "race" || route.name === "live") return "cards";
+export function navCurrent(route: Route): "meetings" | "sample" | "courses" | "engine" | null {
+  if (route.name === "home" || route.name === "meeting" || route.name === "race-card" || route.name === "handicap") return "meetings";
+  if (route.name === "sample" || route.name === "meetings" || route.name === "race" || route.name === "live") return "sample";
   if (route.name === "courses" || route.name === "course") return "courses";
   if (route.name === "engine") return "engine";
   return null;
