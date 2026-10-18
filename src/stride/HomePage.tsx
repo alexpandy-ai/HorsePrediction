@@ -80,7 +80,7 @@ export function HomePage() {
         <div className="wrap stride-hero-inner">
           <p className="kicker">India · Indiarace</p>
           <h1>STRIDE Horse Racing</h1>
-          <p className="lede">Meetings for the selected Indian date, grouped by state. These racecards are the last published Indiarace snapshot.</p>
+          <p className="lede">Meetings for the selected Indian date, grouped by state. Opening this page loads the latest published racecard when Indiarace has one.</p>
           <div className="stride-toolbar">
             <button type="button" className={follow === "today" ? "is-on" : ""} onClick={() => setFollow("today")}>
               Today

@@ -4,6 +4,10 @@ import { calendarDate } from "../../src/meetings/time.ts";
 const date = process.argv[2];
 const dates = date ? [date] : [calendarDate("Asia/Kolkata", new Date()), shift(calendarDate("Asia/Kolkata", new Date()), 1)];
 const index = await syncIndiarace({ dates, force: true });
+if (index.fixturesError) {
+  console.error(index.fixturesError);
+  process.exitCode = 1;
+}
 const stored = Object.values(index.cards).filter((card) => dates.includes(card.date));
 console.log(
   JSON.stringify(

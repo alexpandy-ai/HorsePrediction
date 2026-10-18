@@ -20,7 +20,7 @@ export interface LastUpdatedFile {
   publishedAt: string | null;
   source: "Indiarace";
   sourceUrl: "https://www.indiarace.com/";
-  automaticPublishing: false;
+  automaticPublishing: boolean;
   note: string;
 }
 
@@ -41,8 +41,8 @@ export function publishSnapshot(publishedAt = new Date().toISOString()): LastUpd
     publishedAt: Object.keys(cards).length > 0 || meetings.fixturesComplete ? publishedAt : index.lastSuccessfulSync,
     source: "Indiarace",
     sourceUrl: "https://www.indiarace.com/",
-    automaticPublishing: false,
-    note: "This is a published snapshot. The website does not contact Indiarace or a private server. A newer snapshot appears only after the files are generated and deployed.",
+    automaticPublishing: true,
+    note: "Opening the site loads this published snapshot. A daily publish adds a racecard when Indiarace has one. The page does not contact Indiarace.",
   };
   fs.mkdirSync(dataRoot, { recursive: true });
   write(path.join(dataRoot, "meetings.json"), meetings);
