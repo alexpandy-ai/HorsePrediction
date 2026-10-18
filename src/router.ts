@@ -1,9 +1,14 @@
 import type { CountryId } from "./types";
 import { isCountry } from "./types";
 import { getCourse, getRace } from "./data";
+import { isFormfavCountry, type FormfavCountryCode } from "./stride/formfav/countries";
 
 export type Route =
   | { name: "home" }
+  | { name: "ff-home"; country: FormfavCountryCode }
+  | { name: "ff-meeting"; country: FormfavCountryCode; date: string; slug: string }
+  | { name: "ff-race"; country: FormfavCountryCode; date: string; slug: string; raceNumber: number }
+  | { name: "ff-handicap"; country: FormfavCountryCode; date: string; slug: string; raceNumber: number }
   | { name: "sample" }
   | { name: "meeting"; date: string; venueId: string }
   | { name: "race-card"; date: string; venueId: string; raceNumber: number }
@@ -20,6 +25,19 @@ export function parseRoute(hash: string): Route {
   const parts = (hash.replace(/^#/, "") || "/").split("/").filter(Boolean);
   const head = parts[0];
   if (!head) return { name: "home" };
+  if (head === "ff" && parts[1] && isFormfavCountry(parts[1])) {
+    const country = parts[1];
+    if (!parts[2]) return { name: "ff-home", country };
+    const date = parts[3];
+    const slug = parts[4] ? decodeURIComponent(parts[4]) : "";
+    if (parts[2] === "meeting" && date && slug) return { name: "ff-meeting", country, date, slug };
+    if ((parts[2] === "race" || parts[2] === "handicap") && date && slug && parts[5]) {
+      const raceNumber = Number(parts[5]);
+      if (!Number.isInteger(raceNumber)) return { name: "missing" };
+      return { name: parts[2] === "race" ? "ff-race" : "ff-handicap", country, date, slug, raceNumber };
+    }
+    return { name: "missing" };
+  }
   if (head === "sample") return { name: "sample" };
   if (head === "meeting" && parts[1] && parts[2]) return { name: "meeting", date: parts[1], venueId: parts[2] };
   if ((head === "race-card" || head === "handicap") && parts[1] && parts[2] && parts[3]) {
@@ -43,7 +61,10 @@ export function parseRoute(hash: string): Route {
 }
 
 export function documentTitle(route: Route): string {
-  if (route.name === "home") return "STRIDE — Horse racing";
+  if (route.name === "home" || route.name === "ff-home") return "STRIDE — Horse racing";
+  if (route.name === "ff-meeting") return "Meeting — STRIDE";
+  if (route.name === "ff-race") return "Race card — STRIDE";
+  if (route.name === "ff-handicap") return "Handicapping — STRIDE";
   if (route.name === "sample") return "Sample cards — STRIDE";
   if (route.name === "meeting") return "Meeting — STRIDE";
   if (route.name === "race-card") return "Race card — STRIDE";
@@ -64,7 +85,7 @@ export function documentTitle(route: Route): string {
 }
 
 export function navCurrent(route: Route): "meetings" | "sample" | "courses" | "engine" | null {
-  if (route.name === "home" || route.name === "meeting" || route.name === "race-card" || route.name === "handicap") return "meetings";
+  if (route.name === "home" || route.name === "meeting" || route.name === "race-card" || route.name === "handicap" || route.name === "ff-home" || route.name === "ff-meeting" || route.name === "ff-race" || route.name === "ff-handicap") return "meetings";
   if (route.name === "sample" || route.name === "meetings" || route.name === "race" || route.name === "live") return "sample";
   if (route.name === "courses" || route.name === "course") return "courses";
   if (route.name === "engine") return "engine";

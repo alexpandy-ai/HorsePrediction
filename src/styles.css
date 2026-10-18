@@ -529,7 +529,20 @@ th { font-size: 0.75rem; letter-spacing: 0.04em; text-transform: uppercase; colo
   font-weight: 700;
   cursor: pointer;
 }
-.stride-toolbar button.is-on, .stride-toolbar button[type="button"]:last-child { background: var(--brass-2); color: var(--green); border-color: var(--brass-2); }
+.stride-toolbar button.is-on, .stride-toolbar button[type="button"]:last-child, .stride-toolbar a[aria-current="page"] { background: var(--brass-2); color: var(--green); border-color: var(--brass-2); }
+.stride-toolbar a {
+  min-height: 44px;
+  min-width: 7.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(246, 241, 230, 0.35);
+  border-radius: 999px;
+  color: #f6f1e6;
+  padding: 0.5rem 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+}
 .stride-toolbar label { display: grid; gap: 0.25rem; color: #e6dece; font-size: 0.75rem; font-weight: 750; letter-spacing: 0.04em; text-transform: uppercase; }
 .stride-toolbar input { min-height: 44px; border: 0; border-radius: 10px; padding: 0.4rem 0.6rem; background: white; color: var(--ink); }
 .stride-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.7rem; margin: 1rem 0; }

@@ -6,6 +6,10 @@ import { CourseView } from "./components/CourseView";
 import { CoursesView } from "./components/CoursesView";
 import { EngineView } from "./components/EngineView";
 import { HomeView } from "./components/HomeView";
+import { FormfavHandicapPage } from "./stride/formfav/FormfavHandicapPage";
+import { FormfavMeetingPage } from "./stride/formfav/FormfavMeetingPage";
+import { FormfavRacePage } from "./stride/formfav/FormfavRacePage";
+import { InternationalHome } from "./stride/formfav/InternationalHome";
 import { HandicappingPage } from "./stride/HandicappingPage";
 import { HomePage } from "./stride/HomePage";
 import { MeetingPage } from "./stride/MeetingPage";
@@ -59,7 +63,7 @@ function Shell() {
       <main id="content">{renderRoute(route)}</main>
       <footer className="foot">
         <p>
-          Indiarace publishes the racecards. STRIDE rankings are a separate calculation, not a tip or betting advice.
+          Indian racecards come from Indiarace. Australia, the United Kingdom, South Africa and New Zealand use a published FormFav snapshot. STRIDE rankings are a separate calculation, not a tip or betting advice.
         </p>
       </footer>
     </div>
@@ -68,6 +72,10 @@ function Shell() {
 
 function renderRoute(route: Route) {
   if (route.name === "home") return <HomePage />;
+  if (route.name === "ff-home") return <InternationalHome country={route.country} />;
+  if (route.name === "ff-meeting") return <FormfavMeetingPage country={route.country} date={route.date} slug={route.slug} />;
+  if (route.name === "ff-race") return <FormfavRacePage country={route.country} date={route.date} slug={route.slug} raceNumber={route.raceNumber} />;
+  if (route.name === "ff-handicap") return <FormfavHandicapPage country={route.country} date={route.date} slug={route.slug} raceNumber={route.raceNumber} />;
   if (route.name === "sample") return <HomeView />;
   if (route.name === "meeting") return <MeetingPage date={route.date} venueId={route.venueId} />;
   if (route.name === "race-card") return <RaceDetailsPage date={route.date} venueId={route.venueId} raceNumber={route.raceNumber} />;

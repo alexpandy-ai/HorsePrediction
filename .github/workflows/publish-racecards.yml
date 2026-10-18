@@ -19,6 +19,11 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run indiarace:sync
+      - name: Import FormFav when a key is configured
+        env:
+          FORMFAV_API_KEY: ${{ secrets.FORMFAV_API_KEY }}
+          FORMFAV_PLAN: ${{ secrets.FORMFAV_PLAN }}
+        run: npm run formfav:sync
       - run: npm run build
       - name: Deploy the static build to Harvis
         env:

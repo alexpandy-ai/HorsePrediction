@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { addCalendarDays, calendarDate } from "../meetings/time";
 import { fixturesOnDate, groupByState } from "./stateMeetingMapper";
 import { loadLastUpdated, loadMeetings, type LastUpdatedFile, type MeetingsFile } from "./load";
+import { CountryTabs } from "./formfav/CountryTabs";
 import { cardKey, type CardSummary, type IndiaFixture } from "./types";
 
 const IST = "Asia/Kolkata";
@@ -81,6 +82,7 @@ export function HomePage() {
           <p className="kicker">India · Indiarace</p>
           <h1>STRIDE Horse Racing</h1>
           <p className="lede">Meetings for the selected Indian date, grouped by state. Opening this page loads the latest published racecard when Indiarace has one.</p>
+          <CountryTabs current="in" />
           <div className="stride-toolbar">
             <button type="button" className={follow === "today" ? "is-on" : ""} onClick={() => setFollow("today")}>
               Today
