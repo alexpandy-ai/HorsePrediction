@@ -5,3 +5,7 @@ dist
 .vite
 .env
 server/data/
+
+# Local stop-hook publish flag and lock. Ignored so the hook cannot commit them and loop.
+.cursor/publish-state.json
+.cursor/publish-hook.lock
