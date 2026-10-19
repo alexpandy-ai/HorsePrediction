@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { addCalendarDays, calendarDate } from "../meetings/time";
+import { knownRegion } from "./regionLabel";
 import { fixturesOnDate, groupByState } from "./stateMeetingMapper";
 import { loadMeetings, type MeetingsFile } from "./load";
 import { CountryTabs } from "./formfav/CountryTabs";
@@ -95,16 +96,19 @@ export function HomePage() {
         {noMeetings ? <p className="callout">No races scheduled for this date.</p> : null}
         {meetingsFile && !fixturesReady && !error ? <p className="warn">The published snapshot does not include a complete meeting list.</p> : null}
 
-        {groups.map((group) => (
-          <section key={group.state} className="stride-state">
-            <h2>{group.state}</h2>
-            <div className="stride-meetings">
-              {group.meetings.map((meeting) => (
-                <MeetingTile key={`${meeting.date}-${meeting.venueId}`} meeting={meeting} card={meeting.card} />
-              ))}
-            </div>
-          </section>
-        ))}
+        {groups.map((group) => {
+          const region = knownRegion(group.state);
+          return (
+            <section key={group.state} className="stride-state">
+              {region ? <h2>{region}</h2> : null}
+              <div className="stride-meetings">
+                {group.meetings.map((meeting) => (
+                  <MeetingTile key={`${meeting.date}-${meeting.venueId}`} meeting={meeting} card={meeting.card} />
+                ))}
+              </div>
+            </section>
+          );
+        })}
         <p className="meta">
           <a href="#/sample">Sample cards</a> stay separate from these meetings.
         </p>

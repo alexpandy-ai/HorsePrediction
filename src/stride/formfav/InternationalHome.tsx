@@ -3,7 +3,8 @@ import { addCalendarDays, calendarDate } from "../../meetings/time";
 import { formfavCountry, type FormfavCountryCode } from "./countries";
 import { CountryTabs } from "./CountryTabs";
 import { loadFormfavMeetings, loadFormfavStatus } from "./load";
-import { dash, formatDay, raceSpan } from "./present";
+import { formatDay, raceSpan } from "./present";
+import { knownRegion } from "../regionLabel";
 import type { FormfavImportStatus, FormfavMeeting, FormfavMeetingsFile } from "./types";
 
 export function InternationalHome({ country }: { country: FormfavCountryCode }) {
@@ -63,29 +64,49 @@ export function InternationalHome({ country }: { country: FormfavCountryCode }) 
         {ready && status?.configured && !unsupported && !slice ? <p className="callout">This date has not been confirmed by a FormFav import.</p> : null}
         {ready && slice && !slice.confirmed ? <p className="warn">This is not a newly confirmed schedule. {slice.error ?? "The latest import failed."} {slice.fetchedAt ? `Last successful update ${slice.fetchedAt}.` : ""}</p> : null}
         {ready && slice?.confirmed && slice.empty ? <p className="callout">No races scheduled for this date.</p> : null}
-        {slice && slice.meetings.length > 0 ? (
-          <section className="stride-state">
-            <h2>Region unavailable</h2>
-            <div className="stride-meetings">
-              {slice.meetings.map((meeting) => (
-                <MeetingCard key={meeting.slug} meeting={meeting} />
-              ))}
-            </div>
-          </section>
-        ) : null}
+        {slice && slice.meetings.length > 0
+          ? meetingGroups(slice.meetings).map((group) => (
+              <section key={group.region ?? "meetings"} className="stride-state">
+                {group.region ? <h2>{group.region}</h2> : null}
+                <div className="stride-meetings">
+                  {group.meetings.map((meeting) => (
+                    <MeetingCard key={meeting.slug} meeting={meeting} />
+                  ))}
+                </div>
+              </section>
+            ))
+          : null}
       </div>
     </div>
   );
 }
 
+function meetingGroups(meetings: FormfavMeeting[]): Array<{ region: string | null; meetings: FormfavMeeting[] }> {
+  const buckets = new Map<string, FormfavMeeting[]>();
+  for (const meeting of meetings) {
+    const region = knownRegion(meeting.region) ?? "";
+    const list = buckets.get(region) ?? [];
+    list.push(meeting);
+    buckets.set(region, list);
+  }
+  return [...buckets.entries()]
+    .sort(([left], [right]) => {
+      if (!left) return 1;
+      if (!right) return -1;
+      return left.localeCompare(right);
+    })
+    .map(([region, items]) => ({ region: region || null, meetings: items }));
+}
+
 function MeetingCard({ meeting }: { meeting: FormfavMeeting }) {
   const span = raceSpan(meeting.races);
+  const region = knownRegion(meeting.region);
   return (
     <a className="stride-meeting" href={`#/ff/${meeting.country}/meeting/${meeting.date}/${encodeURIComponent(meeting.slug)}`}>
       <h3>{meeting.track}{meeting.abandoned ? " — abandoned" : ""} — {meeting.races.length} races</h3>
       <p>{formatDay(meeting.date)}</p>
       <p>First {span.first} · Last {span.last}</p>
-      <p className="meta">Source FormFav · {dash(meeting.region)}</p>
+      <p className="meta">Source FormFav{region ? ` · ${region}` : ""}</p>
     </a>
   );
 }
