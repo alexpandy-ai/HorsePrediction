@@ -2,8 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { getRace } from "./data";
 import { documentTitle, navCurrent, parseRoute, type Route } from "./router";
 import { WeightsProvider } from "./weights";
-import { CourseView } from "./components/CourseView";
-import { CoursesView } from "./components/CoursesView";
 import { EngineView } from "./components/EngineView";
 import { HomeView } from "./components/HomeView";
 import { FormfavHandicapPage } from "./stride/formfav/FormfavHandicapPage";
@@ -55,9 +53,6 @@ function Shell() {
           <a href="#/sample" aria-current={current === "sample" ? "page" : undefined}>
             Sample cards
           </a>
-          <a href="#/courses" aria-current={current === "courses" ? "page" : undefined}>
-            Courses
-          </a>
         </nav>
       </header>
       <main id="content">{renderRoute(route)}</main>
@@ -81,8 +76,6 @@ function renderRoute(route: Route) {
   if (route.name === "race-card") return <RaceDetailsPage date={route.date} venueId={route.venueId} raceNumber={route.raceNumber} />;
   if (route.name === "handicap") return <HandicappingPage date={route.date} venueId={route.venueId} raceNumber={route.raceNumber} />;
   if (route.name === "meetings") return <MeetingsView country={route.country} />;
-  if (route.name === "courses") return <CoursesView country={route.country} />;
-  if (route.name === "course") return <CourseView courseId={route.courseId} />;
   if (route.name === "engine") return <EngineView raceId={route.raceId} />;
   if (route.name === "race") {
     const race = getRace(route.raceId);

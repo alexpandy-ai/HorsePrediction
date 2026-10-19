@@ -46,7 +46,7 @@ export function InternationalHome({ country }: { country: FormfavCountryCode }) 
       <section className="stride-hero">
         <div className="wrap stride-hero-inner">
           <CountryTabs current={country} />
-          <div className="stride-toolbar">
+          <div className="stride-toolbar stride-dates">
             <button type="button" className={follow === "today" ? "is-on" : ""} onClick={() => setFollow("today")}>Today</button>
             <button type="button" className={follow === "tomorrow" ? "is-on" : ""} onClick={() => setFollow("tomorrow")}>Tomorrow</button>
             <label>

@@ -65,7 +65,7 @@ export function HomePage() {
       <section className="stride-hero">
         <div className="wrap stride-hero-inner">
           <CountryTabs current="in" />
-          <div className="stride-toolbar">
+          <div className="stride-toolbar stride-dates">
             <button type="button" className={follow === "today" ? "is-on" : ""} onClick={() => setFollow("today")}>
               Today
             </button>
@@ -109,9 +109,6 @@ export function HomePage() {
             </section>
           );
         })}
-        <p className="meta">
-          <a href="#/sample">Sample cards</a> stay separate from these meetings.
-        </p>
       </div>
     </div>
   );

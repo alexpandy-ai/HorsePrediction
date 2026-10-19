@@ -263,8 +263,38 @@ function Get-PublishRuns {
     if ($result.Code -ne 0) {
         throw "could not list publish runs"
     }
-    if ([string]::IsNullOrWhiteSpace($result.Stdout)) { return @() }
-    return @($result.Stdout | ConvertFrom-Json)
+    $text = [string]$result.Stdout
+    if ([string]::IsNullOrWhiteSpace($text)) { return }
+    $parsed = $text | ConvertFrom-Json
+    foreach ($item in @($parsed)) {
+        Write-Output $item
+    }
+}
+
+function Expand-Runs {
+    param($Runs)
+    foreach ($run in @($Runs)) {
+        if ($null -eq $run) { continue }
+        if ($run.databaseId -is [System.Array]) {
+            $ids = @($run.databaseId)
+            $statuses = @($run.status)
+            $conclusions = @($run.conclusion)
+            $shas = @($run.headSha)
+            $branches = @($run.headBranch)
+            for ($i = 0; $i -lt $ids.Count; $i++) {
+                Write-Output ([pscustomobject]@{
+                    databaseId = $ids[$i]
+                    status     = $statuses[$i]
+                    conclusion = $conclusions[$i]
+                    headSha    = $shas[$i]
+                    headBranch = $branches[$i]
+                })
+            }
+        }
+        else {
+            Write-Output $run
+        }
+    }
 }
 
 function Get-DeployDecision {
@@ -272,7 +302,7 @@ function Get-DeployDecision {
         [string]$Head,
         [array]$Runs
     )
-    $list = @($Runs)
+    $list = @(Expand-Runs $Runs)
     $activeOther = @($list | Where-Object { $_.headSha -ne $Head -and $_.status -ne 'completed' })
     if ($activeOther.Count -gt 0) {
         return @{
@@ -333,7 +363,7 @@ function Invoke-WorkflowDispatch {
     $deadline = (Get-Date).AddSeconds(20)
     do {
         Start-Sleep -Seconds 2
-        $runs = @(Get-PublishRuns -GhExe $GhExe)
+        $runs = @(Expand-Runs (Get-PublishRuns -GhExe $GhExe))
         $match = @($runs | Where-Object { $_.headBranch -eq $Branch -and $_.status -ne 'completed' } | Select-Object -First 1)
         if ($match.Count -gt 0) {
             return @{ RunId = [string]$match[0].databaseId; Status = 'triggered' }
@@ -491,7 +521,7 @@ function Invoke-PublishPipeline {
             return
         }
 
-        $runs = @(Get-PublishRuns -GhExe $gh)
+        $runs = @(Expand-Runs (Get-PublishRuns -GhExe $gh))
         $decision = Get-DeployDecision -Head $head -Runs $runs
         if ($DryRun -and $stage.Count -gt 0) {
             $active = @($runs | Where-Object { $_.status -ne 'completed' })
@@ -538,6 +568,9 @@ function Invoke-PublishPipeline {
         if ($DryRun) { return }
         Write-PublishFlag -CommitSha $head -RunId $runId -Status $status
         Write-SafeLog "flag updated for $head"
+    }
+    catch {
+        Write-SafeLog $_.Exception.Message
     }
     finally {
         Exit-PublishLock
@@ -597,13 +630,18 @@ function Invoke-SelfTest {
     if ($gh -and $git) {
         $head = Get-GitOutput -GitExe $git -ArgumentList @('rev-parse', 'HEAD')
         $runs = @(Get-PublishRuns -GhExe $gh)
+        $runs = @(Expand-Runs $runs)
         $live = Get-DeployDecision -Head $head -Runs $runs
-        Write-SafeLog "live HEAD $head decision $($live.Action)"
+        Write-SafeLog "live HEAD $head decision $($live.Action) run $($live.RunId)"
+        Assert-True ([string]$live.RunId -notmatch '\s') 'run id is a single value'
         $activeForHead = @($runs | Where-Object { $_.headSha -eq $head -and $_.status -ne 'completed' })
+        $activeAny = @($runs | Where-Object { $_.status -ne 'completed' })
         if ($activeForHead.Count -gt 0) {
-            Assert-True ($live.Action -ne 'trigger') 'live in-progress commit is not dispatched again'
+            Assert-True ($live.Action -eq 'confirm') 'live in-progress commit is confirmed'
         }
-        Assert-True ($live.Action -ne 'trigger' -or $activeForHead.Count -eq 0) 'dispatch only when this commit is idle'
+        if ($activeAny.Count -gt 0) {
+            Assert-True ($live.Action -ne 'trigger') 'no dispatch while a publish run is active'
+        }
     }
 
     $gitignore = Get-Content -LiteralPath (Join-Path $script:RepoRoot '.gitignore') -Raw
