@@ -127,7 +127,8 @@ function parseRunner(trAttrs: string, row: string, raceId: string, index: number
   const drawText = drawMatch ? textOf(drawMatch[1]) : null;
   const draw = drawText != null && /^\d+$/.test(drawText) ? Number(drawText) : null;
   const horseCell = cells[2] ?? "";
-  const horse = anchor(horseCell, "horseStatistics");
+  const horseLink = horseStatisticsLink(horseCell);
+  const horse = anchor(horseCell, "horseStatistics") || horseLink?.name || null;
   const sire = anchor(horseCell, "allSireDetails");
   const dam = anchor(horseCell, "allDamDetails");
   const formRaw = textOf(horseCell.match(/last-five-runs-lable">([\s\S]*?)<\/span>/i)?.[1] ?? "");
@@ -148,6 +149,8 @@ function parseRunner(trAttrs: string, row: string, raceId: string, index: number
     id: `${raceId}-h${horseNumber ?? `x${index + 1}`}`,
     horseNumber,
     horse: horse || null,
+    sourceHorseId: horseLink?.id ?? null,
+    sourceHorseName: horseLink?.name ?? null,
     draw,
     drawText,
     ageSex: textOf(cells[3] ?? "") || null,
@@ -228,6 +231,23 @@ function textOf(value: string): string {
     .replace(/&#39;|&apos;/g, "'")
     .replace(/\s+/g, " ")
     .trim();
+}
+
+function horseStatisticsLink(html: string): { id: string; name: string } | null {
+  const match = html.match(/<a\b[^>]*href="[^"]*horseStatistics\/(\d+)\/([^"]*)"[^>]*>/i);
+  if (!match) return null;
+  const name = decodeSegment(match[2]);
+  if (!name) return null;
+  return { id: match[1], name };
+}
+
+function decodeSegment(value: string): string {
+  const cleaned = value.replace(/&amp;/g, "&").trim();
+  try {
+    return decodeURIComponent(cleaned).replace(/\s+/g, " ").trim();
+  } catch {
+    return cleaned.replace(/\s+/g, " ").trim();
+  }
 }
 
 function anchor(html: string, hrefPart: string): string | null {

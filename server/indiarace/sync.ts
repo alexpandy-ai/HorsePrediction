@@ -2,8 +2,10 @@ import fs from "node:fs";
 import path from "node:path";
 import { calendarDate } from "../../src/meetings/time.ts";
 import { stateForCourse } from "../../src/stride/stateMeetingMapper.ts";
-import { cardKey, type IndiaFixture, type IndiaIndex } from "../../src/stride/types.ts";
-import { fetchFixtures, fetchRacecard } from "./indiaraceClient.ts";
+import { cardKey, type IndiaFixture, type IndiaIndex, type IndiaMeeting } from "../../src/stride/types.ts";
+import { collectHorseStatistics, horsesOnMeetings } from "./horseStatistics.ts";
+import { readHorseStore, writeHorseStore } from "./horseStatisticsStore.ts";
+import { fetchFixtures, fetchHorseStatistics, fetchRacecard } from "./indiaraceClient.ts";
 import { validateRacecard } from "./racecardValidator.ts";
 import { publishSnapshot } from "./publish.ts";
 import { readIndex, rememberFailure, summaryFromMeeting, writeCard, writeIndex } from "./racecardStore.ts";
@@ -92,6 +94,7 @@ async function runSync(options: { dates?: string[]; force?: boolean }): Promise<
   }
 
   const wanted = index.fixtures.filter((fixture) => dates.includes(fixture.date));
+  const refreshed: IndiaMeeting[] = [];
   for (const fixture of wanted) {
     const key = cardKey(fixture.date, fixture.venueId);
     const previous = index.cards[key];
@@ -104,6 +107,7 @@ async function runSync(options: { dates?: string[]; force?: boolean }): Promise<
         continue;
       }
       writeCard(validated.meeting);
+      refreshed.push(validated.meeting);
       const failures = { ...index.failures };
       delete failures[key];
       index = {
@@ -116,6 +120,12 @@ async function runSync(options: { dates?: string[]; force?: boolean }): Promise<
       const message = error instanceof Error ? error.message : "The racecard request failed.";
       index = rememberFailure(index, fixture.date, fixture.venueId, message, fetchedAt);
     }
+  }
+  try {
+    const horses = horsesOnMeetings(refreshed);
+    if (horses.length > 0) writeHorseStore(await collectHorseStatistics(horses, readHorseStore(), fetchHorseStatistics, fetchedAt));
+  } catch {
+    // A horse-statistics failure must not drop the racecards already stored above.
   }
   const dateFailures = Object.entries(index.failures).filter(([key]) => dates.some((date) => key.startsWith(`${date}:`)));
   index = {

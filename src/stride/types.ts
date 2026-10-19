@@ -5,6 +5,8 @@ export interface IndiaRunner {
   id: string;
   horseNumber: number | null;
   horse: string | null;
+  sourceHorseId: string | null;
+  sourceHorseName: string | null;
   draw: number | null;
   drawText: string | null;
   ageSex: string | null;

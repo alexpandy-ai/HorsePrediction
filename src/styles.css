@@ -597,14 +597,16 @@ th { font-size: 0.75rem; letter-spacing: 0.04em; text-transform: uppercase; colo
 @media (max-width: 800px) {
   .stride-facts { grid-template-columns: minmax(0, 1fr); }
   .stride-races a { grid-template-columns: minmax(0, 1fr); }
-  .stride-dates { gap: 0.4rem; }
+  .stride-hero-inner { width: min(1120px, calc(100% - 1rem)); }
+  .stride-dates { gap: 0.35rem; }
   .stride-dates button {
     flex: 0 0 auto;
     min-width: 0;
-    padding-inline: 0.6rem;
+    padding: 0.45rem 0.5rem;
+    font-size: 0.92rem;
   }
-  .stride-dates label { flex: 1 1 auto; }
-  .stride-dates input { width: 100%; }
+  .stride-dates label { flex: 1 1 9rem; min-width: 9rem; }
+  .stride-dates input { width: 100%; min-width: 9rem; font-size: 0.9rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {

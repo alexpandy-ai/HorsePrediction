@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import type { CardSummary, IndiaFixture, IndiaMeeting } from "../../src/stride/types.ts";
+import { readHorseStore } from "./horseStatisticsStore.ts";
 import { readCard, readIndex } from "./racecardStore.ts";
 
 const dataRoot = path.join(process.cwd(), "public", "data");
@@ -47,6 +48,7 @@ export function publishSnapshot(publishedAt = new Date().toISOString()): LastUpd
   fs.mkdirSync(dataRoot, { recursive: true });
   write(path.join(dataRoot, "meetings.json"), meetings);
   write(path.join(dataRoot, "racecards.json"), { cards } satisfies RacecardsFile);
+  write(path.join(dataRoot, "horse-statistics.json"), readHorseStore());
   write(path.join(dataRoot, "last-updated.json"), lastUpdated);
   return lastUpdated;
 }

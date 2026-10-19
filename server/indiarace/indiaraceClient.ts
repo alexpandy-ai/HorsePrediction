@@ -1,3 +1,5 @@
+import { horseStatisticsUrl } from "../../src/stride/horseStatistics.ts";
+
 const BASE = "https://www.indiarace.com";
 const DELAY_MS = 3000;
 const USER_AGENT = "STRIDE/0.1 (public racecard reader; respects Indiarace crawl-delay)";
@@ -40,6 +42,11 @@ export async function fetchFixtures(): Promise<RawFixture[]> {
 export async function fetchRacecard(venueId: string, date: string): Promise<{ url: string; html: string }> {
   const url = racecardUrl(venueId, date);
   return { url, html: await getText(url) };
+}
+
+export async function fetchHorseStatistics(id: string, name: string): Promise<string> {
+  if (!/^\d+$/.test(id) || !name.trim()) throw new Error("Horse statistics need the source id and name.");
+  return getText(horseStatisticsUrl(id, name));
 }
 
 async function getText(url: string): Promise<string> {
