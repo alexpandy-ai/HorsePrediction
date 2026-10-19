@@ -82,7 +82,7 @@ export function indiaHorseHash(id: string | null | undefined, name: string | nul
 }
 
 export function isUnavailableHorse(record: HorseRecord): record is UnavailableHorse {
-  return record.unavailable === true;
+  return "unavailable" in record && record.unavailable === true;
 }
 
 export function dash(value: string | number | null | undefined): string {

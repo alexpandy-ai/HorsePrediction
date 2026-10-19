@@ -1,3 +1,4 @@
+import { emptyHorseStatistics, type HorseStatisticsFile } from "./horseStatistics";
 import { cardKey, type CardSummary, type IndiaFixture, type IndiaMeeting } from "./types";
 
 export interface MeetingsFile {
@@ -69,4 +70,15 @@ export async function loadCard(date: string, venueId: string, cacheBust = ""): P
   }
   const cards = await racecards;
   return cards[cardKey(date, venueId)] ?? null;
+}
+
+export async function loadHorseStatistics(): Promise<HorseStatisticsFile | null> {
+  try {
+    const response = await fetch(fresh("/data/horse-statistics.json", ""), { cache: "no-store" });
+    if (!response.ok) return null;
+    const body = (await response.json()) as HorseStatisticsFile;
+    return { ...emptyHorseStatistics(), ...body, horses: body.horses ?? {} };
+  } catch {
+    return null;
+  }
 }

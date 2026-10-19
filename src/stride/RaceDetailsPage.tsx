@@ -1,10 +1,18 @@
 import { useEffect, useState } from "react";
+import { indiaHorseHash } from "./horseStatistics";
 import { loadCard } from "./load";
 import type { IndiaMeeting, IndiaRace, IndiaRunner } from "./types";
 
 function shown(value: string | number | null | undefined): string {
   if (value == null || value === "") return "—";
   return String(value);
+}
+
+function horseCell(runner: IndiaRunner) {
+  const label = shown(runner.horse ?? runner.sourceHorseName);
+  const href = indiaHorseHash(runner.sourceHorseId, runner.sourceHorseName);
+  if (!href) return label;
+  return <a href={href}>{label}</a>;
 }
 
 function equipment(runner: IndiaRunner): string {
@@ -90,7 +98,7 @@ export function RaceDetailsPage({ date, venueId, raceNumber }: { date: string; v
             {race.runners.map((runner) => (
               <tr key={runner.id} className={runner.status === "Withdrawn" ? "is-withdrawn" : undefined}>
                 <td>{shown(runner.horseNumber)}</td>
-                <td>{shown(runner.horse)}</td>
+                <td>{horseCell(runner)}</td>
                 <td>{runner.draw == null ? "—" : runner.draw}{runner.review.length > 0 ? " · review" : ""}</td>
                 <td>{shown(runner.ageSex)}</td>
                 <td>{shown(runner.pedigree)}</td>

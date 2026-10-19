@@ -17,6 +17,7 @@ export type Route =
   | { name: "race"; raceId: string; runnerId?: string }
   | { name: "engine"; raceId?: string }
   | { name: "live"; raceId: string }
+  | { name: "horse"; id: string; horseName: string }
   | { name: "missing" };
 
 export function parseRoute(hash: string): Route {
@@ -50,7 +51,20 @@ export function parseRoute(hash: string): Route {
   if (head === "race" && parts[1]) return { name: "race", raceId: parts[1], runnerId: parts[2] };
   if (head === "engine") return { name: "engine", raceId: parts[1] };
   if (head === "live" && parts[1]) return { name: "live", raceId: decodeURIComponent(parts.slice(1).join("/")) };
+  if (head === "horse" && parts[1] && /^\d+$/.test(parts[1]) && parts[2]) {
+    const horseName = decodeHash(parts.slice(2).join("/"));
+    if (!horseName) return { name: "missing" };
+    return { name: "horse", id: parts[1], horseName };
+  }
   return { name: "missing" };
+}
+
+function decodeHash(value: string): string {
+  try {
+    return decodeURIComponent(value).replace(/\s+/g, " ").trim();
+  } catch {
+    return value.replace(/\s+/g, " ").trim();
+  }
 }
 
 export function documentTitle(route: Route): string {
@@ -61,6 +75,7 @@ export function documentTitle(route: Route): string {
   if (route.name === "sample") return "Sample cards — STRIDE";
   if (route.name === "meeting") return "Meeting — STRIDE";
   if (route.name === "race-card") return "Race card — STRIDE";
+  if (route.name === "horse") return `${route.horseName} — STRIDE`;
   if (route.name === "handicap") return "Handicapping — STRIDE";
   if (route.name === "meetings") return "Race cards — HorsePrediction";
   if (route.name === "engine") return "Handicapper — HorsePrediction";
@@ -73,7 +88,7 @@ export function documentTitle(route: Route): string {
 }
 
 export function navCurrent(route: Route): "meetings" | "sample" | "engine" | null {
-  if (route.name === "home" || route.name === "meeting" || route.name === "race-card" || route.name === "handicap" || route.name === "ff-home" || route.name === "ff-meeting" || route.name === "ff-race" || route.name === "ff-handicap") return "meetings";
+  if (route.name === "home" || route.name === "meeting" || route.name === "race-card" || route.name === "handicap" || route.name === "horse" || route.name === "ff-home" || route.name === "ff-meeting" || route.name === "ff-race" || route.name === "ff-handicap") return "meetings";
   if (route.name === "sample" || route.name === "meetings" || route.name === "race" || route.name === "live") return "sample";
   if (route.name === "engine") return "engine";
   return null;

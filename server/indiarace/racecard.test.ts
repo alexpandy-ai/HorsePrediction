@@ -75,6 +75,8 @@ test("keeps horse number, draw and withdrawal distinct", () => {
   const withdrawn = race.runners.find((runner) => runner.horse === "DECEMBER CASPIAN");
   const missing = race.runners.find((runner) => runner.horse === "NO DRAW");
   assert.equal(equine?.horseNumber, 1);
+  assert.equal(equine?.sourceHorseId, "1");
+  assert.equal(equine?.sourceHorseName, "EQUINE POWER");
   assert.equal(equine?.draw, 9);
   assert.equal(equine?.rating, 45);
   assert.equal(equine?.ratingAside, 32);
@@ -120,6 +122,8 @@ test("reads the saved Hyderabad racecard when it is available locally", () => {
   const equine = meeting.races.flatMap((race) => race.runners).find((runner) => runner.horse === "EQUINE POWER");
   const withdrawn = meeting.races.flatMap((race) => race.runners).find((runner) => runner.horse === "DECEMBER CASPIAN");
   assert.equal(equine?.horseNumber, 1);
+  assert.equal(equine?.sourceHorseId, "63810");
+  assert.equal(equine?.sourceHorseName, "EQUINE POWER");
   assert.equal(equine?.draw, 9);
   assert.notEqual(equine?.draw, equine?.horseNumber);
   assert.equal(withdrawn?.status, "Withdrawn");

@@ -9,6 +9,7 @@ import { FormfavMeetingPage } from "./stride/formfav/FormfavMeetingPage";
 import { FormfavRacePage } from "./stride/formfav/FormfavRacePage";
 import { InternationalHome } from "./stride/formfav/InternationalHome";
 import { HandicappingPage } from "./stride/HandicappingPage";
+import { HorsePage } from "./stride/HorsePage";
 import { HomePage } from "./stride/HomePage";
 import { MeetingPage } from "./stride/MeetingPage";
 import { RaceDetailsPage } from "./stride/RaceDetailsPage";
@@ -74,6 +75,7 @@ function renderRoute(route: Route) {
   if (route.name === "sample") return <HomeView />;
   if (route.name === "meeting") return <MeetingPage date={route.date} venueId={route.venueId} />;
   if (route.name === "race-card") return <RaceDetailsPage date={route.date} venueId={route.venueId} raceNumber={route.raceNumber} />;
+  if (route.name === "horse") return <HorsePage id={route.id} horseName={route.horseName} />;
   if (route.name === "handicap") return <HandicappingPage date={route.date} venueId={route.venueId} raceNumber={route.raceNumber} />;
   if (route.name === "meetings") return <MeetingsView country={route.country} />;
   if (route.name === "engine") return <EngineView raceId={route.raceId} />;

@@ -1,0 +1,29 @@
+.horse-table-wrap {
+  overflow-x: auto;
+  max-width: 100%;
+  margin: 1rem 0;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--card);
+}
+
+.horse-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.horse-table th,
+.horse-table td {
+  padding: 0.55rem 0.65rem;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+  white-space: nowrap;
+}
+
+.horse-table th {
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
