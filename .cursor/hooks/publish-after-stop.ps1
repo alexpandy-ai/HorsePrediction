@@ -193,9 +193,13 @@ function Write-PublishFlag {
 function Test-LockActive {
     param($Lock)
     if (-not $Lock -or -not $Lock.pid -or -not $Lock.timestamp) { return $false }
-    $started = $null
-    if (-not [datetime]::TryParse([string]$Lock.timestamp, [ref]$started)) { return $false }
-    $age = (Get-Date).ToUniversalTime() - $started.ToUniversalTime()
+    try {
+        $started = [datetimeoffset]::Parse([string]$Lock.timestamp)
+    }
+    catch {
+        return $false
+    }
+    $age = [datetimeoffset]::UtcNow - $started
     if ($age.TotalMinutes -ge 8) { return $false }
     if ([int]$Lock.pid -eq $PID) { return $false }
     $proc = Get-Process -Id ([int]$Lock.pid) -ErrorAction SilentlyContinue
