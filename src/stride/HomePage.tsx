@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { addCalendarDays, calendarDate } from "../meetings/time";
 import { fixturesOnDate, groupByState } from "./stateMeetingMapper";
-import { loadLastUpdated, loadMeetings, type LastUpdatedFile, type MeetingsFile } from "./load";
+import { loadMeetings, type MeetingsFile } from "./load";
 import { CountryTabs } from "./formfav/CountryTabs";
 import { cardKey, type CardSummary, type IndiaFixture } from "./types";
 
@@ -14,22 +14,10 @@ function formatDay(iso: string): string {
   );
 }
 
-function formatStamp(iso: string): string {
-  return new Intl.DateTimeFormat("en-GB", {
-    day: "numeric",
-    month: "short",
-    hour: "2-digit",
-    minute: "2-digit",
-    hourCycle: "h23",
-    timeZone: IST,
-  }).format(new Date(iso));
-}
-
 export function HomePage() {
   const [follow, setFollow] = useState<"today" | "tomorrow" | "date">("today");
   const [date, setDate] = useState(() => calendarDate(IST, new Date()));
   const [meetingsFile, setMeetingsFile] = useState<MeetingsFile | null>(null);
-  const [published, setPublished] = useState<LastUpdatedFile | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [refreshing, setRefreshing] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
@@ -45,10 +33,9 @@ export function HomePage() {
 
   useEffect(() => {
     let ignore = false;
-    void Promise.all([loadMeetings(bust), loadLastUpdated(bust)]).then(([meetings, updated]) => {
+    void loadMeetings(bust).then((meetings) => {
       if (ignore) return;
       setMeetingsFile(meetings.meetings);
-      setPublished(updated);
       setError(meetings.error);
     });
     return () => {
@@ -62,9 +49,6 @@ export function HomePage() {
     return { ...fixture, card, firstRaceMinutes: card?.firstRaceMinutes ?? null };
   });
   const groups = groupByState(rows);
-  const synchronized = rows.filter((row) => row.card);
-  const raceTotal = synchronized.reduce((sum, row) => sum + (row.card?.raceCount ?? 0), 0);
-  const partial = rows.length > 0 && synchronized.length !== rows.length;
   const fixturesReady = Boolean(meetingsFile?.fixturesComplete);
   const noMeetings = Boolean(meetingsFile && fixturesReady && fixtures.length === 0 && !error);
 
@@ -79,9 +63,6 @@ export function HomePage() {
     <div className="stride">
       <section className="stride-hero">
         <div className="wrap stride-hero-inner">
-          <p className="kicker">India · Indiarace</p>
-          <h1>STRIDE Horse Racing</h1>
-          <p className="lede">Meetings for the selected Indian date, grouped by state. Opening this page loads the latest published racecard when Indiarace has one.</p>
           <CountryTabs current="in" />
           <div className="stride-toolbar">
             <button type="button" className={follow === "today" ? "is-on" : ""} onClick={() => setFollow("today")}>
@@ -108,24 +89,6 @@ export function HomePage() {
         </div>
       </section>
       <div className="wrap">
-        <div className="stride-stats">
-          <article>
-            <span>Meetings</span>
-            <strong>{meetingsFile && fixturesReady ? fixtures.length : "—"}</strong>
-          </article>
-          <article>
-            <span>Scheduled races</span>
-            <strong>{synchronized.length > 0 ? raceTotal : "—"}</strong>
-          </article>
-          <article>
-            <span>Last published</span>
-            <strong>{published?.publishedAt ? `${formatStamp(published.publishedAt)} IST` : "—"}</strong>
-          </article>
-        </div>
-        <p className="meta">
-          Showing {formatDay(date)}. The calendar is Asia/Kolkata. {partial ? "Race totals include published racecards only." : "Source: Indiarace."}{" "}
-          {published?.note}
-        </p>
         {notice ? <p className="callout">{notice}</p> : null}
         {error ? <p className="warn">The published meetings could not be loaded. {error}</p> : null}
         {!meetingsFile && !error ? <p className="callout">Loading the published snapshot…</p> : null}

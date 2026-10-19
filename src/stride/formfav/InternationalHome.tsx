@@ -44,9 +44,6 @@ export function InternationalHome({ country }: { country: FormfavCountryCode }) 
     <div className="stride">
       <section className="stride-hero">
         <div className="wrap stride-hero-inner">
-          <p className="kicker">{config.name} · FormFav</p>
-          <h1>STRIDE Horse Racing</h1>
-          <p className="lede">Meetings confirmed by the published FormFav snapshot, in the racecourse local time when FormFav supplies it.</p>
           <CountryTabs current={country} />
           <div className="stride-toolbar">
             <button type="button" className={follow === "today" ? "is-on" : ""} onClick={() => setFollow("today")}>Today</button>
@@ -59,7 +56,6 @@ export function InternationalHome({ country }: { country: FormfavCountryCode }) 
         </div>
       </section>
       <div className="wrap">
-        <p className="meta">Showing {formatDay(date)}. The calendar is {config.calendarTimezone}. Region is unavailable because FormFav does not return a state. {status?.planNote}</p>
         {!ready ? <p className="callout">Loading the published snapshot…</p> : null}
         {ready && !status ? <p className="warn">The FormFav snapshot is not in this publication.</p> : null}
         {ready && status && !status.configured ? <p className="callout">{countryStatus?.note}</p> : null}
