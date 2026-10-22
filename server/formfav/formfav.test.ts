@@ -4,6 +4,8 @@ import os from "node:os";
 import path from "node:path";
 import test from "node:test";
 import { parseRoute } from "../../src/router.ts";
+import { australiaHorseHash, PREVIOUS_RUNS_DETAIL } from "../../src/stride/formfav/horse.ts";
+import { formfavRate } from "../../src/stride/formfav/present.ts";
 import { meetingsFromResponse, raceFromForm } from "../../src/stride/formfav/normalize.ts";
 import { rankFormfavRace } from "../../src/stride/formfav/handicap.ts";
 import type { FormfavRace } from "../../src/stride/formfav/types.ts";
@@ -101,6 +103,33 @@ test("a failed meeting request keeps the previous card but does not confirm toda
   assert.equal(calls.includes("/v1/predictions"), false);
   assert.equal(parseRoute("#/meeting/2026-10-18/10").name, "meeting");
   assert.equal(parseRoute("#/ff/za").name, "ff-home");
+});
+
+test("an Australia horse link uses the saddle number and other countries stay plain routes", () => {
+  assert.equal(australiaHorseHash("2026-10-19", "echuca", 1, 1), "#/ff/au/horse/2026-10-19/echuca/1/1");
+  assert.equal(australiaHorseHash("2026-10-19", "royal randwick", 3, 8), "#/ff/au/horse/2026-10-19/royal%20randwick/3/8");
+  assert.equal(australiaHorseHash("2026-10-19", "echuca", 1, null), null);
+  const route = parseRoute("#/ff/au/horse/2026-10-19/royal%20randwick/3/8");
+  assert.equal(route.name, "ff-horse");
+  if (route.name === "ff-horse") {
+    assert.equal(route.country, "au");
+    assert.equal(route.slug, "royal randwick");
+    assert.equal(route.horseNumber, 8);
+  }
+  assert.equal(parseRoute("#/ff/gb/horse/2026-10-19/newbury/1/1").name, "missing");
+  assert.equal(parseRoute("#/ff/za/horse/2026-10-19/kenilworth/1/1").name, "missing");
+  assert.equal(parseRoute("#/ff/nz/horse/2026-10-19/ellerslie/1/1").name, "missing");
+  assert.equal(parseRoute("#/ff/au/horse/2026-10-19/echuca/1/Challenging").name, "missing");
+  assert.equal(parseRoute("#/horse/63810/EQUINE%20POWER").name, "horse");
+  const note = PREVIOUS_RUNS_DETAIL.join(" ");
+  assert.match(note, /search_runner/);
+  assert.match(note, /get_runner_profile/);
+  assert.match(note, /GET \/v1\/stats\/runner\/search/);
+  assert.match(note, /GET \/v1\/stats\/runner\/\{runner_id\}/);
+  assert.match(note, /get_race_card/);
+  assert.equal(formfavRate(null), "—");
+  assert.equal(formfavRate(0), "0%");
+  assert.equal(formfavRate(0.4), "40%");
 });
 
 test("no thoroughbred venues clears that country instead of leaving a schedule", async () => {

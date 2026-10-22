@@ -5,6 +5,7 @@ import { WeightsProvider } from "./weights";
 import { EngineView } from "./components/EngineView";
 import { HomeView } from "./components/HomeView";
 import { FormfavHandicapPage } from "./stride/formfav/FormfavHandicapPage";
+import { FormfavHorsePage } from "./stride/formfav/FormfavHorsePage";
 import { FormfavMeetingPage } from "./stride/formfav/FormfavMeetingPage";
 import { FormfavRacePage } from "./stride/formfav/FormfavRacePage";
 import { InternationalHome } from "./stride/formfav/InternationalHome";
@@ -72,6 +73,7 @@ function renderRoute(route: Route) {
   if (route.name === "ff-meeting") return <FormfavMeetingPage country={route.country} date={route.date} slug={route.slug} />;
   if (route.name === "ff-race") return <FormfavRacePage country={route.country} date={route.date} slug={route.slug} raceNumber={route.raceNumber} />;
   if (route.name === "ff-handicap") return <FormfavHandicapPage country={route.country} date={route.date} slug={route.slug} raceNumber={route.raceNumber} />;
+  if (route.name === "ff-horse") return <FormfavHorsePage date={route.date} slug={route.slug} raceNumber={route.raceNumber} horseNumber={route.horseNumber} />;
   if (route.name === "sample") return <HomeView />;
   if (route.name === "meeting") return <MeetingPage date={route.date} venueId={route.venueId} />;
   if (route.name === "race-card") return <RaceDetailsPage date={route.date} venueId={route.venueId} raceNumber={route.raceNumber} />;

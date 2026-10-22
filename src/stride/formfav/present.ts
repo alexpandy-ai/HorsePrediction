@@ -30,3 +30,10 @@ export function dash(value: string | number | null | undefined): string {
   if (value == null || value === "") return "—";
   return String(value);
 }
+
+/** FormFav documents win and place rates as fractions from 0 to 1. A missing rate stays an em dash. */
+export function formfavRate(value: number | null | undefined): string {
+  if (value == null || !Number.isFinite(value)) return "—";
+  const percent = Math.round(value * 1000) / 10;
+  return Number.isInteger(percent) ? `${percent}%` : `${percent.toFixed(1)}%`;
+}

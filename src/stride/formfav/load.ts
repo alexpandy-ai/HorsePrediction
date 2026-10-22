@@ -16,8 +16,12 @@ export async function loadFormfavMeetings(country: FormfavCountryCode): Promise<
   return readJson<FormfavMeetingsFile>(fresh(`/data/formfav/${formfavCountry(country).file}`));
 }
 
+export async function loadFormfavRacecards(): Promise<FormfavRacecardsFile | null> {
+  return readJson<FormfavRacecardsFile>(fresh("/data/formfav/racecards.json"));
+}
+
 export async function loadFormfavRace(country: FormfavCountryCode, date: string, slug: string, raceNumber: number) {
-  const file = await readJson<FormfavRacecardsFile>(fresh("/data/formfav/racecards.json"));
+  const file = await loadFormfavRacecards();
   return file?.cards[cardKey(country, date, slug, raceNumber)] ?? null;
 }
 

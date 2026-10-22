@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { formfavCountry, type FormfavCountryCode } from "./countries";
+import { australiaHorseHash } from "./horse";
 import { loadFormfavMeetings, loadFormfavRace } from "./load";
 import { dash, localClock } from "./present";
-import type { FormfavRace } from "./types";
+import type { FormfavRace, FormfavRunner } from "./types";
 
 export function FormfavRacePage({ country, date, slug, raceNumber }: { country: FormfavCountryCode; date: string; slug: string; raceNumber: number }) {
   const [race, setRace] = useState<FormfavRace | null>(null);
@@ -54,7 +55,7 @@ export function FormfavRacePage({ country, date, slug, raceNumber }: { country: 
                 <tr key={`${runner.horseNumber ?? "x"}-${index}`} className={runner.scratched ? "is-withdrawn" : undefined}>
                   <td>{dash(runner.horseNumber)}</td>
                   <td>{dash(runner.barrier)}</td>
-                  <td>{dash(runner.name)}{runner.scratched ? " · Scratched" : ""}{runner.decorators.length ? <small>{runner.decorators.map((item) => item.label).join(", ")}</small> : null}</td>
+                  <td><HorseName country={country} date={date} slug={slug} raceNumber={race.raceNumber} runner={runner} />{runner.scratched ? " · Scratched" : ""}{runner.decorators.length ? <small>{runner.decorators.map((item) => item.label).join(", ")}</small> : null}</td>
                   <td>{dash(runner.jockey)}</td>
                   <td>{dash(runner.trainer)}</td>
                   <td>{dash(runner.weightKg)}</td>
@@ -89,4 +90,11 @@ export function FormfavRacePage({ country, date, slug, raceNumber }: { country: 
       )}
     </div>
   );
+}
+
+function HorseName({ country, date, slug, raceNumber, runner }: { country: FormfavCountryCode; date: string; slug: string; raceNumber: number; runner: FormfavRunner }) {
+  if (country !== "au" || !runner.name) return dash(runner.name);
+  const href = australiaHorseHash(date, slug, raceNumber, runner.horseNumber);
+  if (!href) return runner.name;
+  return <a href={href}>{runner.name}</a>;
 }
