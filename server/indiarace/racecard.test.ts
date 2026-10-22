@@ -3,8 +3,11 @@ import os from "node:os";
 import path from "node:path";
 import assert from "node:assert/strict";
 import test from "node:test";
+import { indiaHorseHash } from "../../src/stride/horseStatistics.ts";
 import { rankRace } from "../../src/stride/handicappingEngine.ts";
+import { parseRoute } from "../../src/router.ts";
 import { groupByState, stateForCourse } from "../../src/stride/stateMeetingMapper.ts";
+import { extractHorseProfileLink } from "./racecardParser.ts";
 import { validateRacecard } from "./racecardValidator.ts";
 
 const html = `
@@ -77,6 +80,7 @@ test("keeps horse number, draw and withdrawal distinct", () => {
   assert.equal(equine?.horseNumber, 1);
   assert.equal(equine?.sourceHorseId, "1");
   assert.equal(equine?.sourceHorseName, "EQUINE POWER");
+  assert.equal(equine?.horseProfileUrl, "https://www.indiarace.com/Home/horseStatistics/1/EQUINE POWER");
   assert.equal(equine?.draw, 9);
   assert.equal(equine?.rating, 45);
   assert.equal(equine?.ratingAside, 32);
@@ -110,6 +114,114 @@ test("groups only states that have a meeting", () => {
   assert.deepEqual(groups.map((group) => group.state), ["Karnataka", "Maharashtra"]);
 });
 
+const copiedAnchors = [
+  {
+    html: '<h5> <a href="https://www.indiarace.com/Home/horseStatistics/63810/EQUINE POWER">EQUINE POWER </a> </h5>',
+    horseId: "63810",
+    horseName: "EQUINE POWER",
+    horseProfileUrl: "https://www.indiarace.com/Home/horseStatistics/63810/EQUINE POWER",
+    horseNumber: "1",
+    draw: "9",
+  },
+  {
+    html: '<h5> <a href="https://www.indiarace.com/Home/horseStatistics/129/MY HONEY">MY HONEY </a> </h5>',
+    horseId: "129",
+    horseName: "MY HONEY",
+    horseProfileUrl: "https://www.indiarace.com/Home/horseStatistics/129/MY HONEY",
+    horseNumber: "4",
+    draw: "1",
+  },
+  {
+    html: '<h5> <a href="https://www.indiarace.com/Home/horseStatistics/63668/LION\'S GATE">LION\'S GATE </a> </h5>',
+    horseId: "63668",
+    horseName: "LION'S GATE",
+    horseProfileUrl: "https://www.indiarace.com/Home/horseStatistics/63668/LION'S GATE",
+    horseNumber: "9",
+    draw: "3",
+  },
+  {
+    html: '<h5> <a href="https://www.indiarace.com/Home/horseStatistics/60249/COSMICO">COSMICO </a> </h5>',
+    horseId: "60249",
+    horseName: "COSMICO",
+    horseProfileUrl: "https://www.indiarace.com/Home/horseStatistics/60249/COSMICO",
+    horseNumber: "2",
+    draw: "5",
+  },
+];
+
+test("extracts Indiarace horse ids from the horse-name link", () => {
+  for (const anchor of copiedAnchors) {
+    const link = extractHorseProfileLink(`${anchor.horseNumber}<span>(${anchor.draw})</span>${anchor.html}`);
+    assert.ok(link);
+    assert.equal(link.horseId, anchor.horseId);
+    assert.equal(link.horseName, anchor.horseName);
+    assert.equal(link.horseProfileUrl, anchor.horseProfileUrl);
+    assert.notEqual(link.horseId, anchor.horseNumber);
+    assert.notEqual(link.horseId, anchor.draw);
+    assert.notEqual(link.horseId, anchor.horseName);
+  }
+  const encoded = extractHorseProfileLink('<a href="https://www.indiarace.com/Home/horseStatistics/168/GOLDEN%20SABRE">GOLDEN SABRE</a>');
+  assert.ok(encoded);
+  assert.equal(encoded.horseId, "168");
+  assert.equal(encoded.horseName, "GOLDEN SABRE");
+  assert.equal(encoded.horseProfileUrl, "https://www.indiarace.com/Home/horseStatistics/168/GOLDEN%20SABRE");
+  assert.equal(extractHorseProfileLink("<h5>UNLINKED HORSE</h5>"), null);
+  assert.equal(extractHorseProfileLink('<td>1<br><span style="color:red;">(9)</span></td>'), null);
+});
+
+test("stores the profile link on each runner and leaves a missing link as plain text", () => {
+  const rows = copiedAnchors.map((anchor) => `
+    <tr class="dividend_tr">
+      <td>${anchor.horseNumber}<br><span style="color:red;">(${anchor.draw})</span></td><td></td>
+      <td>${anchor.html}</td>
+      <td>4y b g</td><td>Owner</td><td>Trainer</td><td>Jockey</td><td>60</td><td></td><td>A</td><td></td><td>45</td>
+    </tr>`).join("");
+  const card = `
+    <h3>Race Card - HYDERABAD - 17 Oct 2026</h3>
+    <div id="race-1">
+      <h1>1</h1><h5>(145)</h5>
+      <div class="center_heading"><h2>The Plate</h2><h3>Class 4 / A Handicap For Horses Rated 20 To 45</h3></div>
+      <div class="archive_time"><h4>1200 M</h4><h4>01:35 PM</h4></div>
+      <table>
+        ${rows}
+        <tr class="dividend_tr">
+          <td>7<br><span style="color:red;">(2)</span></td><td></td>
+          <td><h5>UNLINKED HORSE</h5></td>
+          <td>4y b g</td><td>Owner</td><td>Trainer</td><td>Jockey</td><td>55</td><td></td><td></td><td></td><td></td>
+        </tr>
+      </table>
+    </div>`;
+  const result = validateRacecard(card, "11", "2026-10-17", "https://www.indiarace.com/example", "2026-10-17T18:00:00.000Z");
+  assert.equal(result.error, null);
+  const runners = result.meeting?.races[0]?.runners ?? [];
+  for (const anchor of copiedAnchors) {
+    const runner = runners.find((item) => item.horse === anchor.horseName);
+    assert.ok(runner);
+    assert.equal(runner.sourceHorseId, anchor.horseId);
+    assert.equal(runner.sourceHorseName, anchor.horseName);
+    assert.equal(runner.horseProfileUrl, anchor.horseProfileUrl);
+    assert.equal(runner.horseNumber, Number(anchor.horseNumber));
+    assert.equal(runner.draw, Number(anchor.draw));
+    assert.notEqual(runner.sourceHorseId, String(runner.horseNumber));
+    assert.notEqual(runner.sourceHorseId, String(runner.draw));
+    const href = indiaHorseHash(runner.sourceHorseId, runner.sourceHorseName);
+    assert.equal(href, `#/horse/${anchor.horseId}/${encodeURIComponent(anchor.horseName)}`);
+    const route = href ? parseRoute(href) : null;
+    assert.equal(route?.name, "horse");
+    if (route?.name === "horse") {
+      assert.equal(route.id, anchor.horseId);
+      assert.equal(route.horseName, anchor.horseName);
+    }
+  }
+  const unlinked = runners.find((item) => item.horse === "UNLINKED HORSE");
+  assert.ok(unlinked);
+  assert.equal(unlinked.sourceHorseId, null);
+  assert.equal(unlinked.sourceHorseName, null);
+  assert.equal(unlinked.horseProfileUrl, null);
+  assert.equal(unlinked.horseNumber, 7);
+  assert.equal(indiaHorseHash(unlinked.sourceHorseId, unlinked.horse), null);
+});
+
 test("reads the saved Hyderabad racecard when it is available locally", () => {
   const file = path.join(os.tmpdir(), "indiarace-research", "hyd-2026-10-17.html");
   if (!fs.existsSync(file)) return;
@@ -124,9 +236,62 @@ test("reads the saved Hyderabad racecard when it is available locally", () => {
   assert.equal(equine?.horseNumber, 1);
   assert.equal(equine?.sourceHorseId, "63810");
   assert.equal(equine?.sourceHorseName, "EQUINE POWER");
+  assert.equal(equine?.horseProfileUrl, "https://www.indiarace.com/Home/horseStatistics/63810/EQUINE POWER");
   assert.equal(equine?.draw, 9);
+  assertSavedProfileLinks(fs.readFileSync(file, "utf8"), meeting.races.flatMap((race) => race.runners));
   assert.notEqual(equine?.draw, equine?.horseNumber);
   assert.equal(withdrawn?.status, "Withdrawn");
   assert.equal(withdrawn?.draw, 3);
   assert.equal(withdrawn?.horseNumber, 4);
+  assert.equal(withdrawn?.sourceHorseId, "63889");
+  assert.equal(withdrawn?.horseProfileUrl, "https://www.indiarace.com/Home/horseStatistics/63889/DECEMBER CASPIAN");
+  const honey = meeting.races.flatMap((race) => race.runners).find((runner) => runner.horse === "MY HONEY");
+  const lions = meeting.races.flatMap((race) => race.runners).find((runner) => runner.horse === "LION'S GATE");
+  assert.ok(honey);
+  assert.ok(lions);
+  assert.equal(honey.sourceHorseId, "129");
+  assert.equal(honey.horseProfileUrl, "https://www.indiarace.com/Home/horseStatistics/129/MY HONEY");
+  assert.notEqual(honey.sourceHorseId, String(honey.horseNumber));
+  assert.notEqual(honey.sourceHorseId, String(honey.draw));
+  assert.equal(lions.sourceHorseId, "63668");
+  assert.equal(lions.horseProfileUrl, "https://www.indiarace.com/Home/horseStatistics/63668/LION'S GATE");
 });
+
+test("reads the saved Pune racecard when it is available locally", () => {
+  const file = path.join(os.tmpdir(), "indiarace-research", "pune-2026-10-18.html");
+  if (!fs.existsSync(file)) return;
+  const html = fs.readFileSync(file, "utf8");
+  const result = validateRacecard(html, "10", "2026-10-18", "https://www.indiarace.com/Home/racingCenterEvent?event_date=2026-10-18&race_type=RACECARD&venueId=10", "2026-10-18T18:00:00.000Z");
+  assert.equal(result.error, null);
+  const meeting = result.meeting;
+  assert.ok(meeting);
+  assert.equal(meeting.course, "Pune");
+  const runners = meeting.races.flatMap((race) => race.runners);
+  assertSavedProfileLinks(html, runners);
+  const beyond = runners.find((runner) => runner.horse === "BEYOND STARS");
+  assert.ok(beyond);
+  assert.equal(beyond.sourceHorseId, "62796");
+  assert.equal(beyond.horseProfileUrl, "https://www.indiarace.com/Home/horseStatistics/62796/BEYOND STARS");
+  assert.notEqual(beyond.sourceHorseId, String(beyond.horseNumber));
+});
+
+function assertSavedProfileLinks(html: string, runners: { horse: string | null; horseNumber: number | null; sourceHorseId: string | null; sourceHorseName: string | null; horseProfileUrl: string | null }[]): void {
+  const rows = [...html.matchAll(/<tr class="dividend_tr"[^>]*>([\s\S]*?)<\/tr>/gi)];
+  assert.equal(runners.length, rows.length);
+  rows.forEach((row, index) => {
+    const runner = runners[index];
+    const href = row[1].match(/<a\b[^>]*href="(https:\/\/www\.indiarace\.com\/Home\/horseStatistics\/(\d+)\/([^"]*))"/i);
+    assert.ok(runner);
+    if (!href) {
+      assert.equal(runner.sourceHorseId, null);
+      assert.equal(runner.sourceHorseName, null);
+      assert.equal(runner.horseProfileUrl, null);
+      return;
+    }
+    assert.equal(runner.sourceHorseId, href[2]);
+    assert.equal(runner.horseProfileUrl, href[1]);
+    assert.equal(runner.sourceHorseName, decodeURIComponent(href[3]));
+    assert.notEqual(runner.sourceHorseId, String(runner.horseNumber));
+    assert.notEqual(runner.sourceHorseId, runner.horse);
+  });
+}

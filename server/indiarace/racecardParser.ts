@@ -127,8 +127,8 @@ function parseRunner(trAttrs: string, row: string, raceId: string, index: number
   const drawText = drawMatch ? textOf(drawMatch[1]) : null;
   const draw = drawText != null && /^\d+$/.test(drawText) ? Number(drawText) : null;
   const horseCell = cells[2] ?? "";
-  const horseLink = horseStatisticsLink(horseCell);
-  const horse = anchor(horseCell, "horseStatistics") || horseLink?.name || null;
+  const horseLink = extractHorseProfileLink(horseCell);
+  const horse = anchor(horseCell, "horseStatistics") || horseLink?.horseName || headingName(horseCell);
   const sire = anchor(horseCell, "allSireDetails");
   const dam = anchor(horseCell, "allDamDetails");
   const formRaw = textOf(horseCell.match(/last-five-runs-lable">([\s\S]*?)<\/span>/i)?.[1] ?? "");
@@ -149,8 +149,9 @@ function parseRunner(trAttrs: string, row: string, raceId: string, index: number
     id: `${raceId}-h${horseNumber ?? `x${index + 1}`}`,
     horseNumber,
     horse: horse || null,
-    sourceHorseId: horseLink?.id ?? null,
-    sourceHorseName: horseLink?.name ?? null,
+    sourceHorseId: horseLink?.horseId ?? null,
+    sourceHorseName: horseLink?.horseName ?? null,
+    horseProfileUrl: horseLink?.horseProfileUrl ?? null,
     draw,
     drawText,
     ageSex: textOf(cells[3] ?? "") || null,
@@ -233,12 +234,41 @@ function textOf(value: string): string {
     .trim();
 }
 
-function horseStatisticsLink(html: string): { id: string; name: string } | null {
-  const match = html.match(/<a\b[^>]*href="[^"]*horseStatistics\/(\d+)\/([^"]*)"[^>]*>/i);
-  if (!match) return null;
-  const name = decodeSegment(match[2]);
-  if (!name) return null;
-  return { id: match[1], name };
+export interface HorseProfileLink {
+  horseId: string;
+  horseName: string;
+  horseProfileUrl: string;
+}
+
+const HORSE_PROFILE_PATH = /\/Home\/horseStatistics\/(\d+)\/([^/]+)$/i;
+
+export function extractHorseProfileLink(html: string): HorseProfileLink | null {
+  const hrefMatch = html.match(/<a\b[^>]*\bhref\s*=\s*(?:"([^"]*\/horseStatistics\/\d+\/[^"]*)"|'([^']*\/horseStatistics\/\d+\/[^']*)')/i);
+  const href = (hrefMatch?.[1] ?? hrefMatch?.[2] ?? "").replace(/&amp;/g, "&").trim();
+  if (!href) return null;
+  let parsed: URL;
+  try {
+    parsed = new URL(href, "https://www.indiarace.com");
+  } catch {
+    return null;
+  }
+  if (parsed.hostname !== "www.indiarace.com" && parsed.hostname !== "indiarace.com") return null;
+  const pathMatch = parsed.pathname.match(HORSE_PROFILE_PATH);
+  if (!pathMatch) return null;
+  const horseName = decodeSegment(pathMatch[2]);
+  if (!horseName) return null;
+  return { horseId: pathMatch[1], horseName, horseProfileUrl: absoluteHorseUrl(href) };
+}
+
+function absoluteHorseUrl(href: string): string {
+  if (/^https?:\/\//i.test(href)) return href;
+  if (href.startsWith("//")) return `https:${href}`;
+  if (href.startsWith("/")) return `https://www.indiarace.com${href}`;
+  return `https://www.indiarace.com/${href}`;
+}
+
+function headingName(html: string): string | null {
+  return textOf(html.match(/<h5\b[^>]*>([\s\S]*?)<\/h5>/i)?.[1] ?? "") || null;
 }
 
 function decodeSegment(value: string): string {

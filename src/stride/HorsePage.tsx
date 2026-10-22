@@ -24,6 +24,7 @@ export function HorsePage({ id, horseName }: { id: string; horseName: string }) 
 
   const profile = record && !isUnavailableHorse(record) ? record : null;
   const title = profile?.name || record?.name || horseName;
+  const sourceHref = record?.sourceUrl || horseStatisticsUrl(id, title);
 
   useEffect(() => {
     document.title = `${title} — STRIDE`;
@@ -41,7 +42,7 @@ export function HorsePage({ id, horseName }: { id: string; horseName: string }) 
       ) : null}
       {profile ? <Profile horse={profile} /> : null}
       <p className="meta">
-        <a href={horseStatisticsUrl(id, profile?.name || record?.name || horseName)}>Indiarace source page</a>
+        <a href={sourceHref}>Indiarace source page</a>
         {" · "}These figures are the published Indiarace statistics, not a STRIDE prediction.
       </p>
       <p><a href="#/">Back to meetings</a></p>
