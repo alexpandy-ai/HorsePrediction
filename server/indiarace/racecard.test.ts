@@ -9,6 +9,7 @@ import { parseRoute } from "../../src/router.ts";
 import { groupByState, stateForCourse } from "../../src/stride/stateMeetingMapper.ts";
 import { extractHorseProfileLink } from "./racecardParser.ts";
 import { validateRacecard } from "./racecardValidator.ts";
+import { indiaraceSyncDates } from "./sync.ts";
 
 const html = `
 <h3>Race Card - HYDERABAD - 17 Oct 2026</h3>
@@ -273,6 +274,11 @@ test("reads the saved Pune racecard when it is available locally", () => {
   assert.equal(beyond.sourceHorseId, "62796");
   assert.equal(beyond.horseProfileUrl, "https://www.indiarace.com/Home/horseStatistics/62796/BEYOND STARS");
   assert.notEqual(beyond.sourceHorseId, String(beyond.horseNumber));
+});
+
+test("a racecard Indiarace has already published is inside the sync window before it is tomorrow", () => {
+  assert.deepEqual(indiaraceSyncDates("2026-10-22"), ["2026-10-22", "2026-10-23", "2026-10-24", "2026-10-25"]);
+  assert.ok(indiaraceSyncDates("2026-10-23").includes("2026-10-24"));
 });
 
 function assertSavedProfileLinks(html: string, runners: { horse: string | null; horseNumber: number | null; sourceHorseId: string | null; sourceHorseName: string | null; horseProfileUrl: string | null }[]): void {

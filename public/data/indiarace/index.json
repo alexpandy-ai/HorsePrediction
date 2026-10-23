@@ -2,11 +2,11 @@
   "source": "Indiarace",
   "sourceUrl": "https://www.indiarace.com/",
   "timezone": "Asia/Kolkata",
-  "fixturesUpdatedAt": "2026-10-17T18:28:07.744Z",
-  "fixturesError": null,
-  "lastSuccessfulSync": "2026-10-17T18:28:07.744Z",
-  "stale": false,
-  "staleReason": null,
+  "fixturesUpdatedAt": "2026-10-23T03:03:31.956Z",
+  "fixturesError": "fetch failed",
+  "lastSuccessfulSync": "2026-10-23T03:03:31.956Z",
+  "stale": true,
+  "staleReason": "fetch failed",
   "note": "Racecards were read from the public Indiarace pages.",
   "fixtures": [
     {
@@ -13238,6 +13238,108 @@
       "venueId": "1",
       "course": "Kolkata",
       "state": "West Bengal"
+    },
+    {
+      "date": "2026-11-01",
+      "venueId": "3",
+      "course": "Bangalore",
+      "state": "Karnataka"
+    },
+    {
+      "date": "2026-11-08",
+      "venueId": "3",
+      "course": "Bangalore",
+      "state": "Karnataka"
+    },
+    {
+      "date": "2026-11-13",
+      "venueId": "3",
+      "course": "Bangalore",
+      "state": "Karnataka"
+    },
+    {
+      "date": "2026-11-20",
+      "venueId": "3",
+      "course": "Bangalore",
+      "state": "Karnataka"
+    },
+    {
+      "date": "2026-11-27",
+      "venueId": "3",
+      "course": "Bangalore",
+      "state": "Karnataka"
+    },
+    {
+      "date": "2026-11-28",
+      "venueId": "3",
+      "course": "Bangalore",
+      "state": "Karnataka"
+    },
+    {
+      "date": "2026-12-04",
+      "venueId": "3",
+      "course": "Bangalore",
+      "state": "Karnataka"
+    },
+    {
+      "date": "2026-12-11",
+      "venueId": "3",
+      "course": "Bangalore",
+      "state": "Karnataka"
+    },
+    {
+      "date": "2026-12-12",
+      "venueId": "3",
+      "course": "Bangalore",
+      "state": "Karnataka"
+    },
+    {
+      "date": "2026-12-18",
+      "venueId": "3",
+      "course": "Bangalore",
+      "state": "Karnataka"
+    },
+    {
+      "date": "2026-12-25",
+      "venueId": "3",
+      "course": "Bangalore",
+      "state": "Karnataka"
+    },
+    {
+      "date": "2027-01-02",
+      "venueId": "3",
+      "course": "Bangalore",
+      "state": "Karnataka"
+    },
+    {
+      "date": "2027-01-08",
+      "venueId": "3",
+      "course": "Bangalore",
+      "state": "Karnataka"
+    },
+    {
+      "date": "2027-01-09",
+      "venueId": "3",
+      "course": "Bangalore",
+      "state": "Karnataka"
+    },
+    {
+      "date": "2027-01-15",
+      "venueId": "3",
+      "course": "Bangalore",
+      "state": "Karnataka"
+    },
+    {
+      "date": "2027-01-25",
+      "venueId": "3",
+      "course": "Bangalore",
+      "state": "Karnataka"
+    },
+    {
+      "date": "2027-01-26",
+      "venueId": "3",
+      "course": "Bangalore",
+      "state": "Karnataka"
     }
   ],
   "cards": {
@@ -13284,6 +13386,20 @@
       "validationNotes": [
         "Race 5, horse 8 OCEAN: Draw text could not be read ()."
       ]
+    },
+    "2026-10-24:8": {
+      "date": "2026-10-24",
+      "venueId": "8",
+      "course": "Mysore",
+      "state": "Karnataka",
+      "fetchedAt": "2026-10-23T03:03:31.956Z",
+      "raceCount": 8,
+      "firstRaceTime": "01:00 PM",
+      "lastRaceTime": "05:00 PM",
+      "firstRaceMinutes": 780,
+      "sourceStatus": "verified",
+      "stale": false,
+      "validationNotes": []
     }
   },
   "failures": {}

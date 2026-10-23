@@ -11,7 +11,13 @@ import { publishSnapshot } from "./publish.ts";
 import { readIndex, rememberFailure, summaryFromMeeting, writeCard, writeIndex } from "./racecardStore.ts";
 
 const IST = "Asia/Kolkata";
+/** Indiarace publishes a racecard before that day is "tomorrow". Today plus the next three calendar days. */
+const RACECARD_LOOKAHEAD_DAYS = 3;
 let running = false;
+
+export function indiaraceSyncDates(today: string): string[] {
+  return Array.from({ length: RACECARD_LOOKAHEAD_DAYS + 1 }, (_, offset) => shiftDate(today, offset));
+}
 
 export async function syncIndiarace(options: { dates?: string[]; force?: boolean } = {}): Promise<IndiaIndex> {
   if (running) return readIndex();
@@ -28,13 +34,12 @@ export async function syncIndiaraceIfDue(now = new Date()): Promise<void> {
   const fixturesAge = age(index.fixturesUpdatedAt, now);
   const hour = istHour(now);
   const cardLimit = hour >= 10 && hour < 20 ? 2 * 60 * 60 * 1000 : 6 * 60 * 60 * 1000;
-  const today = calendarDate(IST, now);
-  const tomorrow = shiftDate(today, 1);
-  const cardsDue = [today, tomorrow].some((date) => {
+  const dates = indiaraceSyncDates(calendarDate(IST, now));
+  const cardsDue = dates.some((date) => {
     const cards = Object.values(index.cards).filter((card) => card.date === date);
     return cards.length === 0 || cards.some((card) => age(card.fetchedAt, now) > cardLimit);
   });
-  if (fixturesAge > 30 * 60 * 1000 || cardsDue) await syncIndiarace({ dates: [today, tomorrow] });
+  if (fixturesAge > 30 * 60 * 1000 || cardsDue) await syncIndiarace({ dates });
 }
 
 export function importRacecardFile(file: string, venueId: string, date: string): IndiaIndex {
@@ -72,7 +77,7 @@ async function runSync(options: { dates?: string[]; force?: boolean }): Promise<
   const fetchedAt = now.toISOString();
   let index = readIndex();
   const today = calendarDate(IST, now);
-  const dates = options.dates?.length ? options.dates : [today, shiftDate(today, 1)];
+  const dates = options.dates?.length ? options.dates : indiaraceSyncDates(today);
   try {
     const fixtures = await fetchFixtures();
     index = {
@@ -121,12 +126,6 @@ async function runSync(options: { dates?: string[]; force?: boolean }): Promise<
       index = rememberFailure(index, fixture.date, fixture.venueId, message, fetchedAt);
     }
   }
-  try {
-    const horses = horsesOnMeetings(refreshed);
-    if (horses.length > 0) writeHorseStore(await collectHorseStatistics(horses, readHorseStore(), fetchHorseStatistics, fetchedAt));
-  } catch {
-    // A horse-statistics failure must not drop the racecards already stored above.
-  }
   const dateFailures = Object.entries(index.failures).filter(([key]) => dates.some((date) => key.startsWith(`${date}:`)));
   index = {
     ...index,
@@ -137,6 +136,15 @@ async function runSync(options: { dates?: string[]; force?: boolean }): Promise<
   };
   writeIndex(index);
   publishSnapshot(fetchedAt);
+  try {
+    const horses = horsesOnMeetings(refreshed);
+    if (horses.length > 0) {
+      writeHorseStore(await collectHorseStatistics(horses, readHorseStore(), fetchHorseStatistics, fetchedAt));
+      publishSnapshot(fetchedAt);
+    }
+  } catch {
+    // A horse-statistics failure must not drop the racecards already published above.
+  }
   return index;
 }
 

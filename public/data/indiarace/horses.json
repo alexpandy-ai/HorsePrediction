@@ -1,5 +1,2218 @@
 {
   "source": "Indiarace",
   "sourceUrl": "https://www.indiarace.com/",
-  "horses": {}
+  "horses": {
+    "30": {
+      "id": "30",
+      "name": "TIPPED OFF",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/30/TIPPED%20OFF",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "56": {
+      "id": "56",
+      "name": "STORM MAJESTY",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/56/STORM%20MAJESTY",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "96": {
+      "id": "96",
+      "name": "MYSORE PAK",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/96/MYSORE%20PAK",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "154": {
+      "id": "154",
+      "name": "BALGOWNIE",
+      "ageColourSex": "4Y, dkb g",
+      "sire": "Akeed Champion(GB)",
+      "dam": "Free Way",
+      "rating": "57",
+      "trainer": "J Sebastian",
+      "bredAt": "Sans Craintes",
+      "owner": "Mrs Jiby Joji & Mr Vazhaparmbil John Joseph",
+      "previousOwner": "M/s Sans Craintes Stud Farm Pvt Ltd",
+      "career": {
+        "runs": "11",
+        "wins": "3",
+        "second": "0",
+        "third": "4",
+        "fourth": "0",
+        "earnings": "1298375.00"
+      },
+      "careerLabels": {
+        "runs": "No. of Runs",
+        "wins": "Wins",
+        "second": "Place 2",
+        "third": "Place 3",
+        "fourth": "Place 4",
+        "earnings": "₹"
+      },
+      "starts": [
+        {
+          "date": "01-10-2026",
+          "venue": "MYS",
+          "distance": "1400",
+          "raceClass": "Class 3",
+          "raceNumber": "67",
+          "finish": "1",
+          "jockey": "Inayat",
+          "weight": "53.5",
+          "winningMargin": "0",
+          "time": "1:24.92",
+          "rating": "47"
+        },
+        {
+          "date": "18-09-2026",
+          "venue": "MYS",
+          "distance": "1200",
+          "raceClass": "Class 3",
+          "raceNumber": "39",
+          "finish": "8",
+          "jockey": "Vinod Shinde",
+          "weight": "54.5",
+          "winningMargin": "7.25",
+          "time": "1:12.75",
+          "rating": "49"
+        },
+        {
+          "date": "03-09-2026",
+          "venue": "MYS",
+          "distance": "1200",
+          "raceClass": "Class 3",
+          "raceNumber": "7",
+          "finish": "7",
+          "jockey": "Inayat",
+          "weight": "57",
+          "winningMargin": "7.25",
+          "time": "1:12.78",
+          "rating": "51"
+        },
+        {
+          "date": "10-06-2026",
+          "venue": "MYS",
+          "distance": "1400",
+          "raceClass": "Class 3",
+          "raceNumber": "24",
+          "finish": "3",
+          "jockey": "C A Brisson",
+          "weight": "55",
+          "winningMargin": "1.25",
+          "time": "1:25.32",
+          "rating": "50"
+        },
+        {
+          "date": "27-05-2026",
+          "venue": "MYS",
+          "distance": "1200",
+          "raceClass": "Class 4",
+          "raceNumber": "7",
+          "finish": "1",
+          "jockey": "C A Brisson",
+          "weight": "59",
+          "winningMargin": "0",
+          "time": "1:12.16",
+          "rating": "38"
+        },
+        {
+          "date": "04-10-2025",
+          "venue": "CHE",
+          "distance": "1400",
+          "raceClass": "Class 4",
+          "raceNumber": "26",
+          "finish": "3",
+          "jockey": "Inayat",
+          "weight": "60",
+          "winningMargin": "4.25",
+          "time": "1:29.20",
+          "rating": "40"
+        },
+        {
+          "date": "13-09-2025",
+          "venue": "CHE",
+          "distance": "1600",
+          "raceClass": "Class 4",
+          "raceNumber": "11",
+          "finish": "3",
+          "jockey": "Inayat",
+          "weight": "58.5",
+          "winningMargin": "3.5",
+          "time": "1:41.44",
+          "rating": "40"
+        },
+        {
+          "date": "30-08-2025",
+          "venue": "CHE",
+          "distance": "1400",
+          "raceClass": "Class 4",
+          "raceNumber": "4",
+          "finish": "1",
+          "jockey": "Inayat",
+          "weight": "52.5",
+          "winningMargin": "0",
+          "time": "1:25.09",
+          "rating": "30"
+        },
+        {
+          "date": "15-03-2025",
+          "venue": "CHE",
+          "distance": "1400",
+          "raceClass": "Maiden",
+          "raceNumber": "221 (W)",
+          "finish": null,
+          "jockey": "Withdrawn",
+          "weight": "56",
+          "winningMargin": "0",
+          "time": null,
+          "rating": null
+        },
+        {
+          "date": "15-02-2025",
+          "venue": "CHE",
+          "distance": "1200",
+          "raceClass": "Maiden",
+          "raceNumber": "183",
+          "finish": "3",
+          "jockey": "K Mukesh Kumar",
+          "weight": "56",
+          "winningMargin": "4.25",
+          "time": "1:16.11",
+          "rating": null
+        },
+        {
+          "date": "18-01-2025",
+          "venue": "CHE",
+          "distance": "1200",
+          "raceClass": "Maiden",
+          "raceNumber": "152",
+          "finish": "5",
+          "jockey": "Kuldeep Singh",
+          "weight": "56",
+          "winningMargin": "10.75",
+          "time": "1:14.95",
+          "rating": null
+        },
+        {
+          "date": "25-12-2024",
+          "venue": "CHE",
+          "distance": "1200",
+          "raceClass": "For Horses",
+          "raceNumber": "118",
+          "finish": "7",
+          "jockey": "C A Brisson",
+          "weight": "52",
+          "winningMargin": "12.25",
+          "time": "1:16.19",
+          "rating": null
+        }
+      ],
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/154/BALGOWNIE",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "168": {
+      "id": "168",
+      "name": "GOLDEN SABRE",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/168/GOLDEN%20SABRE",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "294": {
+      "id": "294",
+      "name": "GARFUNKLE",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/294/GARFUNKLE",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "306": {
+      "id": "306",
+      "name": "SINDOOR",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/306/SINDOOR",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "318": {
+      "id": "318",
+      "name": "STUD POKER",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/318/STUD%20POKER",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "333": {
+      "id": "333",
+      "name": "EDISON",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/333/EDISON",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "357": {
+      "id": "357",
+      "name": "SPEED COMPANY",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/357/SPEED%20COMPANY",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "374": {
+      "id": "374",
+      "name": "OSAKA",
+      "ageColourSex": "3Y, dkb f",
+      "sire": "Excellent Art(GB)",
+      "dam": "High Priestess",
+      "rating": "32",
+      "trainer": "James Mckeown",
+      "bredAt": "Poonawalla",
+      "owner": "Mr C Aryama Sundaram",
+      "previousOwner": null,
+      "career": {
+        "runs": "5",
+        "wins": "0",
+        "second": "3",
+        "third": "1",
+        "fourth": "1",
+        "earnings": "1055625.00"
+      },
+      "careerLabels": {
+        "runs": "No. of Runs",
+        "wins": "Wins",
+        "second": "Place 2",
+        "third": "Place 3",
+        "fourth": "Place 4",
+        "earnings": "₹"
+      },
+      "starts": [
+        {
+          "date": "01-10-2026",
+          "venue": "MYS",
+          "distance": "1400",
+          "raceClass": "Maiden",
+          "raceNumber": "64",
+          "finish": "4",
+          "jockey": "Akshay Kumar",
+          "weight": "54.5",
+          "winningMargin": "15.25",
+          "time": "1:26.91",
+          "rating": "32"
+        },
+        {
+          "date": "11-07-2026",
+          "venue": "BAN",
+          "distance": "1200",
+          "raceClass": "Term Race",
+          "raceNumber": "140",
+          "finish": "3",
+          "jockey": "Suraj Narredu",
+          "weight": "54.5",
+          "winningMargin": "3.75",
+          "time": "1:13.08",
+          "rating": "32"
+        },
+        {
+          "date": "21-06-2026",
+          "venue": "BAN",
+          "distance": "1200",
+          "raceClass": "Maiden",
+          "raceNumber": "104",
+          "finish": "2",
+          "jockey": "Suraj Narredu",
+          "weight": "54.5",
+          "winningMargin": "5.5",
+          "time": "1:14.07",
+          "rating": "32"
+        },
+        {
+          "date": "23-05-2026",
+          "venue": "BAN",
+          "distance": "1200",
+          "raceClass": "Maiden",
+          "raceNumber": "39",
+          "finish": "2",
+          "jockey": "Suraj Narredu",
+          "weight": "54.5",
+          "winningMargin": "0.75",
+          "time": "1:14.83",
+          "rating": null
+        },
+        {
+          "date": "03-05-2026",
+          "venue": "BAN",
+          "distance": "1200",
+          "raceClass": "Maiden",
+          "raceNumber": "13",
+          "finish": "2",
+          "jockey": "Suraj Narredu",
+          "weight": "54.5",
+          "winningMargin": "4.25",
+          "time": "1:15.13",
+          "rating": null
+        }
+      ],
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/374/OSAKA",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "382": {
+      "id": "382",
+      "name": "FIRST CHOICE",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/382/FIRST%20CHOICE",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "411": {
+      "id": "411",
+      "name": "MANDALAY",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/411/MANDALAY",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "450": {
+      "id": "450",
+      "name": "BLACK IRISH",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/450/BLACK%20IRISH",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "495": {
+      "id": "495",
+      "name": "SEIZE THE GREY",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/495/SEIZE%20THE%20GREY",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "501": {
+      "id": "501",
+      "name": "MILITARY CODE",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/501/MILITARY%20CODE",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "507": {
+      "id": "507",
+      "name": "AMBER STORM",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/507/AMBER%20STORM",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "549": {
+      "id": "549",
+      "name": "CELTIC GODDESS",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/549/CELTIC%20GODDESS",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "578": {
+      "id": "578",
+      "name": "YARRA YARRA",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/578/YARRA%20YARRA",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "587": {
+      "id": "587",
+      "name": "ARC OF LIFE",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/587/ARC%20OF%20LIFE",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "601": {
+      "id": "601",
+      "name": "WANGANUI",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/601/WANGANUI",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "614": {
+      "id": "614",
+      "name": "PILOT OFFICER",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/614/PILOT%20OFFICER",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "621": {
+      "id": "621",
+      "name": "SENSUOUS",
+      "ageColourSex": "3Y, ch f",
+      "sire": "Deauville(IRE)",
+      "dam": "Tudor Treasure",
+      "rating": "35",
+      "trainer": "Aravind Ganapathy",
+      "bredAt": "Usha",
+      "owner": "Mr Daulat Chhabria, Mr S Ganapathy & M Kapil Dev",
+      "previousOwner": null,
+      "career": {
+        "runs": "5",
+        "wins": "0",
+        "second": "2",
+        "third": "1",
+        "fourth": "1",
+        "earnings": "864206.00"
+      },
+      "careerLabels": {
+        "runs": "No. of Runs",
+        "wins": "Wins",
+        "second": "Place 2",
+        "third": "Place 3",
+        "fourth": "Place 4",
+        "earnings": "₹"
+      },
+      "starts": [
+        {
+          "date": "01-10-2026",
+          "venue": "MYS",
+          "distance": "1400",
+          "raceClass": "Maiden",
+          "raceNumber": "66",
+          "finish": "2",
+          "jockey": "Suraj Narredu",
+          "weight": "54.5",
+          "winningMargin": "8.5",
+          "time": "1:24.85",
+          "rating": "35"
+        },
+        {
+          "date": "30-08-2026",
+          "venue": "HYD",
+          "distance": "1600",
+          "raceClass": "Term Race",
+          "raceNumber": "65",
+          "finish": "5",
+          "jockey": "Neeraj Rawal",
+          "weight": "56",
+          "winningMargin": "4.75",
+          "time": "1:39.21",
+          "rating": "35"
+        },
+        {
+          "date": "30-07-2026",
+          "venue": "BAN",
+          "distance": "1600",
+          "raceClass": "Term Race",
+          "raceNumber": "186",
+          "finish": "4",
+          "jockey": "Vivek G",
+          "weight": "52.5",
+          "winningMargin": "6.25",
+          "time": "1:38.50",
+          "rating": "30"
+        },
+        {
+          "date": "12-07-2026",
+          "venue": "BAN",
+          "distance": "1600",
+          "raceClass": "Term Race",
+          "raceNumber": "148",
+          "finish": "3",
+          "jockey": "Suraj Narredu",
+          "weight": "54.5",
+          "winningMargin": "3.5",
+          "time": "1:37.19",
+          "rating": "30"
+        },
+        {
+          "date": "07-06-2026",
+          "venue": "BAN",
+          "distance": "1200",
+          "raceClass": "Maiden",
+          "raceNumber": "76",
+          "finish": "2",
+          "jockey": "Suraj Narredu",
+          "weight": "54.5",
+          "winningMargin": "1",
+          "time": "1:13.85",
+          "rating": null
+        }
+      ],
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/621/SENSUOUS",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "819": {
+      "id": "819",
+      "name": "GARZIAN",
+      "ageColourSex": "3Y, dkb f",
+      "sire": "Fiero(JPN)",
+      "dam": "Running Glory",
+      "rating": "32",
+      "trainer": "V Lokanath",
+      "bredAt": "Poonawalla",
+      "owner": "Mr Rakesh Kumar & Mr B Vijay",
+      "previousOwner": null,
+      "career": {
+        "runs": "6",
+        "wins": "0",
+        "second": "5",
+        "third": "0",
+        "fourth": "0",
+        "earnings": "1401875.00"
+      },
+      "careerLabels": {
+        "runs": "No. of Runs",
+        "wins": "Wins",
+        "second": "Place 2",
+        "third": "Place 3",
+        "fourth": "Place 4",
+        "earnings": "₹"
+      },
+      "starts": [
+        {
+          "date": "01-10-2026",
+          "venue": "MYS",
+          "distance": "1400",
+          "raceClass": "Maiden",
+          "raceNumber": "66",
+          "finish": "5",
+          "jockey": "Neeraj Rawal",
+          "weight": "54.5",
+          "winningMargin": "14.5",
+          "time": "1:25.59",
+          "rating": "32"
+        },
+        {
+          "date": "17-09-2026",
+          "venue": "MYS",
+          "distance": "1200",
+          "raceClass": "Maiden",
+          "raceNumber": "30",
+          "finish": "2",
+          "jockey": "Vinod Shinde",
+          "weight": "54.5",
+          "winningMargin": "0",
+          "time": "1:11.39",
+          "rating": "30"
+        },
+        {
+          "date": "25-07-2026",
+          "venue": "BAN",
+          "distance": "1100",
+          "raceClass": "Maiden",
+          "raceNumber": "168",
+          "finish": "2",
+          "jockey": "V R Jagadeesh",
+          "weight": "54.5",
+          "winningMargin": "9",
+          "time": "1:07.19",
+          "rating": "30"
+        },
+        {
+          "date": "04-07-2026",
+          "venue": "BAN",
+          "distance": "1400",
+          "raceClass": "Maiden",
+          "raceNumber": "124",
+          "finish": "2",
+          "jockey": "V R Jagadeesh",
+          "weight": "54.5",
+          "winningMargin": "3.25",
+          "time": "1:26.91",
+          "rating": "30"
+        },
+        {
+          "date": "14-06-2026",
+          "venue": "BAN",
+          "distance": "1100",
+          "raceClass": "Maiden",
+          "raceNumber": "89",
+          "finish": "2",
+          "jockey": "Vivek G",
+          "weight": "54.5",
+          "winningMargin": "2.5",
+          "time": "1:8.27",
+          "rating": null
+        },
+        {
+          "date": "24-05-2026",
+          "venue": "BAN",
+          "distance": "1100",
+          "raceClass": "Maiden",
+          "raceNumber": "47",
+          "finish": "2",
+          "jockey": "A Prakash",
+          "weight": "54.5",
+          "winningMargin": "0",
+          "time": "1:08.01",
+          "rating": null
+        }
+      ],
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/819/GARZIAN",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "1169": {
+      "id": "1169",
+      "name": "HABOOB",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/1169/HABOOB",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "1708": {
+      "id": "1708",
+      "name": "VALOR QUEEN",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/1708/VALOR%20QUEEN",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "3011": {
+      "id": "3011",
+      "name": "ASTRAEUS",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/3011/ASTRAEUS",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "3753": {
+      "id": "3753",
+      "name": "THE ARCHER",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/3753/THE%20ARCHER",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "6417": {
+      "id": "6417",
+      "name": "FINAL CALL",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/6417/FINAL%20CALL",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "7365": {
+      "id": "7365",
+      "name": "ROYAL LEGACY",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/7365/ROYAL%20LEGACY",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "23454": {
+      "id": "23454",
+      "name": "CRAZY LOVE",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/23454/CRAZY%20LOVE",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "24726": {
+      "id": "24726",
+      "name": "DESERT SHIELD",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/24726/DESERT%20SHIELD",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "24766": {
+      "id": "24766",
+      "name": "MAHOGANY",
+      "ageColourSex": "3Y, dkb f",
+      "sire": "Phoenix Tower(USA)",
+      "dam": "Maisha",
+      "rating": "67",
+      "trainer": "P Shroff",
+      "bredAt": "Chester Stud",
+      "owner": "Mr Mehernosh H Deboo & Mrs Auzita M Deboo",
+      "previousOwner": null,
+      "career": {
+        "runs": "3",
+        "wins": "2",
+        "second": "0",
+        "third": "1",
+        "fourth": "0",
+        "earnings": "2773932.00"
+      },
+      "careerLabels": {
+        "runs": "No. of Runs",
+        "wins": "Wins",
+        "second": "Place 2",
+        "third": "Place 3",
+        "fourth": "Place 4",
+        "earnings": "₹"
+      },
+      "starts": [
+        {
+          "date": "04-10-2026",
+          "venue": "HYD",
+          "distance": "2000",
+          "raceClass": "Term Race",
+          "raceNumber": "128",
+          "finish": "3",
+          "jockey": "Vivek G",
+          "weight": "54.5",
+          "winningMargin": "2",
+          "time": "2:05.31",
+          "rating": "49"
+        },
+        {
+          "date": "06-09-2026",
+          "venue": "PUN",
+          "distance": "1600",
+          "raceClass": "Class 4",
+          "raceNumber": "69",
+          "finish": "1",
+          "jockey": "Yash Narredu",
+          "weight": "59",
+          "winningMargin": "0",
+          "time": "1:41:63",
+          "rating": "39"
+        },
+        {
+          "date": "02-08-2026",
+          "venue": "PUN",
+          "distance": "1200",
+          "raceClass": "Maiden",
+          "raceNumber": "18",
+          "finish": "1",
+          "jockey": "Vivek G",
+          "weight": "54.5",
+          "winningMargin": "0",
+          "time": "1:09:43",
+          "rating": null
+        }
+      ],
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/24766/MAHOGANY",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "24925": {
+      "id": "24925",
+      "name": "TEJASH",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/24925/TEJASH",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "56634": {
+      "id": "56634",
+      "name": "BADSHAAH",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/56634/BADSHAAH",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "57299": {
+      "id": "57299",
+      "name": "MADANTE",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/57299/MADANTE",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "59948": {
+      "id": "59948",
+      "name": "V CASH",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/59948/V%20CASH",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "60321": {
+      "id": "60321",
+      "name": "LEX LUTHOR",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/60321/LEX%20LUTHOR",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "60371": {
+      "id": "60371",
+      "name": "FURIOUS FUN",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/60371/FURIOUS%20FUN",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "60779": {
+      "id": "60779",
+      "name": "ECO SYSTEM",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/60779/ECO%20SYSTEM",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "61048": {
+      "id": "61048",
+      "name": "ALL ATTRACTION",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/61048/ALL%20ATTRACTION",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "61211": {
+      "id": "61211",
+      "name": "HOLY VALOR",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/61211/HOLY%20VALOR",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "61289": {
+      "id": "61289",
+      "name": "DYF",
+      "ageColourSex": "7Y, gr h",
+      "sire": "Cougar Mountain(IRE)",
+      "dam": "Soak(IRE)",
+      "rating": "116",
+      "trainer": "Adhiraj S Jodha",
+      "bredAt": "Nanoli Stud",
+      "owner": "Mr K N Dhunjibhoy and Mr Z K Dhunjibhoy rep. Five Stars Shipping Co Pvt Ltd, Ms Anosha Meyers, Mr Jiyaji Bhosale, Mr Rishikesh Bhosale & Mr Rama Seshu Eyunni",
+      "previousOwner": null,
+      "career": {
+        "runs": "30",
+        "wins": "11",
+        "second": "12",
+        "third": "5",
+        "fourth": "0",
+        "earnings": "33714975.00"
+      },
+      "careerLabels": {
+        "runs": "No. of Runs",
+        "wins": "Wins",
+        "second": "Place 2",
+        "third": "Place 3",
+        "fourth": "Place 4",
+        "earnings": "₹"
+      },
+      "starts": [
+        {
+          "date": "19-09-2026",
+          "venue": "HYD",
+          "distance": "2400",
+          "raceClass": "Term Race",
+          "raceNumber": "105",
+          "finish": "2",
+          "jockey": "Yash Narredu",
+          "weight": "57",
+          "winningMargin": "2.5",
+          "time": "2:29.29",
+          "rating": "114"
+        },
+        {
+          "date": "31-07-2026",
+          "venue": "BAN",
+          "distance": "2800",
+          "raceClass": "Term Race",
+          "raceNumber": "194",
+          "finish": "3",
+          "jockey": "Yash Narredu",
+          "weight": "58.5",
+          "winningMargin": "2.25",
+          "time": "2:58.67",
+          "rating": "114"
+        },
+        {
+          "date": "23-03-2026",
+          "venue": "HYD",
+          "distance": "2800",
+          "raceClass": "Term Race",
+          "raceNumber": "33",
+          "finish": "1",
+          "jockey": "P Trevor",
+          "weight": "57",
+          "winningMargin": "0",
+          "time": "3:07.66",
+          "rating": "114"
+        },
+        {
+          "date": "14-09-2025",
+          "venue": "HYD",
+          "distance": "2400",
+          "raceClass": "Term Race",
+          "raceNumber": "99",
+          "finish": "3",
+          "jockey": "P Trevor",
+          "weight": "60",
+          "winningMargin": "1",
+          "time": "2:32.80",
+          "rating": "114"
+        },
+        {
+          "date": "20-07-2025",
+          "venue": "BAN",
+          "distance": "2800",
+          "raceClass": "Term Race",
+          "raceNumber": "142",
+          "finish": "2",
+          "jockey": "P Trevor",
+          "weight": "58.5",
+          "winningMargin": "4.75",
+          "time": "3:11.98",
+          "rating": "114"
+        },
+        {
+          "date": "06-07-2025",
+          "venue": "BAN",
+          "distance": "2200",
+          "raceClass": "Term Race",
+          "raceNumber": "113",
+          "finish": "3",
+          "jockey": "P Trevor",
+          "weight": "60",
+          "winningMargin": "2.75",
+          "time": "2:16.57",
+          "rating": "117"
+        },
+        {
+          "date": "06-04-2025",
+          "venue": "MUM",
+          "distance": "2400",
+          "raceClass": "Term Race",
+          "raceNumber": "184",
+          "finish": "1",
+          "jockey": "P Trevor",
+          "weight": "60",
+          "winningMargin": "0",
+          "time": "2:29.56",
+          "rating": "117"
+        },
+        {
+          "date": "02-03-2025",
+          "venue": "CHE",
+          "distance": "2400",
+          "raceClass": "Term Race",
+          "raceNumber": "211",
+          "finish": "2",
+          "jockey": "P Trevor",
+          "weight": "59",
+          "winningMargin": "5.25",
+          "time": "2:29.24",
+          "rating": "125"
+        },
+        {
+          "date": "23-01-2025",
+          "venue": "KOL",
+          "distance": "2000",
+          "raceClass": "Term Race",
+          "raceNumber": "84",
+          "finish": "1",
+          "jockey": "P Trevor",
+          "weight": "57",
+          "winningMargin": "0",
+          "time": "2:05.43",
+          "rating": "125"
+        },
+        {
+          "date": "29-12-2024",
+          "venue": "MUM",
+          "distance": "1800",
+          "raceClass": "Term Race",
+          "raceNumber": "49",
+          "finish": "2",
+          "jockey": "Akshay Kumar",
+          "weight": "60",
+          "winningMargin": "3.5",
+          "time": "1:49.26",
+          "rating": "119"
+        },
+        {
+          "date": "28-10-2024",
+          "venue": "HYD",
+          "distance": "2800",
+          "raceClass": "Term Race",
+          "raceNumber": "174",
+          "finish": "1",
+          "jockey": "P Trevor",
+          "weight": "57",
+          "winningMargin": "0",
+          "time": "3:02.39",
+          "rating": "119"
+        },
+        {
+          "date": "15-09-2024",
+          "venue": "HYD",
+          "distance": "2400",
+          "raceClass": "Term Race",
+          "raceNumber": "102",
+          "finish": "2",
+          "jockey": "P Trevor",
+          "weight": "60",
+          "winningMargin": "1.25",
+          "time": "2:30.33",
+          "rating": "119"
+        },
+        {
+          "date": "30-08-2024",
+          "venue": "BAN",
+          "distance": "2800",
+          "raceClass": "Term Race",
+          "raceNumber": "102",
+          "finish": "1",
+          "jockey": "Akshay Kumar",
+          "weight": "58.5",
+          "winningMargin": "0",
+          "time": "3:07.37",
+          "rating": "119"
+        },
+        {
+          "date": "06-08-2024",
+          "venue": "PUN",
+          "distance": "2000",
+          "raceClass": "Term Race",
+          "raceNumber": "22",
+          "finish": "2",
+          "jockey": "Akshay Kumar",
+          "weight": "59",
+          "winningMargin": "2.5",
+          "time": "2:04:58",
+          "rating": "117"
+        },
+        {
+          "date": "07-04-2024",
+          "venue": "MUM",
+          "distance": "2400",
+          "raceClass": "Term Race",
+          "raceNumber": "184",
+          "finish": "2",
+          "jockey": "Akshay Kumar",
+          "weight": "60",
+          "winningMargin": "6",
+          "time": "2:28.57",
+          "rating": "119"
+        },
+        {
+          "date": "02-03-2024",
+          "venue": "KOL",
+          "distance": "3000",
+          "raceClass": "Term Race",
+          "raceNumber": "121",
+          "finish": "1",
+          "jockey": "P Trevor",
+          "weight": "59",
+          "winningMargin": "0",
+          "time": "3:08.74",
+          "rating": "112"
+        },
+        {
+          "date": "04-02-2024",
+          "venue": "MUM",
+          "distance": "2000",
+          "raceClass": "Term Race",
+          "raceNumber": "101",
+          "finish": "2",
+          "jockey": "P Trevor",
+          "weight": "58.5",
+          "winningMargin": "0.5",
+          "time": "2:00.15",
+          "rating": "114"
+        },
+        {
+          "date": "31-12-2023",
+          "venue": "MUM",
+          "distance": "1800",
+          "raceClass": "Term Race",
+          "raceNumber": "48",
+          "finish": "1",
+          "jockey": "P Trevor",
+          "weight": "59",
+          "winningMargin": "0",
+          "time": "1:50.04",
+          "rating": "114"
+        },
+        {
+          "date": "22-10-2023",
+          "venue": "HYD",
+          "distance": "2800",
+          "raceClass": "Term Race",
+          "raceNumber": "159",
+          "finish": "1",
+          "jockey": "P Trevor",
+          "weight": "57",
+          "winningMargin": "0",
+          "time": "3:00.57",
+          "rating": "110"
+        },
+        {
+          "date": "24-09-2023",
+          "venue": "PUN",
+          "distance": "2800",
+          "raceClass": "Term Race",
+          "raceNumber": "90",
+          "finish": "2",
+          "jockey": "Akshay Kumar",
+          "weight": "57",
+          "winningMargin": "0",
+          "time": "2:57.50",
+          "rating": "110"
+        },
+        {
+          "date": "05-09-2023",
+          "venue": "PUN",
+          "distance": "2400",
+          "raceClass": "Term Race",
+          "raceNumber": "62",
+          "finish": "1",
+          "jockey": "Akshay Kumar",
+          "weight": "56.5",
+          "winningMargin": "0",
+          "time": "2:27:84",
+          "rating": "103"
+        },
+        {
+          "date": "05-08-2023",
+          "venue": "PUN",
+          "distance": "2000",
+          "raceClass": "Term Race",
+          "raceNumber": "20",
+          "finish": "2",
+          "jockey": "Akshay Kumar",
+          "weight": "59",
+          "winningMargin": "1",
+          "time": "2:03.93",
+          "rating": "80"
+        },
+        {
+          "date": "05-03-2023",
+          "venue": "BAN",
+          "distance": "2400",
+          "raceClass": "Term Race",
+          "raceNumber": "137",
+          "finish": "7",
+          "jockey": "Neeraj Rawal",
+          "weight": "57",
+          "winningMargin": "18.25",
+          "time": "2:31.46",
+          "rating": "80"
+        },
+        {
+          "date": "05-02-2023",
+          "venue": "MUM",
+          "distance": "2400",
+          "raceClass": "Term Race",
+          "raceNumber": "97",
+          "finish": "5",
+          "jockey": "Neeraj Rawal",
+          "weight": "57",
+          "winningMargin": "3.5",
+          "time": "2:29.92",
+          "rating": "80"
+        },
+        {
+          "date": "29-01-2023",
+          "venue": "HYD",
+          "distance": "2400",
+          "raceClass": "Term Race",
+          "raceNumber": "138",
+          "finish": "2",
+          "jockey": "P Trevor",
+          "weight": "57",
+          "winningMargin": "2",
+          "time": "2:30.32",
+          "rating": "80"
+        },
+        {
+          "date": "14-01-2023",
+          "venue": "CHE",
+          "distance": "2400",
+          "raceClass": "Term Race",
+          "raceNumber": "127",
+          "finish": "1",
+          "jockey": "P Trevor",
+          "weight": "57",
+          "winningMargin": "0",
+          "time": "2:34.56",
+          "rating": "30"
+        },
+        {
+          "date": "18-12-2022",
+          "venue": "HYD",
+          "distance": "1600",
+          "raceClass": "Term Race",
+          "raceNumber": "61",
+          "finish": "3",
+          "jockey": "P S Chouhan",
+          "weight": "57",
+          "winningMargin": "1.25",
+          "time": "1:37.94",
+          "rating": "57"
+        },
+        {
+          "date": "16-10-2022",
+          "venue": "PUN",
+          "distance": "2000",
+          "raceClass": "Term Race",
+          "raceNumber": "114",
+          "finish": "3",
+          "jockey": "P Trevor",
+          "weight": "56",
+          "winningMargin": "5",
+          "time": "2:04.05",
+          "rating": "45"
+        },
+        {
+          "date": "03-09-2022",
+          "venue": "PUN",
+          "distance": "2000",
+          "raceClass": "Class 4",
+          "raceNumber": "56",
+          "finish": "2",
+          "jockey": "P Trevor",
+          "weight": "60.5",
+          "winningMargin": "3",
+          "time": "2:05:51",
+          "rating": "43"
+        },
+        {
+          "date": "21-08-2022",
+          "venue": "PUN",
+          "distance": "1800",
+          "raceClass": "Maiden",
+          "raceNumber": "42",
+          "finish": "1",
+          "jockey": "P Trevor",
+          "weight": "56",
+          "winningMargin": "0",
+          "time": "1:54:14",
+          "rating": null
+        }
+      ],
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/61289/DYF",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "61311": {
+      "id": "61311",
+      "name": "MY SOLITAIRE",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/61311/MY%20SOLITAIRE",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "61350": {
+      "id": "61350",
+      "name": "VERSACE",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/61350/VERSACE",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "61426": {
+      "id": "61426",
+      "name": "BLACK EAGLE",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/61426/BLACK%20EAGLE",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "61430": {
+      "id": "61430",
+      "name": "ELEVADO",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/61430/ELEVADO",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "61586": {
+      "id": "61586",
+      "name": "THE FLYING FEET",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/61586/THE%20FLYING%20FEET",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "61624": {
+      "id": "61624",
+      "name": "MASTER WAY",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/61624/MASTER%20WAY",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "61722": {
+      "id": "61722",
+      "name": "TIGERKING",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/61722/TIGERKING",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "61845": {
+      "id": "61845",
+      "name": "DREAM ALLIANCE",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/61845/DREAM%20ALLIANCE",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "61861": {
+      "id": "61861",
+      "name": "TIME AND TIDE",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/61861/TIME%20AND%20TIDE",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "61942": {
+      "id": "61942",
+      "name": "RAMIEL",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/61942/RAMIEL",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "61984": {
+      "id": "61984",
+      "name": "CROSSWATER",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/61984/CROSSWATER",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "62052": {
+      "id": "62052",
+      "name": "NATURAL DIAMOND",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/62052/NATURAL%20DIAMOND",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "62207": {
+      "id": "62207",
+      "name": "SUNLIT PATH",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/62207/SUNLIT%20PATH",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "62232": {
+      "id": "62232",
+      "name": "MALET SPRING",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/62232/MALET%20SPRING",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "62266": {
+      "id": "62266",
+      "name": "KALLANIA",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/62266/KALLANIA",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "62295": {
+      "id": "62295",
+      "name": "ART COLLECTOR",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/62295/ART%20COLLECTOR",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "62400": {
+      "id": "62400",
+      "name": "KING SCARFACE",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/62400/KING%20SCARFACE",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "62415": {
+      "id": "62415",
+      "name": "GRIZZLY",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/62415/GRIZZLY",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "62596": {
+      "id": "62596",
+      "name": "CROWN DRIVE",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/62596/CROWN%20DRIVE",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "62599": {
+      "id": "62599",
+      "name": "AMAZING JOY",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/62599/AMAZING%20JOY",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "62647": {
+      "id": "62647",
+      "name": "ALLURING BEAUTY",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/62647/ALLURING%20BEAUTY",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "62658": {
+      "id": "62658",
+      "name": "RIEKO",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/62658/RIEKO",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "62708": {
+      "id": "62708",
+      "name": "BLACK RAINFOREST",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/62708/BLACK%20RAINFOREST",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "62756": {
+      "id": "62756",
+      "name": "GOLDEN STRIDE",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/62756/GOLDEN%20STRIDE",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "62920": {
+      "id": "62920",
+      "name": "FLIGHT ON",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/62920/FLIGHT%20ON",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "62926": {
+      "id": "62926",
+      "name": "SATIN LASS",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/62926/SATIN%20LASS",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "62931": {
+      "id": "62931",
+      "name": "ABSOLUTE KATRINA",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/62931/ABSOLUTE%20KATRINA",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "62965": {
+      "id": "62965",
+      "name": "N R I ACE",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/62965/N%20R%20I%20ACE",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "63073": {
+      "id": "63073",
+      "name": "FEELING GOOD",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/63073/FEELING%20GOOD",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "63104": {
+      "id": "63104",
+      "name": "VICTOR HUGO",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/63104/VICTOR%20HUGO",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "63120": {
+      "id": "63120",
+      "name": "ENCINO",
+      "ageColourSex": "4Y, dkb g",
+      "sire": "Gusto(GB)",
+      "dam": "Choice House(USA)",
+      "rating": "115",
+      "trainer": "Adhiraj S Jodha",
+      "bredAt": "Track Supreme",
+      "owner": "Mr Gautam Lala rep. Gainsville Stud & Agl Farm Pvt Ltd, Mr Kishore P Rungta, Mr S R Sanas & Mr Ajay K Arora",
+      "previousOwner": null,
+      "career": {
+        "runs": "8",
+        "wins": "5",
+        "second": "1",
+        "third": "1",
+        "fourth": "0",
+        "earnings": "2962015.00"
+      },
+      "careerLabels": {
+        "runs": "No. of Runs",
+        "wins": "Wins",
+        "second": "Place 2",
+        "third": "Place 3",
+        "fourth": "Place 4",
+        "earnings": "₹"
+      },
+      "starts": [
+        {
+          "date": "29-08-2026",
+          "venue": "PUN",
+          "distance": "1200",
+          "raceClass": "Term Race",
+          "raceNumber": "62",
+          "finish": "1",
+          "jockey": "P Trevor",
+          "weight": "59",
+          "winningMargin": "0",
+          "time": "1:08:21",
+          "rating": "104"
+        },
+        {
+          "date": "08-08-2026",
+          "venue": "PUN",
+          "distance": "1400",
+          "raceClass": "Term Race",
+          "raceNumber": "31",
+          "finish": "2",
+          "jockey": "A Sandesh",
+          "weight": "54.5",
+          "winningMargin": "0",
+          "time": "1:24.52",
+          "rating": "89"
+        },
+        {
+          "date": "24-07-2026",
+          "venue": "PUN",
+          "distance": "1200",
+          "raceClass": "Class 2",
+          "raceNumber": "9",
+          "finish": "1",
+          "jockey": "A Sandesh",
+          "weight": "57",
+          "winningMargin": "0",
+          "time": "1:08.45",
+          "rating": "76"
+        },
+        {
+          "date": "05-07-2026",
+          "venue": "BAN",
+          "distance": "1200",
+          "raceClass": "Class 3",
+          "raceNumber": "132",
+          "finish": "1",
+          "jockey": "A Sandesh",
+          "weight": "61",
+          "winningMargin": "0",
+          "time": "1:10.06",
+          "rating": "62"
+        },
+        {
+          "date": "02-11-2025",
+          "venue": "PUN",
+          "distance": "1400",
+          "raceClass": "Class 3",
+          "raceNumber": "144",
+          "finish": "1",
+          "jockey": "P Trevor",
+          "weight": "51.5",
+          "winningMargin": "0",
+          "time": "1:24.30",
+          "rating": "45"
+        },
+        {
+          "date": "14-09-2025",
+          "venue": "PUN",
+          "distance": "1600",
+          "raceClass": "Term Race",
+          "raceNumber": "86",
+          "finish": "5",
+          "jockey": "A Sandesh",
+          "weight": "53.5",
+          "winningMargin": "9.75",
+          "time": "1:41.66",
+          "rating": "45"
+        },
+        {
+          "date": "16-08-2025",
+          "venue": "PUN",
+          "distance": "1400",
+          "raceClass": "Term Race",
+          "raceNumber": "49",
+          "finish": "3",
+          "jockey": "Akshay Kumar",
+          "weight": "55",
+          "winningMargin": "5.25",
+          "time": "1:25:83",
+          "rating": "43"
+        },
+        {
+          "date": "02-08-2025",
+          "venue": "PUN",
+          "distance": "1200",
+          "raceClass": "Maiden",
+          "raceNumber": "22",
+          "finish": "1",
+          "jockey": "P Trevor",
+          "weight": "56",
+          "winningMargin": "0",
+          "time": "1:10.02",
+          "rating": null
+        }
+      ],
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/63120/ENCINO",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "63214": {
+      "id": "63214",
+      "name": "MAJOR SAAB",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/63214/MAJOR%20SAAB",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "63267": {
+      "id": "63267",
+      "name": "MRIGA",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/63267/MRIGA",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "63291": {
+      "id": "63291",
+      "name": "N R I VICTORY",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/63291/N%20R%20I%20VICTORY",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "63397": {
+      "id": "63397",
+      "name": "BEAUTIFUL BLOOM",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/63397/BEAUTIFUL%20BLOOM",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "63510": {
+      "id": "63510",
+      "name": "CRIMSON PIRATE",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/63510/CRIMSON%20PIRATE",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "63530": {
+      "id": "63530",
+      "name": "GLOWING MOONLIGHTS",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/63530/GLOWING%20MOONLIGHTS",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "63591": {
+      "id": "63591",
+      "name": "WAITARA",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/63591/WAITARA",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "63618": {
+      "id": "63618",
+      "name": "EAGLE EYE",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/63618/EAGLE%20EYE",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "63638": {
+      "id": "63638",
+      "name": "GLORIOUSNESS",
+      "ageColourSex": "4Y, b f",
+      "sire": "Sanus Per Aquam(IRE)",
+      "dam": "Treasure Quest",
+      "rating": "67",
+      "trainer": "Satish Narredu",
+      "bredAt": "Kunigal",
+      "owner": "Mr S Raghu, Mrs Radhika Narredu, Mr Anil Saraf & M/s Bramhastra Racing LLP",
+      "previousOwner": null,
+      "career": {
+        "runs": "12",
+        "wins": "4",
+        "second": "3",
+        "third": "0",
+        "fourth": "2",
+        "earnings": "2480938.00"
+      },
+      "careerLabels": {
+        "runs": "No. of Runs",
+        "wins": "Wins",
+        "second": "Place 2",
+        "third": "Place 3",
+        "fourth": "Place 4",
+        "earnings": "₹"
+      },
+      "starts": [
+        {
+          "date": "15-10-2026",
+          "venue": "MYS",
+          "distance": "1200",
+          "raceClass": "Class 3",
+          "raceNumber": "87",
+          "finish": "1",
+          "jockey": "R N Darshan",
+          "weight": "59",
+          "winningMargin": "0",
+          "time": "1:11.44",
+          "rating": "58"
+        },
+        {
+          "date": "30-09-2026",
+          "venue": "MYS",
+          "distance": "1200",
+          "raceClass": "Class 3",
+          "raceNumber": "60",
+          "finish": "2",
+          "jockey": "R N Darshan",
+          "weight": "57.5",
+          "winningMargin": "3",
+          "time": "1:10.51",
+          "rating": "55"
+        },
+        {
+          "date": "11-07-2026",
+          "venue": "BAN",
+          "distance": "1200",
+          "raceClass": "Class 3",
+          "raceNumber": "136",
+          "finish": "4",
+          "jockey": "Suraj Narredu",
+          "weight": "57.5",
+          "winningMargin": "4.75",
+          "time": "1:13.01",
+          "rating": "55"
+        },
+        {
+          "date": "05-07-2026",
+          "venue": "BAN",
+          "distance": "1200",
+          "raceClass": "Class 3",
+          "raceNumber": "132",
+          "finish": "2",
+          "jockey": "Suraj Narredu",
+          "weight": "56.5",
+          "winningMargin": "7.25",
+          "time": "1:11.23",
+          "rating": "53"
+        },
+        {
+          "date": "24-05-2026",
+          "venue": "BAN",
+          "distance": "1200",
+          "raceClass": "Class 4",
+          "raceNumber": "53",
+          "finish": "1",
+          "jockey": "Suraj Narredu",
+          "weight": "60.5",
+          "winningMargin": "0",
+          "time": "1:13.49",
+          "rating": "41"
+        },
+        {
+          "date": "03-05-2026",
+          "venue": "BAN",
+          "distance": "1200",
+          "raceClass": "Class 4",
+          "raceNumber": "11",
+          "finish": "5",
+          "jockey": "M Prabhakaran",
+          "weight": "61.5",
+          "winningMargin": "8.25",
+          "time": "1:14.49",
+          "rating": "43"
+        },
+        {
+          "date": "29-11-2025",
+          "venue": "BAN",
+          "distance": "1100",
+          "raceClass": "Class 3",
+          "raceNumber": "40",
+          "finish": "4",
+          "jockey": "R N Darshan",
+          "weight": "54",
+          "winningMargin": "2.5",
+          "time": "1:06.92",
+          "rating": "48"
+        },
+        {
+          "date": "26-07-2025",
+          "venue": "BAN",
+          "distance": "1200",
+          "raceClass": "Class 3",
+          "raceNumber": "148",
+          "finish": "7",
+          "jockey": "Suraj Narredu",
+          "weight": "54",
+          "winningMargin": "8.75",
+          "time": "1:16.81",
+          "rating": "48"
+        },
+        {
+          "date": "15-06-2025",
+          "venue": "BAN",
+          "distance": "1600",
+          "raceClass": "Term Race",
+          "raceNumber": "67",
+          "finish": "9",
+          "jockey": "Suraj Narredu",
+          "weight": "56",
+          "winningMargin": "13.5",
+          "time": "1:40.13",
+          "rating": "48"
+        },
+        {
+          "date": "24-05-2025",
+          "venue": "BAN",
+          "distance": "1400",
+          "raceClass": "Term Race",
+          "raceNumber": "11 (W)",
+          "finish": null,
+          "jockey": "Withdrawn",
+          "weight": "55.5",
+          "winningMargin": "0",
+          "time": null,
+          "rating": "48"
+        },
+        {
+          "date": "22-02-2025",
+          "venue": "BAN",
+          "distance": "1400",
+          "raceClass": "Term Race",
+          "raceNumber": "155",
+          "finish": "1",
+          "jockey": "Suraj Narredu",
+          "weight": "53.5",
+          "winningMargin": "0",
+          "time": "1:25.30",
+          "rating": null
+        },
+        {
+          "date": "28-12-2024",
+          "venue": "BAN",
+          "distance": "1200",
+          "raceClass": "Maiden",
+          "raceNumber": "73",
+          "finish": "1",
+          "jockey": "Suraj Narredu",
+          "weight": "54.5",
+          "winningMargin": "0",
+          "time": "1:13.90",
+          "rating": null
+        },
+        {
+          "date": "23-11-2024",
+          "venue": "BAN",
+          "distance": "1100",
+          "raceClass": "Maiden",
+          "raceNumber": "25",
+          "finish": "2",
+          "jockey": "Suraj Narredu",
+          "weight": "54.5",
+          "winningMargin": "0.5",
+          "time": "1:06.58",
+          "rating": null
+        }
+      ],
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/63638/GLORIOUSNESS",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "63642": {
+      "id": "63642",
+      "name": "FLAMING SWORD",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/63642/FLAMING%20SWORD",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "63651": {
+      "id": "63651",
+      "name": "REFINED AGGRESSION",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/63651/REFINED%20AGGRESSION",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "63657": {
+      "id": "63657",
+      "name": "VIBRANT QUEEN",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/63657/VIBRANT%20QUEEN",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "63662": {
+      "id": "63662",
+      "name": "STAR SYMPHONY",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/63662/STAR%20SYMPHONY",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "63703": {
+      "id": "63703",
+      "name": "RED BISHOP",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/63703/RED%20BISHOP",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "63707": {
+      "id": "63707",
+      "name": "MONEY FAIR",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/63707/MONEY%20FAIR",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "63727": {
+      "id": "63727",
+      "name": "CHIEF ADMIRAL",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/63727/CHIEF%20ADMIRAL",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "63736": {
+      "id": "63736",
+      "name": "MONEY BAGS",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/63736/MONEY%20BAGS",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "63757": {
+      "id": "63757",
+      "name": "CHARLIE BROWN",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/63757/CHARLIE%20BROWN",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "63758": {
+      "id": "63758",
+      "name": "SELMA",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/63758/SELMA",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "63760": {
+      "id": "63760",
+      "name": "HAZEL",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/63760/HAZEL",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "63767": {
+      "id": "63767",
+      "name": "ZIVA",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/63767/ZIVA",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "63781": {
+      "id": "63781",
+      "name": "ECHOES OF TIME",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/63781/ECHOES%20OF%20TIME",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "63786": {
+      "id": "63786",
+      "name": "SILVER QUEST",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/63786/SILVER%20QUEST",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "63801": {
+      "id": "63801",
+      "name": "MISTY WARRIOR",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/63801/MISTY%20WARRIOR",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "63804": {
+      "id": "63804",
+      "name": "SICYON",
+      "ageColourSex": "4Y, b g",
+      "sire": "Air Support(USA)",
+      "dam": "Cocktail Circuit",
+      "rating": "79",
+      "trainer": "S S Attaollahi",
+      "bredAt": "Kunigal",
+      "owner": "Mr Niraj Tyagi rep. Blazing Saddles (PF) & Mr Vikas Sachdeva",
+      "previousOwner": null,
+      "career": {
+        "runs": "13",
+        "wins": "4",
+        "second": "2",
+        "third": "2",
+        "fourth": "3",
+        "earnings": "2803517.00"
+      },
+      "careerLabels": {
+        "runs": "No. of Runs",
+        "wins": "Wins",
+        "second": "Place 2",
+        "third": "Place 3",
+        "fourth": "Place 4",
+        "earnings": "₹"
+      },
+      "starts": [
+        {
+          "date": "25-09-2026",
+          "venue": "MYS",
+          "distance": "1200",
+          "raceClass": "Class 2",
+          "raceNumber": "53",
+          "finish": "1",
+          "jockey": "Shreyas Singh",
+          "weight": "51.5",
+          "winningMargin": "0",
+          "time": "1:10.54",
+          "rating": "63"
+        },
+        {
+          "date": "30-07-2026",
+          "venue": "BAN",
+          "distance": "1600",
+          "raceClass": "Class 3",
+          "raceNumber": "185",
+          "finish": "1",
+          "jockey": "P Trevor",
+          "weight": "58.5",
+          "winningMargin": "0",
+          "time": "1:37.56",
+          "rating": "57"
+        },
+        {
+          "date": "12-07-2026",
+          "venue": "BAN",
+          "distance": "1400",
+          "raceClass": "Class 3",
+          "raceNumber": "144",
+          "finish": "2",
+          "jockey": "Yash Narredu",
+          "weight": "58.5",
+          "winningMargin": "3.25",
+          "time": "1:23.92",
+          "rating": "55"
+        },
+        {
+          "date": "20-06-2026",
+          "venue": "BAN",
+          "distance": "1400",
+          "raceClass": "Class 3",
+          "raceNumber": "101",
+          "finish": "4",
+          "jockey": "Yash Narredu",
+          "weight": "58.5",
+          "winningMargin": "3",
+          "time": "1:27.00",
+          "rating": "57"
+        },
+        {
+          "date": "07-06-2026",
+          "venue": "BAN",
+          "distance": "1400",
+          "raceClass": "Class 3",
+          "raceNumber": "74",
+          "finish": "4",
+          "jockey": "Yash Narredu",
+          "weight": "59.5",
+          "winningMargin": "5.25",
+          "time": "1:26.40",
+          "rating": "57"
+        },
+        {
+          "date": "22-11-2025",
+          "venue": "BAN",
+          "distance": "1600",
+          "raceClass": "Class 3",
+          "raceNumber": "27",
+          "finish": "3",
+          "jockey": "P Trevor",
+          "weight": "60.5",
+          "winningMargin": "0.75",
+          "time": "1:36.85",
+          "rating": "61"
+        },
+        {
+          "date": "03-10-2025",
+          "venue": "MYS",
+          "distance": "1600",
+          "raceClass": "Term Race",
+          "raceNumber": "58",
+          "finish": "4",
+          "jockey": "Akshay Kumar",
+          "weight": "56",
+          "winningMargin": "10.25",
+          "time": "1:36.81",
+          "rating": null
+        },
+        {
+          "date": "08-09-2025",
+          "venue": "HYD",
+          "distance": "1600",
+          "raceClass": "Term Race",
+          "raceNumber": "92",
+          "finish": "8",
+          "jockey": "Akshay Kumar",
+          "weight": "56",
+          "winningMargin": "12.75",
+          "time": "1:41.06",
+          "rating": "61"
+        },
+        {
+          "date": "31-07-2025",
+          "venue": "BAN",
+          "distance": "1600",
+          "raceClass": "Term Race",
+          "raceNumber": "164",
+          "finish": "2",
+          "jockey": "A Sandesh",
+          "weight": "55.5",
+          "winningMargin": "1.5",
+          "time": "1:38.14",
+          "rating": "61"
+        },
+        {
+          "date": "12-07-2025",
+          "venue": "BAN",
+          "distance": "1400",
+          "raceClass": "Term Race",
+          "raceNumber": "121",
+          "finish": "3",
+          "jockey": "A Sandesh",
+          "weight": "55",
+          "winningMargin": "3.75",
+          "time": "1:26.40",
+          "rating": "61"
+        },
+        {
+          "date": "22-06-2025",
+          "venue": "BAN",
+          "distance": "1600",
+          "raceClass": "Term Race",
+          "raceNumber": "83",
+          "finish": "8",
+          "jockey": "A Sandesh",
+          "weight": "56",
+          "winningMargin": "9.25",
+          "time": "1:38.34",
+          "rating": "61"
+        },
+        {
+          "date": "01-06-2025",
+          "venue": "BAN",
+          "distance": "1300",
+          "raceClass": "Class 4",
+          "raceNumber": "40",
+          "finish": "1",
+          "jockey": "A Sandesh",
+          "weight": "61.5",
+          "winningMargin": "0",
+          "time": "1:18.30",
+          "rating": "43"
+        },
+        {
+          "date": "08-03-2025",
+          "venue": "BAN",
+          "distance": "1200",
+          "raceClass": "For Horses",
+          "raceNumber": "162",
+          "finish": "1",
+          "jockey": "P Trevor",
+          "weight": "57",
+          "winningMargin": "0",
+          "time": "1:12.91",
+          "rating": null
+        }
+      ],
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/63804/SICYON",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "63814": {
+      "id": "63814",
+      "name": "TYAARAA",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/63814/TYAARAA",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "63888": {
+      "id": "63888",
+      "name": "AMAZING STORM",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/63888/AMAZING%20STORM",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "63950": {
+      "id": "63950",
+      "name": "MOTHER'S GIFT",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/63950/MOTHER'S%20GIFT",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "64056": {
+      "id": "64056",
+      "name": "SHINING WAYS",
+      "unavailable": true,
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/64056/SHINING%20WAYS",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    },
+    "64062": {
+      "id": "64062",
+      "name": "YOUREONEANDONLY",
+      "ageColourSex": "3Y, b f",
+      "sire": "French Navy(GB)",
+      "dam": "Lady Sergeant",
+      "rating": "0",
+      "trainer": "B Prithviraj",
+      "bredAt": "Jai Govind",
+      "owner": "Mr B Vijeth Bhandari",
+      "previousOwner": null,
+      "career": {
+        "runs": "0",
+        "wins": "0",
+        "second": "0",
+        "third": "0",
+        "fourth": "0",
+        "earnings": "0.00"
+      },
+      "careerLabels": {
+        "runs": "No. of Runs",
+        "wins": "Wins",
+        "second": "Place 2",
+        "third": "Place 3",
+        "fourth": "Place 4",
+        "earnings": "₹"
+      },
+      "starts": [],
+      "sourceUrl": "https://www.indiarace.com/Home/horseStatistics/64062/YOUREONEANDONLY",
+      "fetchedAt": "2026-10-23T03:03:31.956Z"
+    }
+  }
 }

@@ -1,8 +1,8 @@
-import { syncIndiarace } from "./sync.ts";
+import { indiaraceSyncDates, syncIndiarace } from "./sync.ts";
 import { calendarDate } from "../../src/meetings/time.ts";
 
 const date = process.argv[2];
-const dates = date ? [date] : [calendarDate("Asia/Kolkata", new Date()), shift(calendarDate("Asia/Kolkata", new Date()), 1)];
+const dates = date ? [date] : indiaraceSyncDates(calendarDate("Asia/Kolkata", new Date()));
 const index = await syncIndiarace({ dates, force: true });
 if (index.fixturesError) {
   console.error(index.fixturesError);
@@ -22,8 +22,3 @@ console.log(
     2,
   ),
 );
-
-function shift(iso: string, days: number): string {
-  const [year, month, day] = iso.split("-").map(Number);
-  return new Date(Date.UTC(year, month - 1, day + days)).toISOString().slice(0, 10);
-}
