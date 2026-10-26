@@ -3,7 +3,7 @@ import { addCalendarDays, calendarDate } from "../../meetings/time";
 import { formfavCountry, type FormfavCountryCode } from "./countries";
 import { CountryTabs } from "./CountryTabs";
 import { loadFormfavMeetings, loadFormfavStatus } from "./load";
-import { formatDay, raceSpan } from "./present";
+import { formatDay } from "./present";
 import { knownRegion } from "../regionLabel";
 import type { FormfavImportStatus, FormfavMeeting, FormfavMeetingsFile } from "./types";
 
@@ -99,14 +99,10 @@ function meetingGroups(meetings: FormfavMeeting[]): Array<{ region: string | nul
 }
 
 function MeetingCard({ meeting }: { meeting: FormfavMeeting }) {
-  const span = raceSpan(meeting.races);
-  const region = knownRegion(meeting.region);
   return (
     <a className="stride-meeting" href={`#/ff/${meeting.country}/meeting/${meeting.date}/${encodeURIComponent(meeting.slug)}`}>
       <h3>{meeting.track}{meeting.abandoned ? " — abandoned" : ""} — {meeting.races.length} races</h3>
       <p>{formatDay(meeting.date)}</p>
-      <p>First {span.first} · Last {span.last}</p>
-      <p className="meta">Source FormFav{region ? ` · ${region}` : ""}</p>
     </a>
   );
 }
