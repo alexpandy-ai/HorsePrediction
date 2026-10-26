@@ -44,20 +44,23 @@ export function FormfavRacePage({ country, date, slug, raceNumber }: { country: 
       {!race.runnersIncluded ? <p className="callout">Runner form was not included in this publication. The race details above come from the meeting list.</p> : null}
       {race.runnersIncluded ? (
         <div className="stride-table-wrap">
-          <table className="stride-table">
+          <table className="stride-table ff-card">
             <thead>
               <tr>
-                <th>No</th><th>Draw</th><th>Horse</th><th>Jockey</th><th>Trainer</th><th>Wt</th><th>Claim</th><th>Age</th><th>Sex</th><th>Form</th><th>Career</th><th>Barrier</th>
+                <th>No</th><th>Horse</th><th>Wt</th><th>Claim</th><th>Age</th><th>Sex</th><th>Form</th><th>Career</th><th>Barrier</th>
               </tr>
             </thead>
             <tbody>
               {race.runners.map((runner, index) => (
                 <tr key={`${runner.horseNumber ?? "x"}-${index}`} className={runner.scratched ? "is-withdrawn" : undefined}>
-                  <td>{dash(runner.horseNumber)}</td>
-                  <td>{dash(runner.barrier)}</td>
-                  <td><HorseName country={country} date={date} slug={slug} raceNumber={race.raceNumber} runner={runner} />{runner.scratched ? " · Scratched" : ""}{runner.decorators.length ? <small>{runner.decorators.map((item) => item.label).join(", ")}</small> : null}</td>
-                  <td>{dash(runner.jockey)}</td>
-                  <td>{dash(runner.trainer)}</td>
+                  <td>{dash(runner.horseNumber)} ({dash(runner.barrier)})</td>
+                  <td className="ff-horse">
+                    <div>
+                      <HorseName country={country} date={date} slug={slug} raceNumber={race.raceNumber} runner={runner} />
+                      <small>j: {dash(runner.jockey)} T:{dash(runner.trainer)}</small>
+                      {runner.decorators.length ? <small>{runner.decorators.map((item) => item.label).join(", ")}</small> : null}
+                    </div>
+                  </td>
                   <td>{dash(runner.weightKg)}</td>
                   <td>{dash(runner.claimKg)}</td>
                   <td>{dash(runner.age)}</td>
@@ -93,8 +96,9 @@ export function FormfavRacePage({ country, date, slug, raceNumber }: { country: 
 }
 
 function HorseName({ country, date, slug, raceNumber, runner }: { country: FormfavCountryCode; date: string; slug: string; raceNumber: number; runner: FormfavRunner }) {
-  if (country !== "au" || !runner.name) return dash(runner.name);
+  const className = runner.scratched ? "ff-scratched" : undefined;
+  if (country !== "au" || !runner.name) return <span className={className}>{dash(runner.name)}</span>;
   const href = australiaHorseHash(date, slug, raceNumber, runner.horseNumber);
-  if (!href) return runner.name;
-  return <a href={href}>{runner.name}</a>;
+  if (!href) return <span className={className}>{runner.name}</span>;
+  return <a className={className} href={href}>{runner.name}</a>;
 }

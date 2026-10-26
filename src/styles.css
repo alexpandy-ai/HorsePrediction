@@ -596,6 +596,16 @@ th { font-size: 0.75rem; letter-spacing: 0.04em; text-transform: uppercase; colo
 .stride-table th, .stride-table td { padding: 0.55rem 0.65rem; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; white-space: nowrap; }
 .stride-table th { font-size: 0.72rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); }
 .stride-table td:nth-child(5), .stride-table td:nth-child(11) { white-space: normal; min-width: 10rem; }
+.stride-table.ff-card { min-width: 720px; }
+.stride-table.ff-card td:nth-child(5) { white-space: nowrap; min-width: 0; }
+.stride-table.ff-card td.ff-horse { white-space: normal; width: 16rem; max-width: 16rem; }
+.stride-table.ff-card td.ff-horse > div { white-space: normal; overflow-wrap: anywhere; }
+.stride-table .ff-scratched { text-decoration: line-through; }
+@media (max-width: 800px) {
+  .stride-table.ff-card { min-width: 34rem; }
+  .stride-table.ff-card td.ff-horse,
+  .stride-table.ff-card td.ff-horse > div { width: 11rem; max-width: 11rem; }
+}
 .stride-table small { display: block; color: var(--muted); }
 .stride-table .is-withdrawn { background: #f8e6e1; }
 .stride-factor { display: block; white-space: normal; margin: 0.15rem 0; }
