@@ -17,6 +17,11 @@ export function racecardUrl(venueId: string, date: string): string {
   return `${BASE}/Home/racingCenterEvent?${query.toString()}`;
 }
 
+export function handicapsUrl(venueId: string, date: string): string {
+  const query = new URLSearchParams({ event_date: date, race_type: "HANDICAPS", venueId });
+  return `${BASE}/Home/racingCenterEvent?${query.toString()}`;
+}
+
 export async function fetchFixtures(): Promise<RawFixture[]> {
   const body = await getText(`${BASE}/Home/allRaceFixturesData`);
   let payload: unknown;
@@ -41,6 +46,11 @@ export async function fetchFixtures(): Promise<RawFixture[]> {
 
 export async function fetchRacecard(venueId: string, date: string): Promise<{ url: string; html: string }> {
   const url = racecardUrl(venueId, date);
+  return { url, html: await getText(url) };
+}
+
+export async function fetchHandicaps(venueId: string, date: string): Promise<{ url: string; html: string }> {
+  const url = handicapsUrl(venueId, date);
   return { url, html: await getText(url) };
 }
 

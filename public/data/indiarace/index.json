@@ -2,12 +2,12 @@
   "source": "Indiarace",
   "sourceUrl": "https://www.indiarace.com/",
   "timezone": "Asia/Kolkata",
-  "fixturesUpdatedAt": "2026-10-23T03:03:31.956Z",
-  "fixturesError": "fetch failed",
-  "lastSuccessfulSync": "2026-10-23T03:03:31.956Z",
-  "stale": true,
-  "staleReason": "fetch failed",
-  "note": "Racecards were read from the public Indiarace pages.",
+  "fixturesUpdatedAt": "2026-10-26T10:02:37.261Z",
+  "fixturesError": null,
+  "lastSuccessfulSync": "2026-10-26T10:02:37.261Z",
+  "stale": false,
+  "staleReason": null,
+  "note": "Where Indiarace has not published a racecard, the handicap sheet is shown until the racecard arrives.",
   "fixtures": [
     {
       "date": "2018-07-15",
@@ -13400,6 +13400,17 @@
       "sourceStatus": "verified",
       "stale": false,
       "validationNotes": []
+    }
+  },
+  "handicaps": {
+    "2026-10-30:11": {
+      "date": "2026-10-30",
+      "venueId": "11",
+      "course": "Hyderabad",
+      "state": "Telangana",
+      "fetchedAt": "2026-10-26T10:02:37.261Z",
+      "raceCount": 6,
+      "sourceUrl": "https://www.indiarace.com/Home/racingCenterEvent?event_date=2026-10-30&race_type=HANDICAPS&venueId=11"
     }
   },
   "failures": {}

@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "node scripts/dev.mjs",
     "server": "tsx server/index.ts",
-    "test": "tsx --test server/logic.test.ts server/pe-model.test.ts server/indiarace/racecard.test.ts server/indiarace/horseStatistics.test.ts server/formfav/formfav.test.ts",
+    "test": "tsx --test server/logic.test.ts server/pe-model.test.ts server/indiarace/racecard.test.ts server/indiarace/handicap.test.ts server/indiarace/horseStatistics.test.ts server/formfav/formfav.test.ts",
     "formfav:sync": "tsx server/formfav/sync-cli.ts",
     "indiarace:sync": "tsx server/indiarace/sync-cli.ts",
     "indiarace:import": "tsx server/indiarace/import-cli.ts",

@@ -5,10 +5,11 @@ import { stateForCourse } from "../../src/stride/stateMeetingMapper.ts";
 import { cardKey, type IndiaFixture, type IndiaIndex, type IndiaMeeting } from "../../src/stride/types.ts";
 import { collectHorseStatistics, horsesOnMeetings } from "./horseStatistics.ts";
 import { readHorseStore, writeHorseStore } from "./horseStatisticsStore.ts";
-import { fetchFixtures, fetchHorseStatistics, fetchRacecard } from "./indiaraceClient.ts";
+import { validateHandicap } from "./handicapParser.ts";
+import { fetchFixtures, fetchHandicaps, fetchHorseStatistics, fetchRacecard } from "./indiaraceClient.ts";
 import { validateRacecard } from "./racecardValidator.ts";
 import { publishSnapshot } from "./publish.ts";
-import { readIndex, rememberFailure, summaryFromMeeting, writeCard, writeIndex } from "./racecardStore.ts";
+import { readIndex, rememberFailure, removeHandicap, summaryFromHandicap, summaryFromMeeting, writeCard, writeHandicap, writeIndex } from "./racecardStore.ts";
 
 const IST = "Asia/Kolkata";
 /** Indiarace publishes a racecard before that day is "tomorrow". Today plus the next three calendar days. */
@@ -17,6 +18,12 @@ let running = false;
 
 export function indiaraceSyncDates(today: string): string[] {
   return Array.from({ length: RACECARD_LOOKAHEAD_DAYS + 1 }, (_, offset) => shiftDate(today, offset));
+}
+
+/** A stored racecard always wins. A handicap sheet is read only when that date has no racecard page. */
+export function shouldReadHandicap(hasStoredRacecard: boolean, racecardError: string | null): boolean {
+  if (hasStoredRacecard || !racecardError) return false;
+  return racecardError.includes("did not include a meeting heading") || racecardError.includes("did not include any races");
 }
 
 export async function syncIndiarace(options: { dates?: string[]; force?: boolean } = {}): Promise<IndiaIndex> {
@@ -49,9 +56,12 @@ export function importRacecardFile(file: string, venueId: string, date: string):
   let index = readIndex();
   if (!validated.meeting) return rememberFailure(index, date, venueId, validated.error ?? "The saved racecard could not be validated.", fetchedAt);
   writeCard(validated.meeting);
+  removeHandicap(date, venueId);
   const key = cardKey(date, venueId);
   const failures = { ...index.failures };
   delete failures[key];
+  const handicaps = { ...(index.handicaps ?? {}) };
+  delete handicaps[key];
   index = {
     ...index,
     lastSuccessfulSync: fetchedAt,
@@ -59,6 +69,7 @@ export function importRacecardFile(file: string, venueId: string, date: string):
     staleReason: null,
     note: "Imported from a saved Indiarace racecard file.",
     failures,
+    handicaps,
     cards: { ...index.cards, [key]: summaryFromMeeting(validated.meeting, false) },
     fixtures: upsertFixture(index.fixtures, {
       date,
@@ -107,20 +118,29 @@ async function runSync(options: { dates?: string[]; force?: boolean }): Promise<
     try {
       const card = await fetchRacecard(fixture.venueId, fixture.date);
       const validated = validateRacecard(card.html, fixture.venueId, fixture.date, card.url, fetchedAt);
-      if (!validated.meeting) {
-        index = rememberFailure(index, fixture.date, fixture.venueId, validated.error ?? "The racecard could not be validated.", fetchedAt);
+      if (validated.meeting) {
+        writeCard(validated.meeting);
+        removeHandicap(fixture.date, fixture.venueId);
+        refreshed.push(validated.meeting);
+        const failures = { ...index.failures };
+        delete failures[key];
+        const handicaps = { ...(index.handicaps ?? {}) };
+        delete handicaps[key];
+        index = {
+          ...index,
+          failures,
+          handicaps,
+          note: "Racecards were read from the public Indiarace pages.",
+          cards: { ...index.cards, [key]: summaryFromMeeting(validated.meeting, false) },
+        };
         continue;
       }
-      writeCard(validated.meeting);
-      refreshed.push(validated.meeting);
-      const failures = { ...index.failures };
-      delete failures[key];
-      index = {
-        ...index,
-        failures,
-        note: "Racecards were read from the public Indiarace pages.",
-        cards: { ...index.cards, [key]: summaryFromMeeting(validated.meeting, false) },
-      };
+      const racecardError = validated.error ?? "The racecard could not be validated.";
+      if (!shouldReadHandicap(Boolean(previous), racecardError)) {
+        index = rememberFailure(index, fixture.date, fixture.venueId, racecardError, fetchedAt);
+        continue;
+      }
+      index = await readHandicapFallback(index, fixture, fetchedAt, racecardError);
     } catch (error) {
       const message = error instanceof Error ? error.message : "The racecard request failed.";
       index = rememberFailure(index, fixture.date, fixture.venueId, message, fetchedAt);
@@ -146,6 +166,26 @@ async function runSync(options: { dates?: string[]; force?: boolean }): Promise<
     // A horse-statistics failure must not drop the racecards already published above.
   }
   return index;
+}
+
+async function readHandicapFallback(index: IndiaIndex, fixture: IndiaFixture, fetchedAt: string, racecardError: string): Promise<IndiaIndex> {
+  const key = cardKey(fixture.date, fixture.venueId);
+  try {
+    const page = await fetchHandicaps(fixture.venueId, fixture.date);
+    const validated = validateHandicap(page.html, fixture.venueId, fixture.date, page.url, fetchedAt);
+    if (!validated.sheet) return rememberFailure(index, fixture.date, fixture.venueId, racecardError, fetchedAt);
+    writeHandicap(validated.sheet);
+    const failures = { ...index.failures };
+    delete failures[key];
+    return {
+      ...index,
+      failures,
+      handicaps: { ...(index.handicaps ?? {}), [key]: summaryFromHandicap(validated.sheet) },
+      note: "Where Indiarace has not published a racecard, the handicap sheet is shown until the racecard arrives.",
+    };
+  } catch {
+    return rememberFailure(index, fixture.date, fixture.venueId, racecardError, fetchedAt);
+  }
 }
 
 function upsertFixture(fixtures: IndiaFixture[], fixture: IndiaFixture): IndiaFixture[] {

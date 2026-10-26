@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { indiaHorseHash } from "./horseStatistics";
-import { loadCard } from "./load";
-import type { IndiaMeeting, IndiaRace, IndiaRunner } from "./types";
+import { HANDICAP_COLUMN_LABEL, HANDICAP_NOTICE, preferRacecard } from "./indiaDocument";
+import { loadCard, loadHandicap } from "./load";
+import type { IndiaHandicapColumn, IndiaHandicapRace, IndiaHandicapRunner, IndiaHandicapSheet, IndiaMeeting, IndiaRace, IndiaRunner } from "./types";
 
 function shown(value: string | number | null | undefined): string {
   if (value == null || value === "") return "—";
@@ -20,18 +21,28 @@ function equipment(runner: IndiaRunner): string {
   return parts.join(" · ");
 }
 
+type RaceView =
+  | { kind: "racecard"; meeting: IndiaMeeting; race: IndiaRace }
+  | { kind: "handicap"; sheet: IndiaHandicapSheet; race: IndiaHandicapRace }
+  | { kind: "missing" };
+
 export function RaceDetailsPage({ date, venueId, raceNumber }: { date: string; venueId: string; raceNumber: number }) {
-  const [race, setRace] = useState<IndiaRace | null>(null);
-  const [meeting, setMeeting] = useState<IndiaMeeting | null>(null);
-  const [ready, setReady] = useState(false);
+  const [view, setView] = useState<RaceView | null>(null);
 
   useEffect(() => {
     let ignore = false;
-    void loadCard(date, venueId).then((card) => {
+    void Promise.all([loadCard(date, venueId), loadHandicap(date, venueId)]).then(([card, handicap]) => {
       if (ignore) return;
-      setMeeting(card);
-      setRace(card?.races.find((item) => item.raceNumber === raceNumber) ?? null);
-      setReady(true);
+      const choice = preferRacecard(card, handicap);
+      if (choice?.kind === "racecard") {
+        const race = choice.card.races.find((item) => item.raceNumber === raceNumber) ?? null;
+        setView(race ? { kind: "racecard", meeting: choice.card, race } : { kind: "missing" });
+      } else if (choice?.kind === "handicap") {
+        const race = choice.sheet.races.find((item) => item.order === raceNumber) ?? null;
+        setView(race ? { kind: "handicap", sheet: choice.sheet, race } : { kind: "missing" });
+      } else {
+        setView({ kind: "missing" });
+      }
     });
     return () => {
       ignore = true;
@@ -39,11 +50,12 @@ export function RaceDetailsPage({ date, venueId, raceNumber }: { date: string; v
   }, [date, venueId, raceNumber]);
 
   useEffect(() => {
-    if (race?.name) document.title = `${race.name} — STRIDE`;
-  }, [race]);
+    const name = view?.kind === "racecard" ? view.race.name : view?.kind === "handicap" ? view.race.name : null;
+    if (name) document.title = `${name} — STRIDE`;
+  }, [view]);
 
-  if (!ready) return <div className="wrap"><p className="callout">Loading the race…</p></div>;
-  if (!meeting || !race) {
+  if (!view) return <div className="wrap"><p className="callout">Loading the race…</p></div>;
+  if (view.kind === "missing") {
     return (
       <div className="wrap">
         <h1>Race unavailable</h1>
@@ -52,7 +64,11 @@ export function RaceDetailsPage({ date, venueId, raceNumber }: { date: string; v
       </div>
     );
   }
+  if (view.kind === "handicap") return <HandicapRace date={date} venueId={venueId} sheet={view.sheet} race={view.race} />;
+  return <RacecardRace date={date} venueId={venueId} meeting={view.meeting} race={view.race} />;
+}
 
+function RacecardRace({ date, venueId, meeting, race }: { date: string; venueId: string; meeting: IndiaMeeting; race: IndiaRace }) {
   return (
     <div className="wrap stride-page">
       <p className="kicker">{meeting.course} · {meeting.state ?? "State unavailable"}</p>
@@ -127,4 +143,68 @@ export function RaceDetailsPage({ date, venueId, raceNumber }: { date: string; v
       ) : null}
     </div>
   );
+}
+
+function HandicapRace({ date, venueId, sheet, race }: { date: string; venueId: string; sheet: IndiaHandicapSheet; race: IndiaHandicapRace }) {
+  return (
+    <div className="wrap stride-page">
+      <p className="kicker">Published Indiarace handicap · {sheet.course}</p>
+      <h1>{race.name ?? "—"}</h1>
+      <p className="callout">{HANDICAP_NOTICE}</p>
+      <dl className="stride-facts">
+        <div><dt>Distance</dt><dd>{race.distanceM != null ? `${race.distanceM} m` : shown(race.distanceLabel)}</dd></div>
+        <div><dt>Conditions</dt><dd>{shown(race.conditions)}</dd></div>
+        <div><dt>Horses</dt><dd>{race.runnerCount}</dd></div>
+      </dl>
+      <div className="stride-actions">
+        <a className="button secondary" href={`#/meeting/${date}/${venueId}`}>Meeting</a>
+      </div>
+      <div className="stride-table-wrap">
+        <table className="stride-table handicap-sheet">
+          <thead>
+            <tr>
+              {race.columns.map((column) => <th key={column}>{HANDICAP_COLUMN_LABEL[column]}</th>)}
+            </tr>
+          </thead>
+          <tbody>
+            {race.runners.map((runner) => (
+              <tr key={runner.id}>
+                {race.columns.map((column) => (
+                  <td key={column}>{column === "horse" ? handicapHorse(runner) : shown(handicapValue(runner, column))}</td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+function handicapHorse(runner: IndiaHandicapRunner) {
+  const label = shown(runner.horse);
+  const href = indiaHorseHash(runner.sourceHorseId, runner.sourceHorseName);
+  if (!href) return label;
+  return <a href={href}>{label}</a>;
+}
+
+function handicapValue(runner: IndiaHandicapRunner, column: IndiaHandicapColumn): string | number | null {
+  switch (column) {
+    case "serial":
+      return runner.serial;
+    case "horse":
+      return runner.horse;
+    case "description":
+      return runner.description;
+    case "pedigree":
+      return runner.pedigree;
+    case "trainer":
+      return runner.trainer;
+    case "jockey":
+      return runner.jockey;
+    case "weight":
+      return runner.weight;
+    case "rating":
+      return runner.rating;
+  }
 }

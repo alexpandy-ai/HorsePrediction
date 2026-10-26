@@ -65,6 +65,63 @@ export interface IndiaMeeting {
   validationNotes: string[];
 }
 
+/** Columns printed on an Indiarace handicaps page. A column that is not in the table is omitted. */
+export type IndiaHandicapColumn = "serial" | "horse" | "description" | "pedigree" | "trainer" | "jockey" | "weight" | "rating";
+
+export interface IndiaHandicapRunner {
+  id: string;
+  serial: number | null;
+  horse: string | null;
+  sourceHorseId: string | null;
+  sourceHorseName: string | null;
+  horseProfileUrl: string | null;
+  description: string | null;
+  pedigree: string | null;
+  trainer: string | null;
+  jockey: string | null;
+  weight: string | null;
+  weightKg: number | null;
+  rating: number | null;
+}
+
+export interface IndiaHandicapRace {
+  id: string;
+  order: number;
+  name: string | null;
+  conditions: string | null;
+  distanceLabel: string | null;
+  distanceM: number | null;
+  columns: IndiaHandicapColumn[];
+  runners: IndiaHandicapRunner[];
+  runnerCount: number;
+}
+
+export interface IndiaHandicapSheet {
+  kind: "handicap";
+  id: string;
+  date: string;
+  venueId: string;
+  course: string;
+  state: string | null;
+  sourceUrl: string;
+  fetchedAt: string;
+  pageDate: string;
+  raceDay: string | null;
+  raceCount: number;
+  races: IndiaHandicapRace[];
+  notes: string[];
+}
+
+export interface HandicapSummary {
+  date: string;
+  venueId: string;
+  course: string;
+  state: string | null;
+  fetchedAt: string;
+  raceCount: number;
+  sourceUrl: string;
+}
+
 export interface IndiaFixture {
   date: string;
   venueId: string;
@@ -99,6 +156,7 @@ export interface IndiaIndex {
   note: string;
   fixtures: IndiaFixture[];
   cards: Record<string, CardSummary>;
+  handicaps: Record<string, HandicapSummary>;
   failures: Record<string, { at: string; error: string }>;
 }
 
@@ -119,6 +177,7 @@ export function emptyIndex(): IndiaIndex {
     note: "No Indiarace snapshot has been published yet.",
     fixtures: [],
     cards: {},
+    handicaps: {},
     failures: {},
   };
 }

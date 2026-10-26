@@ -14,6 +14,9 @@ console.log(
     {
       fixtures: index.fixtures.filter((fixture) => dates.includes(fixture.date)),
       cards: stored.map((card) => ({ date: card.date, course: card.course, races: card.raceCount, status: card.sourceStatus })),
+      handicaps: Object.values(index.handicaps ?? {})
+        .filter((sheet) => dates.includes(sheet.date))
+        .map((sheet) => ({ date: sheet.date, course: sheet.course, races: sheet.raceCount })),
       error: index.fixturesError,
       failures: index.failures,
       lastSuccessfulSync: index.lastSuccessfulSync,

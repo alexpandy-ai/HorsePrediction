@@ -4,7 +4,7 @@ import { knownRegion } from "./regionLabel";
 import { fixturesOnDate, groupByState } from "./stateMeetingMapper";
 import { loadMeetings, type MeetingsFile } from "./load";
 import { CountryTabs } from "./formfav/CountryTabs";
-import { cardKey, type CardSummary, type IndiaFixture } from "./types";
+import { cardKey, type CardSummary, type HandicapSummary, type IndiaFixture } from "./types";
 
 const IST = "Asia/Kolkata";
 
@@ -46,8 +46,10 @@ export function HomePage() {
 
   const fixtures = meetingsFile ? fixturesOnDate(meetingsFile.fixtures, date) : [];
   const rows = fixtures.map((fixture) => {
-    const card = meetingsFile?.cards[cardKey(fixture.date, fixture.venueId)] ?? null;
-    return { ...fixture, card, firstRaceMinutes: card?.firstRaceMinutes ?? null };
+    const key = cardKey(fixture.date, fixture.venueId);
+    const card = meetingsFile?.cards[key] ?? null;
+    const handicap = card ? null : meetingsFile?.handicaps?.[key] ?? null;
+    return { ...fixture, card, handicap, firstRaceMinutes: card?.firstRaceMinutes ?? null };
   });
   const groups = groupByState(rows);
   const fixturesReady = Boolean(meetingsFile?.fixturesComplete);
@@ -103,7 +105,7 @@ export function HomePage() {
               {region ? <h2>{region}</h2> : null}
               <div className="stride-meetings">
                 {group.meetings.map((meeting) => (
-                  <MeetingTile key={`${meeting.date}-${meeting.venueId}`} meeting={meeting} card={meeting.card} />
+                  <MeetingTile key={`${meeting.date}-${meeting.venueId}`} meeting={meeting} card={meeting.card} handicap={meeting.handicap} />
                 ))}
               </div>
             </section>
@@ -114,15 +116,20 @@ export function HomePage() {
   );
 }
 
-function MeetingTile({ meeting, card }: { meeting: IndiaFixture; card: CardSummary | null }) {
+function MeetingTile({ meeting, card, handicap }: { meeting: IndiaFixture; card: CardSummary | null; handicap: HandicapSummary | null }) {
+  const detail = card
+    ? `Source ${card.sourceStatus}${card.stale ? ", outdated" : ""}`
+    : handicap
+      ? "Indiarace handicap · not a racecard"
+      : "Racecard not in this publication";
   return (
     <a className="stride-meeting" href={`#/meeting/${meeting.date}/${meeting.venueId}`}>
       <h3>
-        {meeting.course} Racecourse{card ? ` — ${card.raceCount} races` : ""}
+        {meeting.course} Racecourse{card ? ` — ${card.raceCount} races` : handicap ? ` — ${handicap.raceCount} handicaps` : ""}
       </h3>
       <p>{formatDay(meeting.date)}</p>
       <p>{card?.firstRaceTime ? `First ${card.firstRaceTime} IST` : "First race time —"} · {card?.lastRaceTime ? `Last ${card.lastRaceTime} IST` : "Last race time —"}</p>
-      <p className="meta">{card ? `Source ${card.sourceStatus}${card.stale ? ", outdated" : ""}` : "Racecard not in this publication"}</p>
+      <p className="meta">{detail}</p>
     </a>
   );
 }

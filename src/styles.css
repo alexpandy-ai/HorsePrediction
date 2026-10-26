@@ -568,7 +568,7 @@ th { font-size: 0.75rem; letter-spacing: 0.04em; text-transform: uppercase; colo
 .stride-races { list-style: none; padding: 0; margin: 1rem 0 0; }
 .stride-races a {
   display: grid;
-  grid-template-columns: 5.5rem 8rem minmax(0, 1fr);
+  grid-template-columns: 5.5rem max-content minmax(0, 1fr);
   gap: 0.4rem 0.8rem;
   align-items: baseline;
   padding: 0.85rem 0;
@@ -583,6 +583,8 @@ th { font-size: 0.75rem; letter-spacing: 0.04em; text-transform: uppercase; colo
 .stride-facts dd { margin: 0.2rem 0 0; font-weight: 700; }
 .stride-table-wrap { overflow-x: auto; max-width: 100%; margin: 1rem 0; border: 1px solid var(--line); border-radius: 12px; background: var(--card); }
 .stride-table { width: 100%; min-width: 980px; border-collapse: collapse; }
+.stride-table.handicap-sheet { min-width: 720px; }
+.stride-table.handicap-sheet td:nth-child(4) { white-space: normal; min-width: 12rem; }
 .stride-table th, .stride-table td { padding: 0.55rem 0.65rem; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; white-space: nowrap; }
 .stride-table th { font-size: 0.72rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); }
 .stride-table td:nth-child(5), .stride-table td:nth-child(11) { white-space: normal; min-width: 10rem; }

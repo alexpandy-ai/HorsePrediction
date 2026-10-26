@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import { cardKey, emptyIndex, type CardSummary, type IndiaIndex, type IndiaMeeting } from "../../src/stride/types.ts";
+import { cardKey, emptyIndex, type CardSummary, type HandicapSummary, type IndiaHandicapSheet, type IndiaIndex, type IndiaMeeting } from "../../src/stride/types.ts";
 
 const root = path.join(process.cwd(), "public", "data", "indiarace");
 
@@ -12,12 +12,23 @@ export function cardPath(date: string, venueId: string): string {
   return path.join(root, "cards", `${date}-${venueId}.json`);
 }
 
+export function handicapPath(date: string, venueId: string): string {
+  return path.join(root, "handicaps", `${date}-${venueId}.json`);
+}
+
 export function readIndex(): IndiaIndex {
   const file = indexPath();
   if (!fs.existsSync(file)) return emptyIndex();
   try {
     const parsed = JSON.parse(fs.readFileSync(file, "utf8")) as IndiaIndex;
-    return { ...emptyIndex(), ...parsed, cards: parsed.cards ?? {}, failures: parsed.failures ?? {}, fixtures: parsed.fixtures ?? [] };
+    return {
+      ...emptyIndex(),
+      ...parsed,
+      cards: parsed.cards ?? {},
+      handicaps: parsed.handicaps ?? {},
+      failures: parsed.failures ?? {},
+      fixtures: parsed.fixtures ?? [],
+    };
   } catch {
     return emptyIndex();
   }
@@ -39,6 +50,38 @@ export function writeIndex(index: IndiaIndex): void {
 
 export function writeCard(meeting: IndiaMeeting): void {
   writeJson(cardPath(meeting.date, meeting.venueId), meeting);
+}
+
+export function readHandicap(date: string, venueId: string): IndiaHandicapSheet | null {
+  const file = handicapPath(date, venueId);
+  if (!fs.existsSync(file)) return null;
+  try {
+    const parsed = JSON.parse(fs.readFileSync(file, "utf8")) as IndiaHandicapSheet;
+    if (!parsed || parsed.kind !== "handicap" || !Array.isArray(parsed.races)) return null;
+    return parsed;
+  } catch {
+    return null;
+  }
+}
+
+export function writeHandicap(sheet: IndiaHandicapSheet): void {
+  writeJson(handicapPath(sheet.date, sheet.venueId), sheet);
+}
+
+export function removeHandicap(date: string, venueId: string): void {
+  fs.rmSync(handicapPath(date, venueId), { force: true });
+}
+
+export function summaryFromHandicap(sheet: IndiaHandicapSheet): HandicapSummary {
+  return {
+    date: sheet.date,
+    venueId: sheet.venueId,
+    course: sheet.course,
+    state: sheet.state,
+    fetchedAt: sheet.fetchedAt,
+    raceCount: sheet.raceCount,
+    sourceUrl: sheet.sourceUrl,
+  };
 }
 
 export function summaryFromMeeting(meeting: IndiaMeeting, stale: boolean): CardSummary {

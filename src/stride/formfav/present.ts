@@ -1,4 +1,4 @@
-import { clockTime, timezoneShort } from "../../meetings/time";
+import { clockTime, deviceTimeZone, zoneAbbreviation } from "../../meetings/time";
 import type { FormfavRace } from "./types";
 
 export function formatDay(iso: string): string {
@@ -8,12 +8,37 @@ export function formatDay(iso: string): string {
   );
 }
 
-export function localClock(startTime: string | null, timezone: string | null): string {
+export function localClock(startTime: string | null, timezone: string | null, deviceZone = deviceTimeZone()): string {
   if (!startTime) return "—";
   const date = new Date(startTime);
   if (Number.isNaN(date.getTime())) return "—";
-  if (!timezone) return `${clockTime("UTC", date)} UTC`;
-  return `${clockTime(timezone, date)} ${timezoneShort(timezone, date)}`;
+  const course = courseClock(date, timezone);
+  const yours = deviceClock(date, deviceZone);
+  if (!yours) return course;
+  return `${course} · Your time ${yours}`;
+}
+
+function courseClock(date: Date, timezone: string | null): string {
+  const named = timezone?.trim() ?? "";
+  if (!named) return `${clockTime("UTC", date)} UTC`;
+  const clock = safeClock(named, date);
+  if (!clock) return `${clockTime("UTC", date)} UTC`;
+  return `${clock} ${zoneAbbreviation(named, date)}`;
+}
+
+function deviceClock(date: Date, deviceZone: string): string | null {
+  const zone = deviceZone.trim() || "UTC";
+  const clock = safeClock(zone, date);
+  if (!clock) return null;
+  return `${clock} ${zoneAbbreviation(zone, date)}`;
+}
+
+function safeClock(timeZone: string, date: Date): string | null {
+  try {
+    return clockTime(timeZone, date);
+  } catch {
+    return null;
+  }
 }
 
 export function raceSpan(races: FormfavRace[]): { first: string; last: string } {

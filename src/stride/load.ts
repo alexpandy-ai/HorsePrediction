@@ -1,15 +1,17 @@
 import { emptyHorseStatistics, type HorseStatisticsFile } from "./horseStatistics";
-import { cardKey, type CardSummary, type IndiaFixture, type IndiaMeeting } from "./types";
+import { cardKey, type CardSummary, type HandicapSummary, type IndiaFixture, type IndiaHandicapSheet, type IndiaMeeting } from "./types";
 
 export interface MeetingsFile {
   timezone: "Asia/Kolkata";
   fixturesComplete: boolean;
   fixtures: IndiaFixture[];
   cards: Record<string, CardSummary>;
+  handicaps: Record<string, HandicapSummary>;
 }
 
 export interface RacecardsFile {
   cards: Record<string, IndiaMeeting>;
+  handicaps: Record<string, IndiaHandicapSheet>;
 }
 
 export interface LastUpdatedFile {
@@ -31,9 +33,15 @@ const emptyMeetings: MeetingsFile = {
   fixturesComplete: false,
   fixtures: [],
   cards: {},
+  handicaps: {},
 };
 
-let racecards: Promise<Record<string, IndiaMeeting>> | null = null;
+interface PublishedIndia {
+  cards: Record<string, IndiaMeeting>;
+  handicaps: Record<string, IndiaHandicapSheet>;
+}
+
+let publishedIndia: Promise<PublishedIndia> | null = null;
 let racecardBust = "";
 
 export async function loadMeetings(cacheBust = ""): Promise<{ meetings: MeetingsFile; error: string | null }> {
@@ -41,7 +49,16 @@ export async function loadMeetings(cacheBust = ""): Promise<{ meetings: Meetings
     const response = await fetch(fresh("/data/meetings.json", cacheBust), { cache: "no-store" });
     if (!response.ok) throw new Error(`The meetings file could not be loaded (${response.status}).`);
     const meetings = (await response.json()) as MeetingsFile;
-    return { meetings: { ...emptyMeetings, ...meetings, fixtures: meetings.fixtures ?? [], cards: meetings.cards ?? {} }, error: null };
+    return {
+      meetings: {
+        ...emptyMeetings,
+        ...meetings,
+        fixtures: meetings.fixtures ?? [],
+        cards: meetings.cards ?? {},
+        handicaps: meetings.handicaps ?? {},
+      },
+      error: null,
+    };
   } catch (reason) {
     return { meetings: emptyMeetings, error: reason instanceof Error ? reason.message : "The meetings file could not be loaded." };
   }
@@ -57,19 +74,30 @@ export async function loadLastUpdated(cacheBust = ""): Promise<LastUpdatedFile |
   }
 }
 
-export async function loadCard(date: string, venueId: string, cacheBust = ""): Promise<IndiaMeeting | null> {
-  if (!racecards || racecardBust !== cacheBust) {
+async function loadPublishedIndia(cacheBust = ""): Promise<PublishedIndia> {
+  if (!publishedIndia || racecardBust !== cacheBust) {
     racecardBust = cacheBust;
-    racecards = fetch(fresh("/data/racecards.json", cacheBust), { cache: "no-store" })
+    publishedIndia = fetch(fresh("/data/racecards.json", cacheBust), { cache: "no-store" })
       .then(async (response) => {
         if (!response.ok) throw new Error(`The racecard file could not be loaded (${response.status}).`);
         const body = (await response.json()) as RacecardsFile;
-        return body.cards ?? {};
+        return { cards: body.cards ?? {}, handicaps: body.handicaps ?? {} };
       })
-      .catch(() => ({}));
+      .catch(() => ({ cards: {}, handicaps: {} }));
   }
-  const cards = await racecards;
-  return cards[cardKey(date, venueId)] ?? null;
+  return publishedIndia;
+}
+
+export async function loadCard(date: string, venueId: string, cacheBust = ""): Promise<IndiaMeeting | null> {
+  const published = await loadPublishedIndia(cacheBust);
+  return published.cards[cardKey(date, venueId)] ?? null;
+}
+
+export async function loadHandicap(date: string, venueId: string, cacheBust = ""): Promise<IndiaHandicapSheet | null> {
+  const published = await loadPublishedIndia(cacheBust);
+  const sheet = published.handicaps[cardKey(date, venueId)] ?? null;
+  if (!sheet || sheet.kind !== "handicap") return null;
+  return sheet;
 }
 
 export async function loadHorseStatistics(): Promise<HorseStatisticsFile | null> {

@@ -5,7 +5,7 @@ import path from "node:path";
 import test from "node:test";
 import { parseRoute } from "../../src/router.ts";
 import { australiaHorseHash, PREVIOUS_RUNS_DETAIL } from "../../src/stride/formfav/horse.ts";
-import { formfavRate } from "../../src/stride/formfav/present.ts";
+import { formfavRate, localClock } from "../../src/stride/formfav/present.ts";
 import { meetingsFromResponse, raceFromForm } from "../../src/stride/formfav/normalize.ts";
 import { rankFormfavRace } from "../../src/stride/formfav/handicap.ts";
 import type { FormfavRace } from "../../src/stride/formfav/types.ts";
@@ -130,6 +130,15 @@ test("an Australia horse link uses the saddle number and other countries stay pl
   assert.equal(formfavRate(null), "—");
   assert.equal(formfavRate(0), "0%");
   assert.equal(formfavRate(0.4), "40%");
+});
+
+test("international start times keep the course clock and add the device clock", () => {
+  assert.equal(localClock("2026-10-19T02:30:00Z", "Australia/Melbourne", "Asia/Kolkata"), "13:30 AEDT · Your time 08:00 IST");
+  assert.equal(localClock("2026-10-19T02:30:00Z", "Australia/Melbourne", "Asia/Calcutta"), "13:30 AEDT · Your time 08:00 IST");
+  assert.equal(localClock("2026-10-18T12:50:00Z", "Europe/London", "Asia/Kolkata"), "13:50 BST · Your time 18:20 IST");
+  assert.equal(localClock("2026-10-19T02:30:00Z", null, "Asia/Kolkata"), "02:30 UTC · Your time 08:00 IST");
+  assert.equal(localClock(null, "Australia/Melbourne", "Asia/Kolkata"), "—");
+  assert.equal(localClock("not-a-time", "Australia/Melbourne", "Asia/Kolkata"), "—");
 });
 
 test("no thoroughbred venues clears that country instead of leaving a schedule", async () => {
