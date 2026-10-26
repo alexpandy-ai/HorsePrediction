@@ -45,9 +45,11 @@ export async function syncFormfav(options: SyncOptions): Promise<FormfavImportSt
   status.lastSuccessAt = previous.lastSuccessAt;
 
   const stop = () => remaining === 0 || used >= budget;
+  const seen = new Set<FormfavCountryCode>();
 
   for (const country of FORMFAV_COUNTRIES) {
     if (stop() || lastError) break;
+    seen.add(country.code);
     const venues = await options.transport.get("/v1/form/venues", { country: country.code, raceType: "gallops" });
     used += 1;
     remaining = venues.remaining ?? remaining;
@@ -74,6 +76,7 @@ export async function syncFormfav(options: SyncOptions): Promise<FormfavImportSt
       meetings[country.code] = emptyMeetings(country.code);
       continue;
     }
+    if (lastError) break;
 
     for (const date of datesFor(country, now)) {
       if (stop()) break;
@@ -102,6 +105,7 @@ export async function syncFormfav(options: SyncOptions): Promise<FormfavImportSt
         sawOk = true;
         collected.push(...meetingsFromResponse(response.body, country.code, date));
       }
+      if (lastError && (meetings[country.code].dates[date]?.meetings.length ?? 0) > 0) break;
       if (!sawOk) {
         const previousDate = meetings[country.code].dates[date];
         meetings[country.code].dates[date] = {
@@ -113,6 +117,17 @@ export async function syncFormfav(options: SyncOptions): Promise<FormfavImportSt
         };
         if (lastError) break;
         continue;
+      }
+      if (lastError) {
+        const merged = mergeMeetings([], collected);
+        meetings[country.code].dates[date] = {
+          confirmed: false,
+          fetchedAt: null,
+          empty: false,
+          error: dateError,
+          meetings: merged,
+        };
+        break;
       }
       const merged = mergeMeetings([], collected);
       meetings[country.code].dates[date] = {
@@ -197,6 +212,12 @@ export async function syncFormfav(options: SyncOptions): Promise<FormfavImportSt
           }
         }
       }
+    }
+  }
+
+  if (previous.configured) {
+    for (const country of FORMFAV_COUNTRIES) {
+      if (!seen.has(country.code)) status.countries[country.code] = previous.countries[country.code];
     }
   }
 

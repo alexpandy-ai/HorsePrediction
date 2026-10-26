@@ -1,9 +1,16 @@
 import fs from "node:fs";
 import path from "node:path";
+import { adoptPublishedSnapshot } from "./adopt.ts";
 import { createFormfavTransport } from "./client.ts";
 import { syncFormfav } from "./sync.ts";
 
 loadEnv(path.join(process.cwd(), ".env"));
+
+const publishedBase = process.env.FORMFAV_PUBLISHED_BASE?.trim() ?? "";
+if (publishedBase) {
+  const publishedSnapshot = await adoptPublishedSnapshot(publishedBase);
+  console.log(JSON.stringify({ publishedSnapshot }));
+}
 
 const key = process.env.FORMFAV_API_KEY?.trim() ?? "";
 const planRaw = process.env.FORMFAV_PLAN?.trim().toLowerCase();

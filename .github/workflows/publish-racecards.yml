@@ -23,6 +23,7 @@ jobs:
         env:
           FORMFAV_API_KEY: ${{ secrets.FORMFAV_API_KEY }}
           FORMFAV_PLAN: ${{ secrets.FORMFAV_PLAN }}
+          FORMFAV_PUBLISHED_BASE: https://horsepredictor.harvis.page
         run: npm run formfav:sync
       - run: npm run build
       - name: Deploy the static build to Harvis

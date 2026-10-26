@@ -10,6 +10,7 @@ import { meetingsFromResponse, raceFromForm } from "../../src/stride/formfav/nor
 import { rankFormfavRace } from "../../src/stride/formfav/handicap.ts";
 import type { FormfavRace } from "../../src/stride/formfav/types.ts";
 import { DEFAULT_FORMFAV_WEIGHTS } from "../../src/stride/formfav/handicap.ts";
+import { adoptPublishedSnapshot } from "./adopt.ts";
 import type { FormfavTransport } from "./client.ts";
 import { syncFormfav } from "./sync.ts";
 
@@ -167,6 +168,146 @@ test("no thoroughbred venues clears that country instead of leaving a schedule",
   const stored = JSON.parse(fs.readFileSync(path.join(root, "meetings-za.json"), "utf8")) as { dates: Record<string, unknown> };
   assert.deepEqual(stored.dates, {});
 });
+
+test("a venue rate limit keeps the stored Australia card and the other country notes", async () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "formfav-limit-"));
+  fs.mkdirSync(root, { recursive: true });
+  fs.writeFileSync(path.join(root, "meetings-au.json"), JSON.stringify(storedAustralia("2026-10-26", "Stored Track")));
+  fs.writeFileSync(path.join(root, "racecards.json"), JSON.stringify({ cards: { "au:2026-10-26:stored-track:1": { track: "Stored Track" } } }));
+  fs.writeFileSync(path.join(root, "import-status.json"), JSON.stringify(storedStatus()));
+  const calls: string[] = [];
+  const transport: FormfavTransport = {
+    async get(requestPath) {
+      calls.push(requestPath);
+      return { status: 429, body: null, remaining: null, retryAfter: 30 };
+    },
+  };
+  const status = await syncFormfav({ transport, plan: "free", now: new Date("2026-10-26T02:00:00Z"), root, budget: 20, maxFormRaces: 0 });
+  assert.equal(status.lastError, "FormFav rate limit reached.");
+  assert.equal(status.requestsUsed, 1);
+  assert.equal(status.lastSuccessAt, "2026-10-26T10:23:00.000Z");
+  assert.match(status.countries.au.note, /HTTP 429/);
+  assert.equal(status.countries.gb.note, "FormFav lists 63 thoroughbred venues for United Kingdom.");
+  assert.deepEqual(calls, ["/v1/form/venues"]);
+  const stored = JSON.parse(fs.readFileSync(path.join(root, "meetings-au.json"), "utf8")) as { dates: Record<string, { confirmed: boolean; meetings: Array<{ track: string }> }> };
+  assert.equal(stored.dates["2026-10-26"].confirmed, true);
+  assert.deepEqual(stored.dates["2026-10-26"].meetings.map((meeting) => meeting.track), ["Stored Track"]);
+  const cards = JSON.parse(fs.readFileSync(path.join(root, "racecards.json"), "utf8")) as { cards: Record<string, { track: string }> };
+  assert.equal(cards.cards["au:2026-10-26:stored-track:1"].track, "Stored Track");
+});
+
+test("a meeting rate limit does not replace a stored Australia card with a partial timezone", async () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "formfav-partial-"));
+  fs.mkdirSync(root, { recursive: true });
+  fs.writeFileSync(path.join(root, "meetings-au.json"), JSON.stringify(storedAustralia("2026-10-26", "Stored Track")));
+  const transport: FormfavTransport = {
+    async get(requestPath, query) {
+      if (requestPath === "/v1/form/venues") return { status: 200, body: { count: 1, venues: [{}] }, remaining: 50, retryAfter: null };
+      if (query.timezone === "Australia/Sydney") {
+        return {
+          status: 200,
+          body: { meetings: [{ track: "Partial", slug: "partial", country: "au", races: [{ raceNumber: 1 }] }] },
+          remaining: 49,
+          retryAfter: null,
+        };
+      }
+      return { status: 429, body: null, remaining: 0, retryAfter: 30 };
+    },
+  };
+  const status = await syncFormfav({ transport, plan: "free", now: new Date("2026-10-26T02:00:00Z"), root, budget: 20, maxFormRaces: 0 });
+  assert.equal(status.lastError, "FormFav rate limit reached.");
+  const stored = JSON.parse(fs.readFileSync(path.join(root, "meetings-au.json"), "utf8")) as { dates: Record<string, { confirmed: boolean; meetings: Array<{ track: string }> }> };
+  assert.equal(stored.dates["2026-10-26"].confirmed, true);
+  assert.deepEqual(stored.dates["2026-10-26"].meetings.map((meeting) => meeting.track), ["Stored Track"]);
+});
+
+test("a newer published snapshot replaces the checkout and an older one does not", async () => {
+  const older = fs.mkdtempSync(path.join(os.tmpdir(), "formfav-older-"));
+  fs.mkdirSync(older, { recursive: true });
+  fs.writeFileSync(path.join(older, "meetings-au.json"), JSON.stringify(storedAustralia("2026-10-19", "Checkout Track")));
+  fs.writeFileSync(path.join(older, "import-status.json"), JSON.stringify({ ...storedStatus(), generatedAt: "2026-10-18T18:28:59.193Z" }));
+  const calls: string[] = [];
+  const adopted = await adoptPublishedSnapshot("https://horsepredictor.example", older, async (url) => {
+    calls.push(String(url));
+    const file = String(url).split("/").pop();
+    if (file === "import-status.json") return jsonResponse({ ...storedStatus(), generatedAt: "2026-10-26T10:23:00.000Z" });
+    if (file === "meetings-au.json") return jsonResponse(storedAustralia("2026-10-26", "Published Track"));
+    if (file === "racecards.json") return jsonResponse({ cards: { "au:2026-10-26:published-track:1": { track: "Published Track" } } });
+    const country = file === "meetings-uk.json" ? "gb" : file === "meetings-za.json" ? "za" : "nz";
+    return jsonResponse({ country, source: "FormFav", region: "Region unavailable", dates: {} });
+  });
+  assert.equal(adopted, "adopted");
+  assert.equal(calls.length, 6);
+  const stored = JSON.parse(fs.readFileSync(path.join(older, "meetings-au.json"), "utf8")) as { dates: Record<string, { meetings: Array<{ track: string }> }> };
+  assert.deepEqual(stored.dates["2026-10-26"].meetings.map((meeting) => meeting.track), ["Published Track"]);
+
+  const newer = fs.mkdtempSync(path.join(os.tmpdir(), "formfav-newer-"));
+  fs.mkdirSync(newer, { recursive: true });
+  fs.writeFileSync(path.join(newer, "meetings-au.json"), JSON.stringify(storedAustralia("2026-10-26", "Local Track")));
+  fs.writeFileSync(path.join(newer, "import-status.json"), JSON.stringify(storedStatus()));
+  let statusReads = 0;
+  const kept = await adoptPublishedSnapshot("https://horsepredictor.example", newer, async (url) => {
+    statusReads += 1;
+    assert.match(String(url), /import-status\.json$/);
+    return jsonResponse({ ...storedStatus(), generatedAt: "2026-10-26T09:00:00.000Z" });
+  });
+  assert.equal(kept, "kept-local");
+  assert.equal(statusReads, 1);
+  const local = JSON.parse(fs.readFileSync(path.join(newer, "meetings-au.json"), "utf8")) as { dates: Record<string, { meetings: Array<{ track: string }> }> };
+  assert.deepEqual(local.dates["2026-10-26"].meetings.map((meeting) => meeting.track), ["Local Track"]);
+});
+
+function storedAustralia(date: string, track: string) {
+  return {
+    country: "au",
+    source: "FormFav",
+    region: "Region unavailable",
+    dates: {
+      [date]: {
+        confirmed: true,
+        fetchedAt: "2026-10-26T10:23:00.000Z",
+        empty: false,
+        error: null,
+        meetings: [
+          {
+            country: "au",
+            track,
+            slug: "stored-track",
+            date,
+            abandoned: false,
+            region: "Region unavailable",
+            source: "FormFav",
+            races: [],
+          },
+        ],
+      },
+    },
+  };
+}
+
+function storedStatus() {
+  return {
+    source: "FormFav",
+    sourceUrl: "https://api.formfav.com",
+    configured: true,
+    plan: "free",
+    generatedAt: "2026-10-26T10:23:00.000Z",
+    lastSuccessAt: "2026-10-26T10:23:00.000Z",
+    lastError: null,
+    requestsUsed: 144,
+    countries: {
+      au: { coverage: "venues-listed", venueCount: 330, note: "FormFav lists 330 thoroughbred venues for Australia." },
+      gb: { coverage: "venues-listed", venueCount: 63, note: "FormFav lists 63 thoroughbred venues for United Kingdom." },
+      za: { coverage: "venues-listed", venueCount: 7, note: "FormFav lists 7 thoroughbred venues for South Africa." },
+      nz: { coverage: "venues-listed", venueCount: 39, note: "FormFav lists 39 thoroughbred venues for New Zealand." },
+    },
+    planNote: "test",
+  };
+}
+
+function jsonResponse(body: unknown): Response {
+  return new Response(JSON.stringify(body), { status: 200, headers: { "content-type": "application/json" } });
+}
 
 function runner(overrides: Partial<FormfavRace["runners"][number]>): FormfavRace["runners"][number] {
   return {
