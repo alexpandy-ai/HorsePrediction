@@ -17,6 +17,14 @@ export function localClock(startTime: string | null, timezone: string | null, de
   return `${course} · Your time ${yours}`;
 }
 
+/** Device-local clock only, in the browser timezone. A missing start instant is an em dash. */
+export function deviceLocalClock(startTime: string | null, deviceZone = deviceTimeZone()): string {
+  if (!startTime) return "—";
+  const date = new Date(startTime);
+  if (Number.isNaN(date.getTime())) return "—";
+  return deviceClock(date, deviceZone) ?? "—";
+}
+
 function courseClock(date: Date, timezone: string | null): string {
   const named = timezone?.trim() ?? "";
   if (!named) return `${clockTime("UTC", date)} UTC`;

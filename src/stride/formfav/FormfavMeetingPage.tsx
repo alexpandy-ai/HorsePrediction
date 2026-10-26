@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { formfavCountry, type FormfavCountryCode } from "./countries";
 import { loadFormfavMeetings } from "./load";
-import { dash, formatDay, localClock } from "./present";
+import { dash, deviceLocalClock, formatDay } from "./present";
+import { knownRegion } from "../regionLabel";
 import type { FormfavMeeting } from "./types";
 
 export function FormfavMeetingPage({ country, date, slug }: { country: FormfavCountryCode; date: string; slug: string }) {
@@ -34,17 +35,19 @@ export function FormfavMeetingPage({ country, date, slug }: { country: FormfavCo
     );
   }
 
+  const region = knownRegion(meeting.region);
+
   return (
     <div className="wrap">
-      <p className="kicker">{formfavCountry(country).name} · FormFav · Region unavailable</p>
+      <p className="kicker">{formfavCountry(country).name} · FormFav{region ? ` · ${region}` : ""}</p>
       <h1>{meeting.track}</h1>
       <p className="meta">{formatDay(date)} · {meeting.races.length} races · {confirmed ? "Schedule confirmed" : "Schedule not newly confirmed"}{meeting.abandoned ? " · Abandoned" : ""}</p>
-      <ol className="stride-races">
+      <ol className="stride-races ff-meeting-races">
         {meeting.races.map((race) => (
           <li key={race.raceNumber}>
             <a href={`#/ff/${country}/race/${date}/${encodeURIComponent(slug)}/${race.raceNumber}`}>
-              <strong>Race {race.raceNumber}</strong>
-              <span>{localClock(race.startTime, race.timezone)}</span>
+              <strong>{race.raceNumber}</strong>
+              <span>{deviceLocalClock(race.startTime)}</span>
               <span>{race.raceName ?? "—"}</span>
               <small>{dash(race.distance)} · {dash(race.raceClass)} · {race.numberOfRunners ?? "—"} runners{race.condition ? ` · ${race.condition}` : ""}{race.weather ? ` · ${race.weather}` : ""}{race.prizeMoney ? ` · ${race.prizeMoney}` : ""}{race.abandoned ? " · Abandoned" : ""}</small>
             </a>

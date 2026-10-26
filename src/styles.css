@@ -604,9 +604,28 @@ th { font-size: 0.75rem; letter-spacing: 0.04em; text-transform: uppercase; colo
 .stride-weights { margin: 1rem 0; }
 .stride-weights input { width: min(100%, 24rem); }
 
+.stride-races.ff-meeting-races a {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: baseline;
+  gap: 0.8rem;
+  max-width: 100%;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+.stride-races.ff-meeting-races a > * { flex: 0 0 auto; }
+.stride-races.ff-meeting-races small { grid-column: auto; }
+
 @media (max-width: 800px) {
   .stride-facts { grid-template-columns: minmax(0, 1fr); }
   .stride-races a { grid-template-columns: minmax(0, 1fr); }
+  .stride-races.ff-meeting-races a {
+    display: flex;
+    flex-wrap: nowrap;
+    grid-template-columns: none;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
   .stride-hero-inner { width: min(1120px, calc(100% - 1rem)); }
   .stride-dates { gap: 0.35rem; }
   .stride-dates button {
