@@ -67,9 +67,11 @@ function RacecardMeeting({ meeting }: { meeting: IndiaMeeting }) {
         {meeting.races.map((race) => (
           <li key={race.id}>
             <a href={`#/race-card/${meeting.date}/${meeting.venueId}/${race.raceNumber}`}>
-              <span>Race {race.raceNumber}</span>
-              <strong>{race.time ? `${race.time} IST` : "Time —"}</strong>
-              <em>{race.name ?? "—"}</em>
+              <span className="stride-race-line">
+                <strong>{race.raceNumber}</strong>
+                <em>{race.name ?? "—"}</em>
+                <span>{race.time ? `${race.time} IST` : "—"}</span>
+              </span>
               <small>
                 {race.distanceM != null ? `${race.distanceM} m` : "Distance —"} · {race.classLabel ?? "Class —"} · {race.runnerCount} runners
               </small>
@@ -102,10 +104,12 @@ function HandicapMeeting({ sheet }: { sheet: IndiaHandicapSheet }) {
         {sheet.races.map((race) => (
           <li key={race.id}>
             <a href={`#/race-card/${sheet.date}/${sheet.venueId}/${race.order}`}>
-              <span>{race.order}</span>
-              <strong>{race.distanceLabel ?? "—"}</strong>
-              <em>{race.name ?? "—"}</em>
-              <small>{race.conditions ?? "—"} · {race.runnerCount} horses</small>
+              <span className="stride-race-line">
+                <strong>{race.order}</strong>
+                <em>{race.name ?? "—"}</em>
+                <span>—</span>
+              </span>
+              <small>{race.distanceLabel ?? "—"} · {race.conditions ?? "—"} · {race.runnerCount} horses</small>
             </a>
           </li>
         ))}

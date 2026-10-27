@@ -575,16 +575,24 @@ th { font-size: 0.75rem; letter-spacing: 0.04em; text-transform: uppercase; colo
 .stride-meeting:hover { border-color: var(--green-2); }
 .stride-races { list-style: none; padding: 0; margin: 1rem 0 0; }
 .stride-races a {
-  display: grid;
-  grid-template-columns: 5.5rem max-content minmax(0, 1fr);
-  gap: 0.4rem 0.8rem;
-  align-items: baseline;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.15rem;
   padding: 0.85rem 0;
   border-top: 1px solid var(--line);
   text-decoration: none;
   color: inherit;
 }
-.stride-races small { grid-column: 1 / -1; color: var(--muted); }
+.stride-race-line {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  column-gap: 0.75rem;
+  align-items: baseline;
+}
+.stride-race-line em { min-width: 0; }
+.stride-race-line > span:last-child { white-space: nowrap; }
+.stride-races small { color: var(--muted); }
 .stride-facts { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0.6rem; margin: 1rem 0; }
 .stride-facts div { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 0.7rem; }
 .stride-facts dt { color: var(--muted); font-size: 0.72rem; font-weight: 750; letter-spacing: 0.04em; text-transform: uppercase; }
@@ -614,28 +622,8 @@ th { font-size: 0.75rem; letter-spacing: 0.04em; text-transform: uppercase; colo
 .stride-weights { margin: 1rem 0; }
 .stride-weights input { width: min(100%, 24rem); }
 
-.stride-races.ff-meeting-races a {
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: baseline;
-  gap: 0.8rem;
-  max-width: 100%;
-  overflow-x: auto;
-  white-space: nowrap;
-}
-.stride-races.ff-meeting-races a > * { flex: 0 0 auto; }
-.stride-races.ff-meeting-races small { grid-column: auto; }
-
 @media (max-width: 800px) {
   .stride-facts { grid-template-columns: minmax(0, 1fr); }
-  .stride-races a { grid-template-columns: minmax(0, 1fr); }
-  .stride-races.ff-meeting-races a {
-    display: flex;
-    flex-wrap: nowrap;
-    grid-template-columns: none;
-    overflow-x: auto;
-    white-space: nowrap;
-  }
   .stride-hero-inner { width: min(1120px, calc(100% - 1rem)); }
   .stride-dates { gap: 0.35rem; }
   .stride-dates button {

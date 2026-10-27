@@ -42,13 +42,15 @@ export function FormfavMeetingPage({ country, date, slug }: { country: FormfavCo
       <p className="kicker">{formfavCountry(country).name} · FormFav{region ? ` · ${region}` : ""}</p>
       <h1>{meeting.track}</h1>
       <p className="meta">{formatDay(date)} · {meeting.races.length} races · {confirmed ? "Schedule confirmed" : "Schedule not newly confirmed"}{meeting.abandoned ? " · Abandoned" : ""}</p>
-      <ol className="stride-races ff-meeting-races">
+      <ol className="stride-races">
         {meeting.races.map((race) => (
           <li key={race.raceNumber}>
             <a href={`#/ff/${country}/race/${date}/${encodeURIComponent(slug)}/${race.raceNumber}`}>
-              <strong>{race.raceNumber}</strong>
-              <span>{deviceLocalClock(race.startTime)}</span>
-              <span>{race.raceName ?? "—"}</span>
+              <span className="stride-race-line">
+                <strong>{race.raceNumber}</strong>
+                <em>{race.raceName ?? "—"}</em>
+                <span>{deviceLocalClock(race.startTime)}</span>
+              </span>
               <small>{dash(race.distance)} · {dash(race.raceClass)} · {race.numberOfRunners ?? "—"} runners{race.condition ? ` · ${race.condition}` : ""}{race.weather ? ` · ${race.weather}` : ""}{race.prizeMoney ? ` · ${race.prizeMoney}` : ""}{race.abandoned ? " · Abandoned" : ""}</small>
             </a>
           </li>
